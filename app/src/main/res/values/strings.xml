@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">uldbsMarket</string>
+    
+    <string name="profile">User</string>
+    <string name="catalog">Catalog</string>
+    <string name="basket">Basket</string>
+    <string name="chats">Chats</string>
+
+    <string name="request_err">Error! Cannot connect to service.</string>
+    <string name="wrong_login_data">Wrong password or login</string>
+    <string name="success">Success</string>
+
+    <string name="login">Login:</string>
+    <string name="password">Password:</string>
+    <string name="enter">Enter</string>
+    <string name="register">Register</string>
+    <string name="reg_suggest">Dont have account?</string>
 </resources>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_start_fragment">
+
+    <fragment
+        android:id="@+id/nav_start_fragment"
+        android:name="com.mysoft.uldbsmarket.fragment.StartFragment"
+        android:label="StartFrag"
+        tools:layout="@layout/start_fragment" >
+        <action
+            android:id="@+id/action_nav_start_fragment_to_nav_login_fragment"
+            app:destination="@id/nav_login_fragment" />
+        <action
+            android:id="@+id/action_nav_start_fragment_to_nav_basket_fragment"
+            app:destination="@id/nav_basket_fragment" />
+        <action
+            android:id="@+id/action_nav_start_fragment_to_nav_chats_fragment"
+            app:destination="@id/nav_chats_fragment" />
+        <action
+            android:id="@+id/action_nav_start_fragment_to_nav_catalog_fragment"
+            app:destination="@id/nav_catalog_fragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_login_fragment"
+        android:name="com.mysoft.uldbsmarket.fragment.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_nav_login_fragment_to_nav_reg_fragment"
+            app:destination="@id/nav_reg_fragment" />
+        <action
+            android:id="@+id/action_nav_login_fragment_to_nav_profile_fragment"
+            app:destination="@id/nav_profile_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_reg_fragment"
+        android:name="com.mysoft.uldbsmarket.fragment.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/register_fragment" >
+        <action
+            android:id="@+id/action_nav_reg_fragment_to_nav_login_fragment"
+            app:destination="@id/nav_login_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_catalog_fragment"
+        android:name='com.mysoft.uldbsmarket.fragment.CatalogFragment'
+        android:label="CatalogFragment"
+        tools:layout="@layout/item_catalog_fragment"/>
+
+    <fragment
+        android:id="@+id/nav_basket_fragment"
+        android:name="com.mysoft.uldbsmarket.fragment.BasketFragment"
+        android:label="BasketFragment"
+        tools:layout="@layout/basket_fragment"/>
+
+    <fragment
+        android:id="@+id/nav_chats_fragment"
+        android:name="com.mysoft.uldbsmarket.fragment.ChatsFragment"
+        android:label="ChatsFragment"
+        tools:layout="@layout/chats_fragment"/>
+
+    <fragment
+        android:id="@+id/nav_profile_fragment"
+        android:name="com.mysoft.uldbsmarket.fragment.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/profile_fragment"/>
+
+</navigation>
