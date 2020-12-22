@@ -10,9 +10,31 @@
     <string name="wrong_login_data">Wrong password or login</string>
     <string name="success">Success</string>
 
+    <string name="no_data">Error. No data</string>
+
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="pass">Password</string>
+    <string name="confirmpass">Confirm password</string>
+    <string name="phone">Phone</string>
+    <string name="birthdate">Birth date</string>
+
+    <string name="password_dont_match">Password dont match</string>
+
+    <string name="missing_data">Error! Some data have missed</string>
+    <string name="error">Error.</string>
+
+    <string name="your_chats">Your chats</string>
+    <string name="not_authorized">You are not authorized</string>
+
+    <string name="sign_out">Sign out</string>
+    <string name="submit">Submit</string>
+    <string name="profile_">Profile settings</string>
     <string name="login">Login:</string>
     <string name="password">Password:</string>
     <string name="enter">Enter</string>
     <string name="register">Register</string>
-    <string name="reg_suggest">Dont have account?</string>
+    <string name="reg_suggest">Dont have an account?</string>
+    <string name="log_suggest">Already registered?</string>
+    <string name="do_login">Do login</string>
 </resources>

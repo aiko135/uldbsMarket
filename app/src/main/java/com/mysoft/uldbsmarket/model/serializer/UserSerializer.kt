@@ -12,7 +12,8 @@ import java.util.*
 
 //Сериалайзер нужен для сохранения в DataStore
 //TODO это под рефактор
-object SettingsSerializer : Serializer<User> {
+
+object SettingsSerializer  : Serializer<User> {
     override fun readFrom(input: InputStream): User {
         try {
             val reader : BufferedReader = input.bufferedReader(Charsets.UTF_8)
@@ -24,21 +25,27 @@ object SettingsSerializer : Serializer<User> {
             }
 
             if(json != ""){
-                val result : User? = Gson().fromJson(json, User.class);
+                val result : User? = Gson().fromJson(json, User::class.java);
                 return result ?: defaultValue;
             }
             else
                 return defaultValue;
 
-
-            return User.parseFrom(input)
-        } catch (exception: InvalidProtocolBufferException) {
+        } catch (exception: Exception) {
             throw CorruptionException("Cannot read proto.", exception)
         }
     }
 
-    override fun writeTo(t: User, output: OutputStream) = t.writeTo(output)
-
+    override fun writeTo(t: User, output: OutputStream){
+        try{
+            val data : String  = Gson().toJson(t);
+            val writer = output.bufferedWriter(Charsets.UTF_8);
+            writer.write(data);
+            writer.flush();
+        }catch (exception: Exception){
+            throw CorruptionException("Cannot read proto.", exception)
+        }
+    };
     override val defaultValue: User
-        get() = User("1","1","1",1,"", Date(),"")
+        get() = User("null","null","null",1,"null", Date(),"null")
 }

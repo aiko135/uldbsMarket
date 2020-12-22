@@ -19,7 +19,9 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login" />
+            android:text="@string/login"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/editTextTextPersonName"
@@ -32,7 +34,9 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/password" />
+            android:text="@string/password"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/editTextTextPassword2"
@@ -45,14 +49,17 @@
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="@string/enter" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="15dp"
             android:text="@string/reg_suggest"
-            android:paddingTop="15dp"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/button3"

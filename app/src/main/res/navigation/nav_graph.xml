@@ -35,7 +35,8 @@
             app:destination="@id/nav_reg_fragment" />
         <action
             android:id="@+id/action_nav_login_fragment_to_nav_profile_fragment"
-            app:destination="@id/nav_profile_fragment" />
+            app:destination="@id/nav_profile_fragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment

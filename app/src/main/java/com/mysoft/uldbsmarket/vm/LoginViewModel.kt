@@ -3,8 +3,9 @@ package com.mysoft.uldbsmarket.vm
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.model.dto.LoginResult
-import com.mysoft.uldbsmarket.network.repositories.UserRepository
+import com.mysoft.uldbsmarket.repositories.UserRepository
 import com.mysoft.uldbsmarket.util.Util
 
 class LoginViewModel(private val userRepository: UserRepository): ViewModel() {
@@ -22,5 +23,14 @@ class LoginViewModel(private val userRepository: UserRepository): ViewModel() {
             },
             { onError.invoke()}
         )
+    }
+
+    //TODO не передавать сюда коллбэк. Все должно в MutableData храниться и обсервиться
+    fun readUserInfo(onFinish:(User?)->Unit ){
+        userRepository.readUserPref(onFinish);
+    }
+
+    fun writeUserInfo(user : User, onFinish:()->Unit){
+        userRepository.writeUserPref(user, onFinish);
     }
 }
