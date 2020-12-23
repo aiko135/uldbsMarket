@@ -29,5 +29,13 @@ class RetrofitClient {
                 .build()
                 .create(ChatAPI::class.java)
         }
+
+        fun getMessageRetrofitInstance(): MessageAPI {
+            return Retrofit.Builder()
+                .baseUrl(BASE_URL).client(client)
+                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+                .build()
+                .create(MessageAPI::class.java)
+        }
     }
 }

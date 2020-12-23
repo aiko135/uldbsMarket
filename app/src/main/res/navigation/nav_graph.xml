@@ -65,12 +65,24 @@
         android:id="@+id/nav_chats_fragment"
         android:name="com.mysoft.uldbsmarket.fragment.ChatsFragment"
         android:label="ChatsFragment"
-        tools:layout="@layout/chats_fragment"/>
+        tools:layout="@layout/chats_fragment">
+        <action
+            android:id="@+id/action_nav_chats_fragment_to_nav_chat_fragment"
+            app:destination="@id/nav_chat_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_profile_fragment"
         android:name="com.mysoft.uldbsmarket.fragment.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/profile_fragment"/>
+
+    <fragment
+        android:id="@+id/nav_chat_fragment"
+        android:name="com.mysoft.uldbsmarket.fragment.ChatFragment"
+        android:label="ChatFragment"
+        tools:layout="@layout/chat_fragment"/>
+
+
 
 </navigation>

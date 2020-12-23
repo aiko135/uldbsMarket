@@ -5,11 +5,11 @@
         android:icon="@drawable/ic_bottom_nav_profile" />
     <item android:id="@+id/nav_catalog_fragment"
         android:title="@string/catalog"
-        android:icon="@drawable/ic_bottom_nav_profile" />
+        android:icon="@drawable/ic_bottom_nav_catalog" />
     <item android:id="@+id/nav_basket_fragment"
         android:title="@string/basket"
-        android:icon="@drawable/ic_bottom_nav_profile" />
+        android:icon="@drawable/ic_bottom_nav_basket" />
     <item android:id="@+id/nav_chats_fragment"
         android:title="@string/chats"
-        android:icon="@drawable/ic_bottom_nav_profile" />
+        android:icon="@drawable/ic_bottom_nav_chat" />
 </menu>

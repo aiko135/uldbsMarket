@@ -27,6 +27,8 @@
     <string name="your_chats">Your chats</string>
     <string name="not_authorized">You are not authorized</string>
 
+    <string name="chatting_with">Chatting with</string>
+
     <string name="sign_out">Sign out</string>
     <string name="submit">Submit</string>
     <string name="profile_">Profile settings</string>
