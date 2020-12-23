@@ -39,4 +39,11 @@
     <string name="reg_suggest">Dont have an account?</string>
     <string name="log_suggest">Already registered?</string>
     <string name="do_login">Do login</string>
+
+    <string name="grades">Best graded</string>
+    <string name="orders">Most popular</string>
+
+    <string name="good_name">good_name</string>
+    <string name="price">Price:</string>
+    <string name="price_units">RUB</string>
 </resources>

@@ -42,7 +42,6 @@ class ChatFragment : Fragment(R.layout.chat_fragment) {
         var lm  = LinearLayoutManager(context);
         lm.reverseLayout = true;
         lm.stackFromEnd = true
-
         binding.recyclerChat.layoutManager = lm
         messageListAdapter = MessageListAdapter(chatViewModel.userid!!);
         binding.recyclerChat.adapter =  messageListAdapter;
