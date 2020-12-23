@@ -53,7 +53,11 @@
         android:id="@+id/nav_catalog_fragment"
         android:name='com.mysoft.uldbsmarket.fragment.CatalogFragment'
         android:label="CatalogFragment"
-        tools:layout="@layout/item_catalog_fragment"/>
+        tools:layout="@layout/item_catalog_fragment">
+        <action
+            android:id="@+id/action_nav_catalog_fragment_to_nav_good_fragment"
+            app:destination="@id/nav_good_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_basket_fragment"
@@ -83,6 +87,10 @@
         android:label="ChatFragment"
         tools:layout="@layout/chat_fragment"/>
 
-
+    <fragment
+        android:id="@+id/nav_good_fragment"
+        android:name="com.mysoft.uldbsmarket.fragment.GoodFragment"
+        android:label="GoodFragment"
+        tools:layout="@layout/good_fragment"/>
 
 </navigation>

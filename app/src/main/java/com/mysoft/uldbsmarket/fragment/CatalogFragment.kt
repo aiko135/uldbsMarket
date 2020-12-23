@@ -51,6 +51,9 @@ class CatalogFragment : Fragment(R.layout.item_catalog_fragment) {
 
     private val onItemSelect : (Good) -> Unit = {
             selected ->
+        val bundle : Bundle = Bundle();
+        bundle.putString("goodid",selected.uuid)
+        findNavController().navigate(R.id.action_nav_catalog_fragment_to_nav_good_fragment, bundle)
     }
 
     private val onRequestError : () -> Unit = {

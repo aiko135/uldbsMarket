@@ -35,6 +35,9 @@ class ViewModelFactory(private val context : Context) : ViewModelProvider.Factor
             modelClass.isAssignableFrom(CatalogViewModel::class.java)->{
                 return CatalogViewModel(good_repository) as T
             }
+            modelClass.isAssignableFrom(GoodViewModel::class.java)->{
+                return GoodViewModel(good_repository) as T
+            }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel")
             }

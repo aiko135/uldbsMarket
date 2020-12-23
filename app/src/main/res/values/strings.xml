@@ -1,4 +1,13 @@
 <resources>
+    <string-array name="grades">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
     <string name="app_name">uldbsMarket</string>
     
     <string name="profile">User</string>
@@ -46,4 +55,14 @@
     <string name="good_name">good_name</string>
     <string name="price">Price:</string>
     <string name="price_units">RUB</string>
+
+    <string name="feedback_for_this">Feedbacks for this good</string>
+    <string name="add_to_basket">Add this into my basket</string>
+    <string name="leave_your_feedback">Write your feedback...</string>
+    <string name="grade">Select your rating</string>
+    <string name="leave_your_feedback2">Leave your feedback for this</string>
+
+    <string name="stayed_grade">Grade:</string>
+
+    <string name="publish">Publish</string>
 </resources>
