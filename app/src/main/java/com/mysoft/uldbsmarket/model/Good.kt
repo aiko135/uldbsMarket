@@ -13,8 +13,8 @@ data class Good (
     val name: String,
     @SerializedName("price")
     val price: Float,
-    @SerializedName("img_path")
-    val img_path: String?,
+    @SerializedName("imgPath")
+    val imgPath: String?,
     @SerializedName("parametrList")
     val parametrList: List<Parametr>
 )

@@ -45,7 +45,7 @@ class CatalogFragment : Fragment(R.layout.item_catalog_fragment) {
             goodListAdapter.setGoods(it);
         })
 
-        catalogViewModel.loadChats {  }
+        catalogViewModel.loadChats(onRequestError)
         return binding.root;
     }
 

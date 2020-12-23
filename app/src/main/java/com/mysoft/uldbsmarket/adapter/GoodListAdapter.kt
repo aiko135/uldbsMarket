@@ -1,5 +1,6 @@
 package com.mysoft.uldbsmarket.adapter
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,12 +43,19 @@ class GoodListAdapter(private val onSelectListener : (c: Good)->Unit): RecyclerV
 
         holder.title.text = current.name
         holder.price.text = "Price :${current.price.toString()} RUB"
-        Picasso.get()
-            .load(RetrofitClient.IMAGE_DOWNLOAD_URL + '/' + current.img_path)
-            .resize(200, 200)
-            .error(R.drawable.ic_bottom_nav_basket)
-            .centerCrop()
-            .into(holder.itemImg);
+
+        //if(current.imgPath != null) {
+            val url: String = RetrofitClient.IMAGE_DOWNLOAD_URL + '/' + current.imgPath;
+            Picasso.get()
+                .load(url)
+                .resize(200, 200)
+                .error(R.drawable.ic_error_page)
+                .centerCrop()
+                .into(holder.itemImg);
+        //}else{
+            //TODO сдесь дефолтную заставку если картинка не предусмотрена
+            //holder.itemImg.setImageDrawable(Drawable(R.drawable.ic_error_page));
+        //}
     }
 
     fun setGoods(newGoods: List<Good>) {
