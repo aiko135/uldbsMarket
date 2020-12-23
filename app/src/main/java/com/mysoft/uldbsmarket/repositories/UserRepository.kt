@@ -29,13 +29,7 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
         )
     }
 
-    fun  doLogin(
-        login:String,
-        pass:String,
-        onSuccess:(LoginResult)->Unit,
-        onError:()->Unit ){
-
-        CoroutineScope(Dispatchers.IO).launch {
+    fun  doLogin(login:String, pass:String) : LoginResult?{
             val call : Call<LoginResult>;
             var res : Response<LoginResult>? = null;
             try {
@@ -44,20 +38,16 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
             }catch (e:Exception){
                 Log.e(tag, "exception: " + e.message);
                 Log.e(tag, "exception: " + e.toString());
-                onError.invoke();
+                return null;
             }
             finally {
                 if(res != null && res.isSuccessful) {
                     val result: LoginResult? = res.body()
-                    if (result != null)
-                        onSuccess(result as LoginResult)
-                    else
-                        onError.invoke();
+                    return result
                 }else{
-                    onError.invoke();
+                    return  null
                 }
             }
-        }
     }
 
     suspend fun register(u : User):RegisterResult?{
@@ -107,6 +97,17 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
             }
         }
     }
+
+    suspend fun writeUserPref_sync(user : User, onFinish:()->Unit ){
+            val json : String  = Gson().toJson(user);
+            dataStore.updateData { prefs ->
+                prefs.toMutablePreferences().apply {
+                    set(USER_RECORD_KEY, json)
+                    onFinish.invoke();
+                }
+            }
+    }
+
     suspend fun readUserPref_sync(onFinish:(User?)->Unit){
         dataStore.edit { record ->
             val data : String = record[USER_RECORD_KEY] ?: "";
