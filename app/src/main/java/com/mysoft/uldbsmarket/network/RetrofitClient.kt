@@ -15,37 +15,12 @@ class RetrofitClient {
             .connectTimeout(100, TimeUnit.SECONDS)
             .readTimeout(100, TimeUnit.SECONDS).build()
 
-        //TODO refactor defrred T шаблон использовать
-        fun getUserRetrofitInstance(): UserAPI {
+        fun <T: Any> getTypedRetrofitInstance(ofClass: Class<T>):T{
             return Retrofit.Builder()
                 .baseUrl(BASE_URL).client(client)
                 .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
                 .build()
-                .create(UserAPI::class.java)
-        }
-
-        fun getChatRetrofitInstance(): ChatAPI{
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL).client(client)
-                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-                .build()
-                .create(ChatAPI::class.java)
-        }
-
-        fun getMessageRetrofitInstance(): MessageAPI {
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL).client(client)
-                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-                .build()
-                .create(MessageAPI::class.java)
-        }
-
-        fun getGoodRetrofitInstance(): GoodAPI {
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL).client(client)
-                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-                .build()
-                .create(GoodAPI::class.java)
+                .create(ofClass)
         }
     }
 }
