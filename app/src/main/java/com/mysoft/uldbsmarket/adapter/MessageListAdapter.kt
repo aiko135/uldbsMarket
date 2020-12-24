@@ -1,11 +1,12 @@
 package com.mysoft.uldbsmarket.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.compose.ui.graphics.Color
+
 import androidx.compose.ui.text.style.TextAlign
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -42,13 +43,14 @@ class MessageListAdapter(private var currentUserUuid : String) : RecyclerView.Ad
         if(currentMess.userUuid == currentUserUuid){
             constraintSet.connect(R.id.card_view_mess,ConstraintSet.END,R.id.constraint_mess,ConstraintSet.END,0);
             holder.message.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
-            holder.cardView.background.setTint(0xb7cced);
+            holder.message.setTextColor(Color.parseColor("#ffffff"))
             holder.cardView.setBackgroundResource(R.color.colorPrimary)
+            holder.cardView.alpha = 1f
 
         }else{
             holder.message.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
             constraintSet.connect(R.id.card_view_mess,ConstraintSet.START,R.id.constraint_mess,ConstraintSet.START,0);
-            holder.cardView.background.setTint(0xceebe8);
+            holder.cardView.alpha = 1f
         }
         constraintSet.applyTo(holder.constraint);
 

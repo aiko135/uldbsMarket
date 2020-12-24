@@ -10,6 +10,7 @@ import com.mysoft.uldbsmarket.util.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginViewModel(private val userRepository: UserRepository): ViewModel() {
     private val _loginResultLiveData = MutableLiveData<LoginResult>();
@@ -42,15 +43,18 @@ class LoginViewModel(private val userRepository: UserRepository): ViewModel() {
 
     fun readUserInfo(){
         CoroutineScope(Dispatchers.IO).launch {
-            userRepository.readUserPref_sync({
-                _user.postValue(it)
-            })
+            userRepository.readUserPref_sync().let {
+                    _user.postValue(it)
+            };
         }
     }
 
     fun writeUserInfo(user : User, onFinish : ()->Unit){
         CoroutineScope(Dispatchers.IO).launch {
-            userRepository.writeUserPref_sync(user, onFinish)
+            userRepository.writeUserPref_sync(user) //Синхронно с корутиной прикрепленной к UI треду (чтобы не при завершении UI терда корутины завершились)
+                //Вернули управление в Main тред (можно и в UI но main - отдельный тред и из него можно обновлять UI)
+                onFinish.invoke()
+
         }
     }
 }

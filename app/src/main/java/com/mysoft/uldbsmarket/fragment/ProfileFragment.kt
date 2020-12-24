@@ -46,12 +46,10 @@ class ProfileFragment : Fragment() {
     }
 
     private val onClickSignOut : View.OnClickListener = View.OnClickListener{
-        profileViewModel.signOut{
-            requireActivity().runOnUiThread {
-                findNavController().popBackStack()
-            }
-        }
+        profileViewModel.signOut();
+        findNavController().popBackStack()
     }
+
 
     @SuppressLint("SetTextI18n")
     private fun displayUserProfile(u : User){

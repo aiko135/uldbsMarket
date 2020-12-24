@@ -1,5 +1,6 @@
 package com.mysoft.uldbsmarket.repositories
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.datastore.core.DataStore
@@ -16,20 +17,10 @@ import retrofit2.Response
 
 class UserRepository(private val userAPI: UserAPI, private val context : Context) {
     private val tag: String = "UserRepository-network";
-    private val USER_PREF : String = "userds";
-    private val USER_RECORD_KEY = preferencesKey<String>("user_record")
+    private val USER_PREF_KEY : String = "userds";
+    private val SHARED_PREFERENCES_USER_FILE = "userdata"
 
-
-    private val dataStore : DataStore<Preferences> by lazy{
-        context.createDataStore(
-            name = USER_PREF,
-            corruptionHandler = null,
-            migrations = emptyList(),
-            scope = CoroutineScope(Dispatchers.IO + Job())
-        )
-    }
-
-    fun  doLogin(login:String, pass:String) : LoginResult?{
+   fun  doLogin(login:String, pass:String) : LoginResult?{
             val call : Call<LoginResult>;
             var res : Response<LoginResult>? = null;
             try {
@@ -50,7 +41,7 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
             }
     }
 
-    suspend fun register(u : User):RegisterResult?{
+    fun register(u : User):RegisterResult?{
         val call : Call<RegisterResult>
         var res : Response<RegisterResult>? = null;
         try {
@@ -71,66 +62,35 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
         }
     }
 
-    //TODO асинхронность на уровне VM
-    fun writeUserPref(user : User, onFinish:()->Unit ){
-        CoroutineScope(Dispatchers.IO).launch {
-            val json : String  = Gson().toJson(user);
-            dataStore.updateData { prefs ->
-                prefs.toMutablePreferences().apply {
-                    set(USER_RECORD_KEY, json)
-                }
-            }
-            onFinish();
-        }
-    }
-    //TODO асинхронность на уровне VM
-    fun readUserPref(onFinish:(User?)->Unit){
-        CoroutineScope(Dispatchers.IO).launch {
-            dataStore.edit { settings ->
-                val data : String = settings[USER_RECORD_KEY] ?: "";
-                if(data == "")
-                    onFinish.invoke(null)
-                else
-                    Gson().fromJson(data,User::class.java).let{
-                        onFinish.invoke(it);
-                    }
-            }
+
+    fun writeUserPref_sync(user : User ){
+        val json : String  = Gson().toJson(user);
+        val sharedPref =  context.getSharedPreferences(SHARED_PREFERENCES_USER_FILE, Context.MODE_PRIVATE);
+        with(sharedPref.edit()){
+            putString(USER_PREF_KEY,json)
+            commit()
         }
     }
 
-    suspend fun writeUserPref_sync(user : User, onFinish:()->Unit ){
-            val json : String  = Gson().toJson(user);
-            dataStore.updateData { prefs ->
-                prefs.toMutablePreferences().apply {
-                    set(USER_RECORD_KEY, json)
-                    onFinish.invoke();
-                }
-            }
-    }
-
-    suspend fun readUserPref_sync(onFinish:(User?)->Unit){
-        dataStore.edit { record ->
-            val data : String = record[USER_RECORD_KEY] ?: "";
-            if(data == "")
-                onFinish.invoke(null)
-            else
-                Gson().fromJson(data,User::class.java).let{
-                    onFinish.invoke(it);
-                }
+     fun readUserPref_sync():User?{
+        val sharedPref =  context.getSharedPreferences(SHARED_PREFERENCES_USER_FILE, Context.MODE_PRIVATE);
+        val found = sharedPref.getString(USER_PREF_KEY,null)
+        if(sharedPref.contains(USER_PREF_KEY) && found != null){
+            return Gson().fromJson(found,User::class.java)
+        }
+        else{
+            return null
         }
     }
-    //-----------------------------------------------------------------------
 
-    //TODO асинхронность на уровне VM
-    fun deleteUserPref(onFinish:()->Unit){
-        CoroutineScope(Dispatchers.IO).launch {
-            dataStore.updateData { store->
-                store.toMutablePreferences().apply {
-                    set(USER_RECORD_KEY, "")
-                }
+    fun deleteUserPref_sync(){
+        val sharedPref =  context.getSharedPreferences(SHARED_PREFERENCES_USER_FILE, Context.MODE_PRIVATE);
+        if(sharedPref.contains(USER_PREF_KEY))
+            with(sharedPref.edit()){
+                remove(USER_PREF_KEY)
+                clear()
+                commit()
             }
-            onFinish.invoke();
-        }
     }
 
 

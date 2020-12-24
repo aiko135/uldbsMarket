@@ -65,4 +65,6 @@
     <string name="stayed_grade">Grade:</string>
 
     <string name="publish">Publish</string>
+
+    <string name="message">Message...</string>
 </resources>

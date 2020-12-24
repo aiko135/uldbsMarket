@@ -79,6 +79,7 @@ class ChatsFragment : Fragment() {
         //TDOD получение бандла в фрагмент назначения
         val bundle : Bundle = Bundle();
         bundle.putString("chatid",selected.uuid)
+        bundle.putString("managername",selected.managerUuid.name)
         bundle.putString("userid", selected.clientUuid.uuid)
         findNavController().navigate(R.id.action_nav_chats_fragment_to_nav_chat_fragment, bundle)
     }

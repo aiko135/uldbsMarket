@@ -35,12 +35,15 @@ class ChatFragment : Fragment(R.layout.chat_fragment) {
 
         val chatUuid = arguments?.getString("chatid")
         val userUuid =  arguments?.getString("userid")
+        val managerName=  arguments?.getString("managername")
+        binding.contactorName.text  = managerName;
+
         chatViewModel.chatid = chatUuid;
         chatViewModel.userid = userUuid;
 
         //Recycler view
         var lm  = LinearLayoutManager(context);
-        lm.reverseLayout = true;
+       // lm.reverseLayout = true;
         lm.stackFromEnd = true
         binding.recyclerChat.layoutManager = lm
         messageListAdapter = MessageListAdapter(chatViewModel.userid!!);
