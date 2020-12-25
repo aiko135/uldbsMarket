@@ -91,6 +91,16 @@
         android:id="@+id/nav_good_fragment"
         android:name="com.mysoft.uldbsmarket.fragment.GoodFragment"
         android:label="GoodFragment"
-        tools:layout="@layout/good_fragment"/>
+        tools:layout="@layout/good_fragment">
+        <action
+            android:id="@+id/action_nav_good_fragment_to_nav_order_fragment"
+            app:destination="@id/nav_order_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_order_fragment"
+        android:label="OrderFragment"
+        tools:layout="@layout/order_fragment"
+        />
 
 </navigation>
