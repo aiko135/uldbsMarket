@@ -63,7 +63,11 @@
         android:id="@+id/nav_basket_fragment"
         android:name="com.mysoft.uldbsmarket.fragment.BasketFragment"
         android:label="BasketFragment"
-        tools:layout="@layout/basket_fragment"/>
+        tools:layout="@layout/basket_fragment">
+        <action
+            android:id="@+id/action_nav_basket_fragment_to_nav_order_fragment"
+            app:destination="@id/nav_order_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_chats_fragment"

@@ -39,10 +39,15 @@ class StartFragment : Fragment(R.layout.start_fragment) {
     }
 
     private fun testLoading(){
+
+        /*
         Picasso.get()
             .load("http://192.168.0.82:8081/uldbs-back/file/12.jpeg")
             .resize(200, 200)
             .centerCrop()
             .into(binding.imageView3);
+
+         */
+        //Загрузка лого магазина
     }
 }

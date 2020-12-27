@@ -58,6 +58,7 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
                 if(result != null)
                     return result;
             }
+            val result : String = res!!.errorBody()!!.string()
             return null
         }
     }
