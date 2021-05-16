@@ -12,7 +12,7 @@
     
     <string name="profile">User</string>
     <string name="catalog">Catalog</string>
-    <string name="basket">Basket</string>
+    <string name="basket">Cart</string>
     <string name="chats">Chats</string>
 
     <string name="request_err">Error! Cannot connect to service.</string>
@@ -57,7 +57,7 @@
     <string name="price_units">RUB</string>
 
     <string name="feedback_for_this">Feedbacks for this good</string>
-    <string name="add_to_basket">Add this into my basket</string>
+    <string name="add_to_basket">Add to cart</string>
     <string name="leave_your_feedback">Write your feedback...</string>
     <string name="grade">Select your rating</string>
     <string name="leave_your_feedback2">Leave your feedback for this</string>
@@ -65,4 +65,9 @@
     <string name="stayed_grade">Grade:</string>
 
     <string name="publish">Publish</string>
+
+    <string name="message">Message...</string>
+    <string name="total_price">Total price:</string>
+    <string name="to_payment">To payment</string>
+    <string name="welcome">ULDBS market</string>
 </resources>

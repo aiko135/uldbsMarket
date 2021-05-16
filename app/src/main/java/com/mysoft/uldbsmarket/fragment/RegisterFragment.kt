@@ -39,7 +39,7 @@ class RegisterFragment : Fragment() {
 
     //TODO основную валидацию делать в VM
     private val onClickRegister : View.OnClickListener = View.OnClickListener{
-        if(binding.editTextTextPassword == binding.editTextTextPassword3){
+        if(binding.editTextTextPassword.text.toString() == binding.editTextTextPassword3.text.toString()){
             switchEnableButtons(false);
             var newUser : User = User(
                 "",

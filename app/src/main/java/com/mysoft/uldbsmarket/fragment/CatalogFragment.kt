@@ -19,7 +19,7 @@ import com.mysoft.uldbsmarket.model.Good
 import com.mysoft.uldbsmarket.vm.CatalogViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
-class CatalogFragment : Fragment(R.layout.item_catalog_fragment) {
+class   CatalogFragment : Fragment(R.layout.item_catalog_fragment) {
     private lateinit var binding : ItemCatalogFragmentBinding;
     private lateinit var catalogViewModel: CatalogViewModel;
 

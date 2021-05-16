@@ -11,6 +11,7 @@ import com.mysoft.uldbsmarket.repositories.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ChatsViewModel(private val chatRepository: ChatRepository,
                      private val userRepository: UserRepository): ViewModel() {
@@ -35,9 +36,10 @@ class ChatsViewModel(private val chatRepository: ChatRepository,
 
     fun readUserInfo( ){
         CoroutineScope(Dispatchers.IO).launch {
-           userRepository.readUserPref_sync{found : User? ->
-               _user.postValue(found);
-           }
+            val found : User? = userRepository.readUserPref_sync()
+            withContext(Dispatchers.Main) {
+                _user.postValue(found);
+            }
         }
     }
 }

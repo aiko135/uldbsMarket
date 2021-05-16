@@ -47,45 +47,25 @@ class LoginFragment : Fragment() {
             switchEnableButtons(false);
         }
 
-        loginViewModel.loginResultLiveData.observe(viewLifecycleOwner, Observer { onRequestResultObserver(it) })
+        loginViewModel.loginResultLiveData.observe(viewLifecycleOwner, Observer(onRequestResultObserver) )
+        loginViewModel.user.observe(viewLifecycleOwner, Observer(onUserFound))
 
         requestUserPrefs();  //TODO REFACTOR;
         return binding.root;
     }
 
-    private val onRequestResultObserver : ((data : LoginResult)->Unit) = {
-            switchEnableButtons(true);
-            if (it.result) {
-                //Успешная авторизация
-                if (it.user != null) {
-                    loginViewModel.writeUserInfo(it.user) {
-                        requireActivity().runOnUiThread {
-                           //requireView().findNavController().navigate(R.id.action_nav_login_fragment_to_nav_profile_fragment)
-                            requireView().findNavController().navigate(R.id.nav_profile_fragment, null);
-                        }
-                    }
-                } else {
-                    requireActivity().runOnUiThread {
-                        val toast = Toast.makeText(
-                            requireActivity().applicationContext,
-                            R.string.missing_data,
-                            Toast.LENGTH_SHORT
-                        )
-                        toast.show()
-                    }
-                }
-
-            }
-            else {
-                //Пришел результат о неуспешной авторизации
-                val toast = Toast.makeText(
-                    requireActivity().applicationContext,
-                    R.string.wrong_login_data,
-                    Toast.LENGTH_SHORT
-                )
-                toast.show()
-                binding.editTextTextPassword2.text.clear();
-            }
+    private val onRequestResultObserver : (data : LoginResult)->Unit = {
+        switchEnableButtons(true);
+        if(!it.result){
+            //Пришел результат о неуспешной авторизации
+            val toast = Toast.makeText(
+                requireActivity().applicationContext,
+                R.string.wrong_login_data,
+                Toast.LENGTH_SHORT
+            )
+            toast.show()
+            binding.editTextTextPassword2.text.clear();
+        }
     }
 
 
@@ -98,13 +78,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun requestUserPrefs(){
-        loginViewModel.readUserInfo { u : User? ->
-            if(u != null){
-                requireActivity().runOnUiThread {
-                    findNavController().navigate(R.id.action_nav_login_fragment_to_nav_profile_fragment)
-                }
-            }
-        }
+        loginViewModel.readUserInfo();
+    }
+    private val onUserFound: (User?)->Unit = {
+        if(it != null)
+            requireView().findNavController().navigate(R.id.nav_profile_fragment, null);
     }
 
     private fun switchEnableButtons(state : Boolean){
