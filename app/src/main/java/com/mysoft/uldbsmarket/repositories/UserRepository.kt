@@ -20,7 +20,7 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
     private val USER_PREF_KEY : String = "userds";
     private val SHARED_PREFERENCES_USER_FILE = "userdata"
 
-   fun  doLogin(login:String, pass:String) : LoginResult?{
+   suspend fun doLogin(login:String, pass:String) : LoginResult?{
             val call : Call<LoginResult>;
             var res : Response<LoginResult>? = null;
             try {
@@ -41,7 +41,7 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
             }
     }
 
-    fun register(u : User):RegisterResult?{
+    suspend fun register(u : User):RegisterResult?{
         val call : Call<RegisterResult>
         var res : Response<RegisterResult>? = null;
         try {
@@ -64,7 +64,7 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
     }
 
 
-    fun writeUserPref_sync(user : User ){
+    suspend fun writeUserPref(user : User ){
         val json : String  = Gson().toJson(user);
         val sharedPref =  context.getSharedPreferences(SHARED_PREFERENCES_USER_FILE, Context.MODE_PRIVATE);
         with(sharedPref.edit()){
@@ -73,7 +73,7 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
         }
     }
 
-     fun readUserPref_sync():User?{
+    suspend fun readUserPref():User?{
         val sharedPref =  context.getSharedPreferences(SHARED_PREFERENCES_USER_FILE, Context.MODE_PRIVATE);
         val found = sharedPref.getString(USER_PREF_KEY,null)
         if(sharedPref.contains(USER_PREF_KEY) && found != null){
@@ -84,7 +84,7 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
         }
     }
 
-    fun deleteUserPref_sync(){
+    suspend fun deleteUserPref(){
         val sharedPref =  context.getSharedPreferences(SHARED_PREFERENCES_USER_FILE, Context.MODE_PRIVATE);
         if(sharedPref.contains(USER_PREF_KEY))
             with(sharedPref.edit()){

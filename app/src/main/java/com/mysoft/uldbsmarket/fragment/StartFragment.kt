@@ -5,14 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.StartFragmentBinding
+import com.mysoft.uldbsmarket.model.User
+import com.mysoft.uldbsmarket.vm.LoginViewModel
+import com.mysoft.uldbsmarket.vm.ViewModelFactory
 import com.squareup.picasso.Picasso
 
 class StartFragment : Fragment(R.layout.start_fragment) {
-
-    private lateinit var binding: StartFragmentBinding;
+    private lateinit var loginViewModel: LoginViewModel;
 
     override fun onStart() {
         super.onStart()
@@ -20,7 +26,7 @@ class StartFragment : Fragment(R.layout.start_fragment) {
     }
 
     private fun uncheckBottomNav(){
-        val bottomNavigation =
+        var bottomNavigation =
             activity?.findViewById<BottomNavigationView>(R.id.nav_view) ?: return;
         val menu = bottomNavigation.menu;
         menu.setGroupCheckable(0,true,false);
@@ -31,23 +37,32 @@ class StartFragment : Fragment(R.layout.start_fragment) {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.register_fragment, container, false)
-        binding = StartFragmentBinding.inflate(inflater)
+        val view = inflater.inflate(R.layout.start_fragment, container, false)
+        loginViewModel = ViewModelProviders.of(
+            requireActivity(),
+            ViewModelFactory(requireActivity().applicationContext)
+        ).get(LoginViewModel::class.java);
 
-        testLoading();
-        return binding.root;
+        //Запрашиваем запись пользователя из локального хранилища
+        loginViewModel.user.observe(viewLifecycleOwner, Observer(this.onUserDataUpdate))
+        loginViewModel.readUserInfo();
+
+        return view;
     }
 
-    private fun testLoading(){
-
-        /*
-        Picasso.get()
-            .load("http://192.168.0.82:8081/uldbs-back/file/12.jpeg")
-            .resize(200, 200)
-            .centerCrop()
-            .into(binding.imageView3);
-
-         */
-        //Загрузка лого магазина
+    //Проверка на наличие записи пользователя в локальном хранилище завершена
+    private val onUserDataUpdate : ( user : User?) -> Unit = {
+        if(it == null)
+            findNavController().navigate(R.id.action_nav_start_fragment_to_nav_login_fragment)
+        else
+            findNavController().navigate(R.id.action_nav_start_fragment_to_nav_profile_fragment)
     }
+//    private fun testLoading(){
+//        Picasso.get()
+//            .load("http://192.168.0.82:8081/uldbs-back/file/12.jpeg")
+//            .resize(200, 200)
+//            .centerCrop()
+//            .into(binding.imageView3);
+//        // TODO Загрузка лого магазина
+//    }
 }

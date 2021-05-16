@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_nav_start_fragment_to_nav_catalog_fragment"
             app:destination="@id/nav_catalog_fragment" />
+        <action
+            android:id="@+id/action_nav_start_fragment_to_nav_profile_fragment"
+            app:destination="@id/nav_profile_fragment" />
 
     </fragment>
 

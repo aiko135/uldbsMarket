@@ -3,6 +3,7 @@ package com.mysoft.uldbsmarket.vm
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.repositories.UserRepository
 import kotlinx.coroutines.CoroutineScope
@@ -17,17 +18,17 @@ class ProfileViewModel(private val userRepository: UserRepository):ViewModel() {
 
 
     fun loadUserData(){
-        CoroutineScope(Dispatchers.IO).launch {
-            userRepository.readUserPref_sync().let {
+        viewModelScope.launch(Dispatchers.IO){
+            userRepository.readUserPref().let {
                 if(it != null)
                     _userData.postValue(it);
             }
         }
     }
-    //TOD сделать асинхронно
+
     fun signOut(){
-        //CoroutineScope(Dispatchers.IO).launch {
-            userRepository.deleteUserPref_sync();
-        //}
+        viewModelScope.launch(Dispatchers.IO) {
+            userRepository.deleteUserPref();
+        }
     }
 }

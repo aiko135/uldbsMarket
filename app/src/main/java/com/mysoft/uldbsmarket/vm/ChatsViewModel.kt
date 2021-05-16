@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mysoft.uldbsmarket.model.Chat
 import com.mysoft.uldbsmarket.model.User
-import com.mysoft.uldbsmarket.model.dto.RegisterResult
 import com.mysoft.uldbsmarket.repositories.ChatRepository
 import com.mysoft.uldbsmarket.repositories.UserRepository
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +35,7 @@ class ChatsViewModel(private val chatRepository: ChatRepository,
 
     fun readUserInfo( ){
         CoroutineScope(Dispatchers.IO).launch {
-            val found : User? = userRepository.readUserPref_sync()
+            val found : User? = userRepository.readUserPref()
             withContext(Dispatchers.Main) {
                 _user.postValue(found);
             }
