@@ -17,14 +17,8 @@ class ViewModelFactory(private val context : Context) : ViewModelProvider.Factor
         val message_repository = MessageRepository(RetrofitClient.getTypedRetrofitInstance(MessageAPI::class.java))
         val good_repository = GoodRepository(RetrofitClient.getTypedRetrofitInstance(GoodAPI::class.java));
         when {
-            modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
-                return LoginViewModel(user_repository) as T
-            }
-            modelClass.isAssignableFrom(ProfileViewModel::class.java)-> {
-                return ProfileViewModel(user_repository) as T
-            }
-            modelClass.isAssignableFrom(RegisterViewModel::class.java)->{
-                return RegisterViewModel(user_repository) as T
+            modelClass.isAssignableFrom(UserViewModel::class.java) -> {
+                return UserViewModel(user_repository) as T
             }
             modelClass.isAssignableFrom(ChatsViewModel::class.java)->{
                 return ChatsViewModel(chat_repository, user_repository) as T;

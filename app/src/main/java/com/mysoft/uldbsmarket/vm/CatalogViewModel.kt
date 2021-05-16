@@ -1,5 +1,6 @@
 package com.mysoft.uldbsmarket.vm
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +16,7 @@ class CatalogViewModel(private val goodRepository: GoodRepository):ViewModel() {
     val goods: LiveData<List<Good>>
         get() = _goods;
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun loadChats(onError:()->Unit){
         CoroutineScope(Dispatchers.IO).launch {
             var result : List<Good>?= goodRepository.getAllGoods();

@@ -70,4 +70,5 @@
     <string name="total_price">Total price:</string>
     <string name="to_payment">To payment</string>
     <string name="welcome">ULDBS market</string>
+    <string name="response_empty_error">Response is empty</string>
 </resources>

@@ -7,6 +7,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.createDataStore
 import com.google.gson.Gson
+import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.model.dto.LoginResult
 import com.mysoft.uldbsmarket.model.dto.RegisterResult
@@ -20,7 +21,7 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
     private val USER_PREF_KEY : String = "userds";
     private val SHARED_PREFERENCES_USER_FILE = "userdata"
 
-   suspend fun doLogin(login:String, pass:String) : LoginResult?{
+   suspend fun doLogin(login:String, pass:String) : LoginResult{
             val call : Call<LoginResult>;
             var res : Response<LoginResult>? = null;
             try {
@@ -29,19 +30,22 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
             }catch (e:Exception){
                 Log.e(tag, "exception: " + e.message);
                 Log.e(tag, "exception: " + e.toString());
-                return null;
+                e.printStackTrace();
+                //return LoginResult(false,"Network error","",null);
             }
             finally {
                 if(res != null && res.isSuccessful) {
-                    val result: LoginResult? = res.body()
+                    var result: LoginResult =
+                        res.body() ?:
+                        LoginResult(false, context.getString(R.string.response_empty_error),"",null)
                     return result
                 }else{
-                    return  null
+                    return LoginResult(false,context.getString(R.string.request_err),"",null)
                 }
             }
     }
 
-    suspend fun register(u : User):RegisterResult?{
+    suspend fun register(u : User) : RegisterResult{
         val call : Call<RegisterResult>
         var res : Response<RegisterResult>? = null;
         try {
@@ -50,16 +54,17 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
         }catch (e:Exception){
             Log.e(tag, "exception: " + e.message);
             Log.e(tag, "exception: " + e.toString());
-            return null
+            e.printStackTrace()
         }
         finally {
             if(res != null && res.isSuccessful){
-                val result : RegisterResult? = res.body();
-                if(result != null)
-                    return result;
+                var result : RegisterResult =
+                    res.body() ?:
+                    RegisterResult(false, context.getString(R.string.response_empty_error),null);
+                return result
+            }else{
+                return  RegisterResult(false, context.getString(R.string.request_err),null)
             }
-            val result : String = res!!.errorBody()!!.string()
-            return null
         }
     }
 

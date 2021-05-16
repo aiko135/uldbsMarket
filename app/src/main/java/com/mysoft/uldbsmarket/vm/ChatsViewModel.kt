@@ -1,5 +1,6 @@
 package com.mysoft.uldbsmarket.vm
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,7 @@ class ChatsViewModel(private val chatRepository: ChatRepository,
     val user: LiveData<User?>
         get() = _user;
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun loadChats(userUuid : String, onError:()->Unit){
         CoroutineScope(Dispatchers.IO).launch {
             var result : List<Chat>?= chatRepository.getChatsByClient(userUuid);

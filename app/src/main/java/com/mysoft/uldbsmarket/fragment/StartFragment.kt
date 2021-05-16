@@ -7,18 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mysoft.uldbsmarket.R
-import com.mysoft.uldbsmarket.databinding.StartFragmentBinding
 import com.mysoft.uldbsmarket.model.User
-import com.mysoft.uldbsmarket.vm.LoginViewModel
+import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
-import com.squareup.picasso.Picasso
 
 class StartFragment : Fragment(R.layout.start_fragment) {
-    private lateinit var loginViewModel: LoginViewModel;
+    private lateinit var userViewModel: UserViewModel;
 
     override fun onStart() {
         super.onStart()
@@ -38,14 +35,14 @@ class StartFragment : Fragment(R.layout.start_fragment) {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.start_fragment, container, false)
-        loginViewModel = ViewModelProviders.of(
+        userViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)
-        ).get(LoginViewModel::class.java);
+        ).get(UserViewModel::class.java);
 
         //Запрашиваем запись пользователя из локального хранилища
-        loginViewModel.user.observe(viewLifecycleOwner, Observer(this.onUserDataUpdate))
-        loginViewModel.readUserInfo();
+        userViewModel.userLD.observe(viewLifecycleOwner, Observer(this.onUserDataUpdate))
+        userViewModel.readUserInfo();
 
         return view;
     }
