@@ -62,7 +62,7 @@ class ProfileFragment : Fragment() {
                 role = "Administrator"
             }
         }
-
+        //TODO REFACTOR DATABINDING
         binding.textView3.text =
             "Name: ${u.name} \n" + "Login: ${u.email}\n" + "Phone: ${u.phone}\n" + "Birth date: ${u.birthDate.date.toString()}\n" +
                             "Account: "+role;
