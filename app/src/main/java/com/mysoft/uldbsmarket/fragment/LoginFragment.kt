@@ -64,8 +64,10 @@ class LoginFragment : Fragment() {
     }
 
     private val onUserFound: (User?)->Unit = {
-        if(it != null)
+        if(it != null){
+            binding.editTextTextPassword2.text.clear();
             requireView().findNavController().navigate(R.id.nav_profile_fragment, null);
+        }
     }
 
     private fun switchEnableButtons(state : Boolean){

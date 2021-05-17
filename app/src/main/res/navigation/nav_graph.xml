@@ -64,7 +64,7 @@
 
     <fragment
         android:id="@+id/nav_basket_fragment"
-        android:name="com.mysoft.uldbsmarket.fragment.BasketFragment"
+        android:name="com.mysoft.uldbsmarket.fragment.CartFragment"
         android:label="BasketFragment"
         tools:layout="@layout/basket_fragment">
         <action

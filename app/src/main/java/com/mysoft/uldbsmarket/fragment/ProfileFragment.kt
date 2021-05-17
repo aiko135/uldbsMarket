@@ -12,8 +12,13 @@ import androidx.navigation.fragment.findNavController
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.ProfileFragmentBinding
 import com.mysoft.uldbsmarket.model.User
+import com.mysoft.uldbsmarket.util.Util
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: ProfileFragmentBinding
@@ -59,9 +64,12 @@ class ProfileFragment : Fragment() {
                 role = "Administrator"
             }
         }
-        //TODO REFACTOR DATABINDING
+
+        var date_string : String = Util.dateToFormattedString(u.birthDate);
+
+        //TODO REFACTOR WITH DATABINDING
         binding.textView3.text =
-            "Name: ${u.name} \n" + "Login: ${u.email}\n" + "Phone: ${u.phone}\n" + "Birth date: ${u.birthDate.date.toString()}\n" +
+            "Name: ${u.name} \n" + "Login: ${u.email}\n" + "Phone: ${u.phone}\n" + "Birth date: "+date_string +"\n\n" +
                             "Account: "+role;
     }
 }

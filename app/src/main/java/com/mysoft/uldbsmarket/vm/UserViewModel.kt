@@ -63,5 +63,6 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             userRepository.deleteUserPref();
         }
+        _userLD.postValue(null);
     }
 }
