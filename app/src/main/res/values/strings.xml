@@ -69,6 +69,14 @@
     <string name="message">Message...</string>
     <string name="total_price">Total price:</string>
     <string name="to_payment">To payment</string>
-    <string name="welcome">ULDBS market</string>
+
     <string name="response_empty_error">Response is empty</string>
+
+    <string name="personal">Personal</string>
+    <string name="shop">Shop</string>
+    <string name="moderator">Moderator</string>
+    <string name="admin">Admin</string>
+    <string name="map">Shop location</string>
+
+    <string name="welcome">ULDBS market</string>
 </resources>
