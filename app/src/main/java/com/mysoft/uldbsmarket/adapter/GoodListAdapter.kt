@@ -37,7 +37,6 @@ class GoodListAdapter(private val onSelectListener : (c: Good)->Unit): RecyclerV
        return goods.size;
     }
 
-
     override fun onBindViewHolder(holder: GoodViewHolder, position: Int) {
         val current : Good = goods[position];
 

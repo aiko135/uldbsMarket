@@ -3,23 +3,27 @@ package com.mysoft.uldbsmarket.vm
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mysoft.uldbsmarket.model.Message
-import com.mysoft.uldbsmarket.model.User
+import androidx.lifecycle.viewModelScope
+import com.mysoft.uldbsmarket.model.Good
+import com.mysoft.uldbsmarket.model.ReqResult
 import com.mysoft.uldbsmarket.model.dto.FullGoodInfo
 import com.mysoft.uldbsmarket.repositories.GoodRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
-    private val _goodinfo = MutableLiveData<FullGoodInfo>();
-    val goodinfo : LiveData<FullGoodInfo>
-        get() = _goodinfo;
+    private val _goodsLD = MutableLiveData< ReqResult<List<Good>> >();
+    val goodsLD: LiveData< ReqResult<List<Good>> >
+        get () = _goodsLD;
+
+    private val _selectedGoodLD = MutableLiveData<FullGoodInfo>();
+    val selectedGoodLD : LiveData<FullGoodInfo>
+        get() = _selectedGoodLD;
 
     var goodid : String? = null
 
     fun getFullGoodData(onError : ()->Unit){
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(Dispatchers.IO) {
             var res : FullGoodInfo? = null
 
             if(goodid != null){
@@ -29,7 +33,14 @@ class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
             if(res == null)
                 onError.invoke()
             else
-                _goodinfo.postValue(res)
+                _selectedGoodLD.postValue(res)
+        }
+    }
+
+    fun loadGoods(){
+        viewModelScope.launch(Dispatchers.IO){
+            val result = goodRepository.getAllGoods();
+            _goodsLD.postValue(result);
         }
     }
 }

@@ -17,7 +17,6 @@ import com.mysoft.uldbsmarket.model.dto.LoginResult
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
-//TODO Зарефакторить так как в RegisterFragment так как делал этот модуль первым
 class LoginFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel;
     //Сгенерированный класс для датабайндинга

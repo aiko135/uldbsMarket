@@ -41,7 +41,7 @@ class GoodFragment : Fragment() {
         binding.feedbacksRv.adapter = feedbackListAdapter;
         binding.feedbacksRv.layoutManager = LinearLayoutManager(context)
 
-        goodViewModel.goodinfo.observe(viewLifecycleOwner, Observer(onDataUpdate))
+        goodViewModel.selectedGoodLD.observe(viewLifecycleOwner, Observer(onDataUpdate))
 
         goodViewModel.getFullGoodData(onRequestError);
         return binding.root;

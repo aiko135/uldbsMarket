@@ -21,6 +21,6 @@ class DatePickerFragment (val listener: DatePickerDialog.OnDateSetListener): Dia
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         // Create a new instance of DatePickerDialog and return it
-        return DatePickerDialog(activity!!, AlertDialog.THEME_HOLO_LIGHT, listener, year, month, day)
+        return DatePickerDialog(requireActivity().applicationContext, AlertDialog.THEME_HOLO_LIGHT, listener, year, month, day)
     }
 }
