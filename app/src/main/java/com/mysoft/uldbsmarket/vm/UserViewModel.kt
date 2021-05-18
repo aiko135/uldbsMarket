@@ -8,17 +8,18 @@ import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.model.dto.LoginResult
 import com.mysoft.uldbsmarket.model.dto.RegisterResult
 import com.mysoft.uldbsmarket.repositories.UserRepository
+import com.mysoft.uldbsmarket.util.SingleLiveEvent
 import com.mysoft.uldbsmarket.util.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserViewModel(private val userRepository: UserRepository): ViewModel() {
-    private val _loginResultLD = MutableLiveData<LoginResult>();
+    private val _loginResultLD = SingleLiveEvent<LoginResult>();
     val loginResultLD: LiveData<LoginResult>
         get() = _loginResultLD; //Инкапсуляция возможности обновлять LD данные
 
-    private val _registerResultLD = MutableLiveData<RegisterResult>();
+    private val _registerResultLD = SingleLiveEvent<RegisterResult>();
     val registerResultLD: LiveData<RegisterResult>
         get() = _registerResultLD;
 

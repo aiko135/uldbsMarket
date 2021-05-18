@@ -8,11 +8,13 @@
     <fragment
         android:id="@+id/nav_start_fragment"
         android:name="com.mysoft.uldbsmarket.fragment.StartFragment"
-        android:label="StartFrag"
+        android:label="Starting..."
         tools:layout="@layout/start_fragment" >
         <action
             android:id="@+id/action_nav_start_fragment_to_nav_login_fragment"
-            app:destination="@id/nav_login_fragment" />
+            app:destination="@id/nav_login_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/nav_graph"/>
         <action
             android:id="@+id/action_nav_start_fragment_to_nav_basket_fragment"
             app:destination="@id/nav_basket_fragment" />
@@ -24,14 +26,16 @@
             app:destination="@id/nav_catalog_fragment" />
         <action
             android:id="@+id/action_nav_start_fragment_to_nav_profile_fragment"
-            app:destination="@id/nav_profile_fragment" />
+            app:destination="@id/nav_profile_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/nav_graph"/>
 
     </fragment>
 
     <fragment
         android:id="@+id/nav_login_fragment"
         android:name="com.mysoft.uldbsmarket.fragment.LoginFragment"
-        android:label="LoginFragment"
+        android:label="Login"
         tools:layout="@layout/login_fragment" >
         <action
             android:id="@+id/action_nav_login_fragment_to_nav_reg_fragment"
@@ -45,7 +49,7 @@
     <fragment
         android:id="@+id/nav_reg_fragment"
         android:name="com.mysoft.uldbsmarket.fragment.RegisterFragment"
-        android:label="RegisterFragment"
+        android:label="Register"
         tools:layout="@layout/register_fragment" >
         <action
             android:id="@+id/action_nav_reg_fragment_to_nav_login_fragment"
@@ -55,7 +59,7 @@
     <fragment
         android:id="@+id/nav_catalog_fragment"
         android:name='com.mysoft.uldbsmarket.fragment.CatalogFragment'
-        android:label="CatalogFragment"
+        android:label="Catalog"
         tools:layout="@layout/item_catalog_fragment">
         <action
             android:id="@+id/action_nav_catalog_fragment_to_nav_good_fragment"
@@ -65,7 +69,7 @@
     <fragment
         android:id="@+id/nav_basket_fragment"
         android:name="com.mysoft.uldbsmarket.fragment.CartFragment"
-        android:label="BasketFragment"
+        android:label="Your cart"
         tools:layout="@layout/basket_fragment">
         <action
             android:id="@+id/action_nav_basket_fragment_to_nav_order_fragment"
@@ -75,7 +79,7 @@
     <fragment
         android:id="@+id/nav_chats_fragment"
         android:name="com.mysoft.uldbsmarket.fragment.ChatsFragment"
-        android:label="ChatsFragment"
+        android:label="Chats"
         tools:layout="@layout/chats_fragment">
         <action
             android:id="@+id/action_nav_chats_fragment_to_nav_chat_fragment"
@@ -85,19 +89,19 @@
     <fragment
         android:id="@+id/nav_profile_fragment"
         android:name="com.mysoft.uldbsmarket.fragment.ProfileFragment"
-        android:label="ProfileFragment"
+        android:label="Your profile"
         tools:layout="@layout/profile_fragment"/>
 
     <fragment
         android:id="@+id/nav_chat_fragment"
         android:name="com.mysoft.uldbsmarket.fragment.ChatFragment"
-        android:label="ChatFragment"
+        android:label="Chatting"
         tools:layout="@layout/chat_fragment"/>
 
     <fragment
         android:id="@+id/nav_good_fragment"
         android:name="com.mysoft.uldbsmarket.fragment.GoodFragment"
-        android:label="GoodFragment"
+        android:label="Good view"
         tools:layout="@layout/good_fragment">
         <action
             android:id="@+id/action_nav_good_fragment_to_nav_order_fragment"
@@ -106,7 +110,7 @@
 
     <fragment
         android:id="@+id/nav_order_fragment"
-        android:label="OrderFragment"
+        android:label="Your order"
         tools:layout="@layout/order_fragment"
         />
 

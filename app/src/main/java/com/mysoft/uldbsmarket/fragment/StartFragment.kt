@@ -23,14 +23,14 @@ class StartFragment : Fragment(R.layout.start_fragment) {
     }
 
     private fun uncheckBottomNav(){
-        var bottomNavigation =
-            activity?.findViewById<BottomNavigationView>(R.id.nav_view) ?: return;
-        val menu = bottomNavigation.menu;
-        menu.setGroupCheckable(0,true,false);
-        for (i in 0 until menu.size()) {
-            menu.getItem(i).isChecked = false
-        }
-        menu.setGroupCheckable(0, true, true)
+//        var bottomNavigation =
+//            activity?.findViewById<BottomNavigationView>(R.id.nav_view) ?: return;
+//        val menu = bottomNavigation.menu;
+//        menu.setGroupCheckable(0,true,false);
+//        for (i in 0 until menu.size()) {
+//            menu.getItem(i).isChecked = false
+//        }
+//        menu.setGroupCheckable(0, true, true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

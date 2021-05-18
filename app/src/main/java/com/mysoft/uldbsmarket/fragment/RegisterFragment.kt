@@ -14,12 +14,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.google.android.play.core.splitinstall.d
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.RegisterFragmentBinding
 import com.mysoft.uldbsmarket.fragment.dialog.DatePickerFragment
 import com.mysoft.uldbsmarket.model.User
-import com.mysoft.uldbsmarket.model.dto.LoginResult
 import com.mysoft.uldbsmarket.model.dto.RegisterResult
 import com.mysoft.uldbsmarket.util.Util
 import com.mysoft.uldbsmarket.vm.UserViewModel
@@ -116,13 +114,16 @@ class RegisterFragment : Fragment() {
 
     //Открытие date picker
     private val onClickOpenDatePicker: View.OnClickListener = View.OnClickListener{
-        val fragmentDialog = DatePickerFragment(object : DatePickerDialog.OnDateSetListener{
-            override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-                //Нажатие на кнопку установки текущего времени
-                selectedBirthDay.postValue(Date(year-1900, month, dayOfMonth));
+        val fragmentDialog = DatePickerFragment(
+            requireActivity(),
+            object : DatePickerDialog.OnDateSetListener{
+                override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+                    //Нажатие на кнопку установки текущего времени
+                    selectedBirthDay.postValue(Date(year-1900, month, dayOfMonth));
+                }
             }
-        });
-        fragmentDialog.show(activity!!.supportFragmentManager,"datePick")
+        );
+        fragmentDialog.show(requireActivity().supportFragmentManager,"datePick")
     }
 
 }
