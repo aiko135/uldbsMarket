@@ -7,7 +7,7 @@ import com.mysoft.uldbsmarket.model.User
 
 data class FullGoodInfo(
     @SerializedName("good")
-    val good : Good?,
+    val good : Good,
     @SerializedName("feedbacks")
     val feedbacks : List<Feedback>
 )

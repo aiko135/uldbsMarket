@@ -114,4 +114,11 @@
         tools:layout="@layout/order_fragment"
         />
 
+    <fragment
+        android:id="@+id/nav_map_fragment"
+        android:label="Our location"
+        android:name="com.mysoft.uldbsmarket.fragment.MapFragment"
+        tools:layout="@layout/map_fragment"
+        />
+
 </navigation>

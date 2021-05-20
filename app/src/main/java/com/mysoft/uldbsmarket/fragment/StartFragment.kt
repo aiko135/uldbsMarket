@@ -14,7 +14,7 @@ import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
-class StartFragment : Fragment(R.layout.start_fragment) {
+class StartFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel;
 
     override fun onStart() {

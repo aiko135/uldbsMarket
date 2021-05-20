@@ -1,8 +1,8 @@
 package com.mysoft.uldbsmarket.fragment
 
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -20,7 +20,7 @@ import com.mysoft.uldbsmarket.vm.GoodViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
 
-class   CatalogFragment : Fragment(R.layout.item_catalog_fragment) {
+class   CatalogFragment : Fragment() {
     private lateinit var binding : ItemCatalogFragmentBinding;
     private lateinit var goodViewModel: GoodViewModel;
 
@@ -35,6 +35,8 @@ class   CatalogFragment : Fragment(R.layout.item_catalog_fragment) {
             ViewModelFactory(requireActivity().applicationContext)
         ).get(GoodViewModel::class.java)
 
+        binding.grade.paintFlags = binding.grade.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        binding.button8.paintFlags = binding.button8.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         //Recycler view
         goodListAdapter = GoodListAdapter(onItemSelect);

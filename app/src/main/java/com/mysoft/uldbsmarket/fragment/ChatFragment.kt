@@ -15,7 +15,7 @@ import com.mysoft.uldbsmarket.databinding.ChatFragmentBinding
 import com.mysoft.uldbsmarket.vm.ChatViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
-class ChatFragment : Fragment(R.layout.chat_fragment) {
+class ChatFragment : Fragment() {
     private lateinit var binding: ChatFragmentBinding
     private lateinit var chatViewModel : ChatViewModel;
 

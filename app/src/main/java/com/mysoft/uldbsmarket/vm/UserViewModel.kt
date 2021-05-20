@@ -10,18 +10,17 @@ import com.mysoft.uldbsmarket.model.dto.RegisterResult
 import com.mysoft.uldbsmarket.repositories.UserRepository
 import com.mysoft.uldbsmarket.util.SingleLiveEvent
 import com.mysoft.uldbsmarket.util.Util
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserViewModel(private val userRepository: UserRepository): ViewModel() {
-    private val _loginResultLD = SingleLiveEvent<LoginResult>();
+    private val _loginResultSLD = SingleLiveEvent<LoginResult>();
     val loginResultLD: LiveData<LoginResult>
-        get() = _loginResultLD; //Инкапсуляция возможности обновлять LD данные
+        get() = _loginResultSLD; //Инкапсуляция возможности обновлять LD данные
 
-    private val _registerResultLD = SingleLiveEvent<RegisterResult>();
+    private val _registerResultSLD = SingleLiveEvent<RegisterResult>();
     val registerResultLD: LiveData<RegisterResult>
-        get() = _registerResultLD;
+        get() = _registerResultSLD;
 
     private val _userLD = MutableLiveData<User?>();
     val userLD: LiveData<User?>
@@ -31,7 +30,7 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val hash_pass : String = Util.md5(pass);
             val data = userRepository.doLogin(login,hash_pass);
-            _loginResultLD.postValue(data);
+            _loginResultSLD.postValue(data);
             if(data.result && data.user != null){
                 //Успешная авторизация
                 userRepository.writeUserPref(data.user)
@@ -43,7 +42,7 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
     fun register(u: User){
         viewModelScope.launch(Dispatchers.IO) {
             val result : RegisterResult = userRepository.register(u);
-            _registerResultLD.postValue(result);
+            _registerResultSLD.postValue(result);
             if(result.result && result.createdAccount != null){
                 //Успешная регистрация
                 userRepository.writeUserPref(result.createdAccount)
