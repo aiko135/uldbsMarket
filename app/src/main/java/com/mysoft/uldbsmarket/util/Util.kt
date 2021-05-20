@@ -18,5 +18,9 @@ class Util {
             var df : DateFormat = SimpleDateFormat("d MMM yyyy" , Locale.getDefault())
             return df.format(date);
         }
+
+        fun priceToString(price:Float):String{
+            return "%.2f".format(price)
+        }
     }
 }

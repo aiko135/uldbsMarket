@@ -79,4 +79,13 @@ class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
             _cartLD.postValue(mutableListOf())
         }
     }
+
+    fun getSummPrice():Float{
+        if(cartLD.value != null){
+            return  Good.SummPrice(cartLD.value!!)
+        }
+        else{
+            return 0.0f
+        }
+    }
 }

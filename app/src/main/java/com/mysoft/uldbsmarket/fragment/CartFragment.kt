@@ -14,6 +14,7 @@ import com.mysoft.uldbsmarket.vm.ViewModelFactory
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.adapter.GoodListAdapter
+import com.mysoft.uldbsmarket.util.Util
 
 class CartFragment: Fragment() {
     private lateinit var binding: BasketFragmentBinding;
@@ -55,5 +56,8 @@ class CartFragment: Fragment() {
            binding.buttonClean.visibility = View.GONE;
        }
         goodListAdapter.setGoods(it);
+
+        val price = goodViewModel.getSummPrice();
+        binding.priceTW.text = Util.priceToString(price)
     }
 }
