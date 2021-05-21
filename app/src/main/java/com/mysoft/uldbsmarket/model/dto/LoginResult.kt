@@ -6,6 +6,8 @@ import com.mysoft.uldbsmarket.model.User
 data class LoginResult(
     @SerializedName("result")
     val result : Boolean,
+    @SerializedName("error")
+    val error: String,
     @SerializedName("token")
     val token : String,
     @SerializedName("user")

@@ -9,23 +9,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mysoft.uldbsmarket.R
-import com.mysoft.uldbsmarket.adapter.ChatListAdapter
 import com.mysoft.uldbsmarket.adapter.MessageListAdapter
 import com.mysoft.uldbsmarket.databinding.ChatFragmentBinding
-import com.mysoft.uldbsmarket.databinding.ChatsFragmentBinding
 import com.mysoft.uldbsmarket.vm.ChatViewModel
-import com.mysoft.uldbsmarket.vm.ChatsViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
-class ChatFragment : Fragment(R.layout.chat_fragment) {
+class ChatFragment : Fragment() {
     private lateinit var binding: ChatFragmentBinding
     private lateinit var chatViewModel : ChatViewModel;
 
     private lateinit var messageListAdapter : MessageListAdapter;
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.chat_fragment, container, false)
         binding = ChatFragmentBinding.inflate(inflater)
 
         chatViewModel = ViewModelProviders.of(

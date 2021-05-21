@@ -69,5 +69,24 @@
     <string name="message">Message...</string>
     <string name="total_price">Total price:</string>
     <string name="to_payment">To payment</string>
+
+    <string name="response_empty_error">Response is empty</string>
+
+    <string name="personal">Personal</string>
+    <string name="shop">Shop</string>
+    <string name="moderator">Manager</string>
+    <string name="admin">Admin</string>
+    <string name="map">Our location</string>
+    <string name="manager_menu">Manager menu</string>
+    <string name="chatting_with_cl">Chats with clients</string>
+    <string name="admin_menu">Admin menu</string>
+    <string name="catalog_control">Catalog control</string>
+    <string name="my_orders">My orders</string>
+
+    <string name="delete_cart">Delete all</string>
+    <string name="empty_cart">Your cart is empty</string>
+
+
     <string name="welcome">ULDBS market</string>
+    <string name="done">Done</string>
 </resources>

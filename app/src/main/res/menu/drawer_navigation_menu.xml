@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/personal">
+        <menu>
+            <item android:id="@+id/nav_login_fragment"
+                android:title="@string/profile"
+                android:icon="@drawable/ic_bottom_nav_profile" />
+            <item android:id="@+id/nav_basket_fragment"
+                android:title="@string/basket"
+                android:icon="@drawable/ic_bottom_nav_basket" />
+            <item android:id="@+id/nav_chats_fragment"
+                android:title="@string/chats"
+                android:icon="@drawable/ic_bottom_nav_chat" />
+            <item android:id="@+id/nav_oreders_fragment"
+                android:title="@string/my_orders"
+                android:icon="@drawable/ic_checkbox" />
+        </menu>
+    </item>
+    <item android:title="@string/shop">
+        <menu>
+            <item android:id="@+id/nav_catalog_fragment"
+                android:title="@string/catalog"
+                android:icon="@drawable/ic_bottom_nav_catalog" />
+            <item android:id="@+id/nav_map_fragment"
+                android:title="@string/map"
+                android:icon="@drawable/ic_map_marker" />
+        </menu>
+    </item>
+    <item android:title="@string/moderator">
+        <menu>
+            <item android:id="@+id/nav_manager_menu_fragment"
+                android:title="@string/manager_menu"
+                android:icon="@drawable/ic_checkbox" />
+            <item android:id="@+id/nav_chats_fragment1"
+                android:title="@string/chatting_with_cl"
+                android:icon="@drawable/ic_bottom_nav_chat" />
+        </menu>
+    </item>
+    <item android:title="@string/admin">
+        <menu>
+            <item android:id="@+id/nav_admin_menu_fragment"
+                android:title="@string/admin_menu"
+                android:icon="@drawable/ic_admin" />
+            <item android:id="@+id/catalog_control"
+                android:title="@string/catalog_control"
+                android:icon="@drawable/ic_bottom_nav_catalog" />
+        </menu>
+    </item>
+
+</menu>

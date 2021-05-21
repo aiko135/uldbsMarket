@@ -8,45 +8,46 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.ProfileFragmentBinding
-import com.mysoft.uldbsmarket.databinding.RegisterFragmentBinding
 import com.mysoft.uldbsmarket.model.User
-import com.mysoft.uldbsmarket.vm.LoginViewModel
-import com.mysoft.uldbsmarket.vm.ProfileViewModel
+import com.mysoft.uldbsmarket.util.Util
+import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: ProfileFragmentBinding
-    private lateinit var profileViewModel: ProfileViewModel;
+    private lateinit var userViewModel: UserViewModel;
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.profile_fragment, container, false)
         binding =  ProfileFragmentBinding.inflate(inflater)
 
-        profileViewModel = ViewModelProviders.of(
+        userViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)
-        ).get(ProfileViewModel::class.java)
+        ).get(UserViewModel::class.java)
 
         binding.button2.setOnClickListener(onClickSignOut)
 
         //observer to viewmodel
-        profileViewModel.userData.observe(
+        userViewModel.userLD.observe(
             viewLifecycleOwner,
             Observer {
+                if(it != null)
                 displayUserProfile(it);
             }
         )
-
-        profileViewModel.loadUserData();
+        //userViewModel.loadUserData();
         return binding.root
     }
 
     private val onClickSignOut : View.OnClickListener = View.OnClickListener{
-        profileViewModel.signOut();
+        userViewModel.signOut();
         findNavController().popBackStack()
     }
 
@@ -62,9 +63,12 @@ class ProfileFragment : Fragment() {
                 role = "Administrator"
             }
         }
-        //TODO REFACTOR DATABINDING
+
+        var date_string : String = Util.dateToFormattedString(u.birthDate);
+
+        //TODO REFACTOR WITH DATABINDING
         binding.textView3.text =
-            "Name: ${u.name} \n" + "Login: ${u.email}\n" + "Phone: ${u.phone}\n" + "Birth date: ${u.birthDate.date.toString()}\n" +
+            "Name: ${u.name} \n" + "Login: ${u.email}\n" + "Phone: ${u.phone}\n" + "Birth date: "+date_string +"\n\n" +
                             "Account: "+role;
     }
 }

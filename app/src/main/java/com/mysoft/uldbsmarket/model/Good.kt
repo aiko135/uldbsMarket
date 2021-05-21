@@ -17,4 +17,14 @@ data class Good (
     val imgPath: String?,
     @SerializedName("parametrList")
     val parametrList: List<Parametr>
-)
+){
+    companion object {
+        fun SummPrice(goods:List<Good>):Float{
+            var result : Float = 0.0f;
+            goods.forEach{
+                result += it.price;
+            }
+            return result
+        }
+    }
+}
