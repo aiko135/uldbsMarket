@@ -23,7 +23,6 @@ class CartFragment: Fragment() {
     private lateinit var goodListAdapter: GoodListAdapter;
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        inflater.inflate(R.layout.basket_fragment, container, false)
         binding = BasketFragmentBinding.inflate(inflater)
 
         goodViewModel = ViewModelProviders.of(

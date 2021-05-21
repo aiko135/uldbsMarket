@@ -27,7 +27,6 @@ class   CatalogFragment : Fragment() {
     private lateinit var goodListAdapter: GoodListAdapter;
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.item_catalog_fragment, container, false)
         binding = ItemCatalogFragmentBinding.inflate(inflater)
 
         goodViewModel = ViewModelProviders.of(

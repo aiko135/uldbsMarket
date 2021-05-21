@@ -25,7 +25,6 @@ class ChatsFragment : Fragment() {
     private lateinit var chatListAdapter : ChatListAdapter;
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.chats_fragment, container, false)
         binding = ChatsFragmentBinding.inflate(inflater)
 
         chatViewModel = ViewModelProviders.of(
