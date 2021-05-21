@@ -72,8 +72,8 @@
         android:label="Your cart"
         tools:layout="@layout/basket_fragment">
         <action
-            android:id="@+id/action_nav_basket_fragment_to_nav_order_fragment"
-            app:destination="@id/nav_order_fragment" />
+            android:id="@+id/action_nav_cart_fragment_to_nav_payment_fragment"
+            app:destination="@id/nav_payment_fragment" />
     </fragment>
 
     <fragment
@@ -103,16 +103,7 @@
         android:name="com.mysoft.uldbsmarket.fragment.GoodFragment"
         android:label="Good view"
         tools:layout="@layout/good_fragment">
-        <action
-            android:id="@+id/action_nav_good_fragment_to_nav_order_fragment"
-            app:destination="@id/nav_order_fragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/nav_order_fragment"
-        android:label="Your order"
-        tools:layout="@layout/order_fragment"
-        />
 
     <fragment
         android:id="@+id/nav_map_fragment"
@@ -120,5 +111,11 @@
         android:name="com.mysoft.uldbsmarket.fragment.MapFragment"
         tools:layout="@layout/map_fragment"
         />
+
+    <fragment
+        android:id="@+id/nav_payment_fragment"
+        android:label="Order payment"
+        android:name="com.mysoft.uldbsmarket.fragment.PaymentFragment"
+        tools:layout="@layout/payment_fragment"/>
 
 </navigation>
