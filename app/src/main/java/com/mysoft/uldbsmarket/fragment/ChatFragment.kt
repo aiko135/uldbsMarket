@@ -37,13 +37,10 @@ class ChatFragment : Fragment() {
             ViewModelFactory(requireActivity().applicationContext)
         ).get(ChatViewModel::class.java)
 
-        val chatUuid = arguments?.getString("chatid")
-        val userUuid =  arguments?.getString("userid")
-        val managerName=  arguments?.getString("managername")
-        binding.contactorName.text  = managerName;
 
-        chatViewModel.chatid = chatUuid;
-        chatViewModel.userid = userUuid;
+        binding.contactorName.text  = arguments?.getString("managername");
+        chatViewModel.chatid = arguments?.getString("chatid");
+        chatViewModel.userid = arguments?.getString("userid");
 
         //Recycler view
         var lm  = LinearLayoutManager(context);
