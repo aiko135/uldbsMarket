@@ -44,7 +44,7 @@ class GoodListAdapter(private val onSelectListener : (c: Good)->Unit): RecyclerV
         holder.price.text = "Price :${current.price.toString()} RUB"
 
         //if(current.imgPath != null) {
-            val url: String = RetrofitClient.IMAGE_DOWNLOAD_URL + '/' + current.imgPath;
+            val url: String = "${RetrofitClient.IMAGE_DOWNLOAD_URL}/${current.imgPath}";
             Picasso.get()
                 .load(url)
                 .resize(200, 200)

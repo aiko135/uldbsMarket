@@ -33,7 +33,7 @@ class GoodFragment : Fragment() {
             binding.textView17.text = data.good.price.toString() +" "+ getString(R.string.price_units)
             binding.textView18.text = data.good.descr
             if(data.good.imgPath != null){
-                val url: String = RetrofitClient.IMAGE_DOWNLOAD_URL + '/' + data.good.imgPath;
+                val url: String = "${RetrofitClient.IMAGE_DOWNLOAD_URL}/${data.good.imgPath}";
                 Picasso.get()
                     .load(url)
                     // .resize(200, 200)
