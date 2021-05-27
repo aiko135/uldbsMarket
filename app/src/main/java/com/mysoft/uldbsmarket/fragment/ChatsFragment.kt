@@ -24,6 +24,35 @@ class ChatsFragment : Fragment() {
 
     private lateinit var chatListAdapter : ChatListAdapter;
 
+    //Поиск пользователя в преференциях завершен
+    private val onUserFindResult : (User?)->Unit = {
+            result : User? ->
+        if(result == null || chatViewModel.user.value == null){
+            //Пользователь не авторизирован
+            binding.textView13.text = getString(R.string.not_authorized);
+        }
+        else{
+            //Пользователь авторизован
+            chatViewModel.loadChats(chatViewModel.user.value!!.uuid) {
+                //Ошибка загрузки
+                requireActivity().runOnUiThread {
+                    Toast.makeText(requireActivity().applicationContext, R.string.request_err, Toast.LENGTH_SHORT).show()
+                }
+            };
+        }
+    }
+
+    private val onItemSelect : (Chat) -> Unit = {
+            selected ->
+        //TDOD получение бандла в фрагмент назначения
+        val bundle : Bundle = Bundle();
+        bundle.putString("chatid",selected.uuid)
+        bundle.putString("managername",selected.managerUuid.name)
+        bundle.putString("userid", selected.clientUuid.uuid)
+        findNavController().navigate(R.id.action_nav_chats_fragment_to_nav_chat_fragment, bundle)
+    }
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ChatsFragmentBinding.inflate(inflater)
 
@@ -50,32 +79,4 @@ class ChatsFragment : Fragment() {
 
         return binding.root;
     }
-    //Поиск пользователя в преференциях завершен
-    private val onUserFindResult : (User?)->Unit = {
-        result : User? ->
-        if(result == null || chatViewModel.user.value == null){
-            //Пользователь не авторизирован
-            binding.textView13.text = getString(R.string.not_authorized);
-        }
-        else{
-            //Пользователь авторизован
-            chatViewModel.loadChats(chatViewModel.user.value!!.uuid) {
-                //Ошибка загрузки
-                requireActivity().runOnUiThread {
-                    Toast.makeText(requireActivity().applicationContext, R.string.request_err, Toast.LENGTH_SHORT).show()
-                }
-            };
-        }
-    }
-
-    private val onItemSelect : (Chat) -> Unit = {
-        selected ->
-        //TDOD получение бандла в фрагмент назначения
-        val bundle : Bundle = Bundle();
-        bundle.putString("chatid",selected.uuid)
-        bundle.putString("managername",selected.managerUuid.name)
-        bundle.putString("userid", selected.clientUuid.uuid)
-        findNavController().navigate(R.id.action_nav_chats_fragment_to_nav_chat_fragment, bundle)
-    }
-
 }

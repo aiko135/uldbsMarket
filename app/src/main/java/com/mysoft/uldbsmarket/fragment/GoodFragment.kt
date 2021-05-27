@@ -25,6 +25,34 @@ class GoodFragment : Fragment() {
 
     private lateinit var feedbackListAdapter: FeedbackListAdapter
 
+    //Пришло обновление из VM
+    private val onDataUpdate : (FullGoodInfo : ReqResult<FullGoodInfo>)->Unit = {
+        if(it.isSuccess && it.entity != null){
+            val data : FullGoodInfo = it.entity;
+            binding.textView15.text = data.good.name;
+            binding.textView17.text = data.good.price.toString() +" "+ getString(R.string.price_units)
+            binding.textView18.text = data.good.descr
+            if(data.good.imgPath != null){
+                val url: String = RetrofitClient.IMAGE_DOWNLOAD_URL + '/' + data.good.imgPath;
+                Picasso.get()
+                    .load(url)
+                    // .resize(200, 200)
+                    .error(R.drawable.ic_error_page)
+                    //.centerCrop()
+                    .into(binding.imageView7);
+            }
+            feedbackListAdapter.setFeedbacks(data.feedbacks)
+        }
+        else{
+            val toast = Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT)
+            toast.show()
+        }
+    }
+
+    private val onClickAddToCart : View.OnClickListener = View.OnClickListener{
+        goodViewModel.addSelectedGoodIntoCart();
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = GoodFragmentBinding.inflate(inflater)
 
@@ -54,33 +82,5 @@ class GoodFragment : Fragment() {
 
         goodViewModel.getFullGoodData();
         return binding.root;
-    }
-
-    //Пришло обновление из VM
-    private val onDataUpdate : (FullGoodInfo : ReqResult<FullGoodInfo>)->Unit = {
-        if(it.isSuccess && it.entity != null){
-            val data : FullGoodInfo = it.entity;
-            binding.textView15.text = data.good.name;
-            binding.textView17.text = data.good.price.toString() +" "+ getString(R.string.price_units)
-            binding.textView18.text = data.good.descr
-            if(data.good.imgPath != null){
-                val url: String = RetrofitClient.IMAGE_DOWNLOAD_URL + '/' + data.good.imgPath;
-                Picasso.get()
-                    .load(url)
-                   // .resize(200, 200)
-                    .error(R.drawable.ic_error_page)
-                    //.centerCrop()
-                    .into(binding.imageView7);
-            }
-            feedbackListAdapter.setFeedbacks(data.feedbacks)
-        }
-        else{
-            val toast = Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT)
-            toast.show()
-        }
-    }
-
-    private val onClickAddToCart : View.OnClickListener = View.OnClickListener{
-        goodViewModel.addSelectedGoodIntoCart();
     }
 }

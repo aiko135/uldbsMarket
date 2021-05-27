@@ -36,6 +36,43 @@ class RegisterFragment : Fragment() {
         MutableLiveData<Date>(Date())
     }
 
+    //Открытие date picker
+    private val onClickOpenDatePicker: View.OnClickListener = View.OnClickListener{
+        val fragmentDialog = DatePickerFragment(
+            requireActivity(),
+            object : DatePickerDialog.OnDateSetListener{
+                override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+                    //Нажатие на кнопку установки текущего времени
+                    selectedBirthDay.postValue(Date(year-1900, month, dayOfMonth));
+                }
+            }
+        );
+        fragmentDialog.show(requireActivity().supportFragmentManager,"datePick")
+    }
+
+    //TODO основную валидацию делать в Model
+    private val onClickRegister : View.OnClickListener = View.OnClickListener{
+        if(binding.editTextTextPassword.text.toString() == binding.editTextTextPassword3.text.toString()){
+            switchEnableButtons(false);
+            var newUser : User = User(
+                UUID.randomUUID().toString(),
+                binding.editTextTextEmailAddress.text.toString(),
+                binding.editTextTextPassword.text.toString(),
+                1,
+                binding.editTextTextPersonName2.text.toString(),
+                selectedBirthDay.value!!,
+                binding.editTextPhone.text.toString()
+            )
+            userViewModel.register(newUser); // register
+
+        }else{
+            binding.editTextTextPassword.text.clear();
+            binding.editTextTextPassword3.text.clear();
+            val toast = Toast.makeText(requireActivity().applicationContext, R.string.password_dont_match, Toast.LENGTH_SHORT)
+            toast.show()
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = RegisterFragmentBinding.inflate(inflater)
 
@@ -64,60 +101,20 @@ class RegisterFragment : Fragment() {
         binding.button5.setOnClickListener(onClickRegister)
         binding.buttonOpenPicker.setOnClickListener(onClickOpenDatePicker);
 
-        selectedBirthDay.observe(viewLifecycleOwner, Observer(onDateUpdated))
+        selectedBirthDay.observe(viewLifecycleOwner, Observer{
+            //Обновление отражаемой на странице даты рождения
+            lifecycleScope.launch(Dispatchers.Main) {
+                val defaultDate: String = Util.dateToFormattedString(it);
+                binding.editTextBirthDate.text = defaultDate;
+            }
+        })
         selectedBirthDay.postValue(Date());
 
         return binding.root;
-    }
-
-    //TODO основную валидацию делать в Model
-    private val onClickRegister : View.OnClickListener = View.OnClickListener{
-        if(binding.editTextTextPassword.text.toString() == binding.editTextTextPassword3.text.toString()){
-            switchEnableButtons(false);
-            var newUser : User = User(
-                UUID.randomUUID().toString(),
-                binding.editTextTextEmailAddress.text.toString(),
-                binding.editTextTextPassword.text.toString(),
-                1,
-                binding.editTextTextPersonName2.text.toString(),
-                selectedBirthDay.value!!,
-                binding.editTextPhone.text.toString()
-            )
-            userViewModel.register(newUser); // register
-
-        }else{
-            binding.editTextTextPassword.text.clear();
-            binding.editTextTextPassword3.text.clear();
-            val toast = Toast.makeText(requireActivity().applicationContext, R.string.password_dont_match, Toast.LENGTH_SHORT)
-            toast.show()
-        }
     }
 
     private fun switchEnableButtons(state : Boolean){
         binding.button4.isEnabled= state;
         binding.button5.isEnabled= state;
     }
-
-    //Обновление отражаемой на странице даты рождения
-    private val onDateUpdated : (date : Date)->Unit = {
-        lifecycleScope.launch(Dispatchers.Main) {
-            val defaultDate: String = Util.dateToFormattedString(it);
-            binding.editTextBirthDate.text = defaultDate;
-        }
-    }
-
-    //Открытие date picker
-    private val onClickOpenDatePicker: View.OnClickListener = View.OnClickListener{
-        val fragmentDialog = DatePickerFragment(
-            requireActivity(),
-            object : DatePickerDialog.OnDateSetListener{
-                override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-                    //Нажатие на кнопку установки текущего времени
-                    selectedBirthDay.postValue(Date(year-1900, month, dayOfMonth));
-                }
-            }
-        );
-        fragmentDialog.show(requireActivity().supportFragmentManager,"datePick")
-    }
-
 }

@@ -20,6 +20,15 @@ class ChatFragment : Fragment() {
     private lateinit var chatViewModel : ChatViewModel;
 
     private lateinit var messageListAdapter : MessageListAdapter;
+
+
+    private val onRequestError = {
+        requireActivity().runOnUiThread {
+            val toast = Toast.makeText(requireActivity().applicationContext, R.string.request_err, Toast.LENGTH_SHORT)
+            toast.show()
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ChatFragmentBinding.inflate(inflater)
 
@@ -51,12 +60,5 @@ class ChatFragment : Fragment() {
 
         chatViewModel.loadMessages(onRequestError)
         return binding.root;
-    }
-
-    private val onRequestError = {
-        requireActivity().runOnUiThread {
-            val toast = Toast.makeText(requireActivity().applicationContext, R.string.request_err, Toast.LENGTH_SHORT)
-            toast.show()
-        }
     }
 }

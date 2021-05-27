@@ -26,6 +26,12 @@ class   CatalogFragment : Fragment() {
 
     private lateinit var goodListAdapter: GoodListAdapter;
 
+    private val onItemSelect : (Good) -> Unit = {
+        val bundle : Bundle = Bundle();
+        bundle.putString("goodid",it.uuid)
+        findNavController().navigate(R.id.action_nav_catalog_fragment_to_nav_good_fragment, bundle)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ItemCatalogFragmentBinding.inflate(inflater)
 
@@ -55,12 +61,6 @@ class   CatalogFragment : Fragment() {
 
         goodViewModel.loadGoods();
         return binding.root;
-    }
-
-    private val onItemSelect : (Good) -> Unit = {
-        val bundle : Bundle = Bundle();
-        bundle.putString("goodid",it.uuid)
-        findNavController().navigate(R.id.action_nav_catalog_fragment_to_nav_good_fragment, bundle)
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu){
