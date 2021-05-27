@@ -15,10 +15,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.adapter.GoodListAdapter
+import com.mysoft.uldbsmarket.databinding.ItemCatalogFragmentBinding
 import com.mysoft.uldbsmarket.util.Util
 
 class CartFragment: Fragment() {
-    private lateinit var binding: BasketFragmentBinding;
+    private val binding by lazy{
+        BasketFragmentBinding.inflate(layoutInflater);
+    }
     private lateinit var goodViewModel: GoodViewModel;
 
     private lateinit var goodListAdapter: GoodListAdapter;
@@ -41,8 +44,6 @@ class CartFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = BasketFragmentBinding.inflate(inflater)
-
         goodViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)

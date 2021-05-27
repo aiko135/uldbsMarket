@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.GoodListAdapter
+import com.mysoft.uldbsmarket.databinding.ChatFragmentBinding
 import com.mysoft.uldbsmarket.databinding.ItemCatalogFragmentBinding
 import com.mysoft.uldbsmarket.model.Good
 import com.mysoft.uldbsmarket.model.ReqResult
@@ -21,7 +22,9 @@ import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
 
 class   CatalogFragment : Fragment() {
-    private lateinit var binding : ItemCatalogFragmentBinding;
+    private val binding by lazy{
+        ItemCatalogFragmentBinding.inflate(layoutInflater);
+    }
     private lateinit var goodViewModel: GoodViewModel;
 
     private lateinit var goodListAdapter: GoodListAdapter;
@@ -33,8 +36,6 @@ class   CatalogFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ItemCatalogFragmentBinding.inflate(inflater)
-
         goodViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)

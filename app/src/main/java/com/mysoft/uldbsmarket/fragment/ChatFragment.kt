@@ -12,11 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.MessageListAdapter
 import com.mysoft.uldbsmarket.databinding.ChatFragmentBinding
+import com.mysoft.uldbsmarket.databinding.ChatsFragmentBinding
 import com.mysoft.uldbsmarket.vm.ChatViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
 class ChatFragment : Fragment() {
-    private lateinit var binding: ChatFragmentBinding
+    private val binding by lazy{
+        ChatFragmentBinding.inflate(layoutInflater);
+    }
     private lateinit var chatViewModel : ChatViewModel;
 
     private lateinit var messageListAdapter : MessageListAdapter;
@@ -30,8 +33,6 @@ class ChatFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ChatFragmentBinding.inflate(inflater)
-
         chatViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)

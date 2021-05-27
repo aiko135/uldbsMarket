@@ -10,18 +10,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.mysoft.uldbsmarket.databinding.ProfileFragmentBinding
+import com.mysoft.uldbsmarket.databinding.RegisterFragmentBinding
 import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.util.Util
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
 class ProfileFragment : Fragment() {
-    private lateinit var binding: ProfileFragmentBinding
+    private val binding by lazy{
+        ProfileFragmentBinding.inflate(layoutInflater);
+    }
     private lateinit var userViewModel: UserViewModel;
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding =  ProfileFragmentBinding.inflate(inflater)
-
         userViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)

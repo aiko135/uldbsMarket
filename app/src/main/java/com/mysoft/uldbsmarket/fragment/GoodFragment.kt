@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.FeedbackListAdapter
 import com.mysoft.uldbsmarket.databinding.GoodFragmentBinding
+import com.mysoft.uldbsmarket.databinding.LoginFragmentBinding
 import com.mysoft.uldbsmarket.model.ReqResult
 import com.mysoft.uldbsmarket.model.dto.FullGoodInfo
 import com.mysoft.uldbsmarket.network.RetrofitClient
@@ -20,7 +21,9 @@ import com.mysoft.uldbsmarket.vm.ViewModelFactory
 import com.squareup.picasso.Picasso
 
 class GoodFragment : Fragment() {
-    private lateinit var binding: GoodFragmentBinding
+    private val binding by lazy{
+        GoodFragmentBinding.inflate(layoutInflater);
+    }
     private lateinit var goodViewModel: GoodViewModel;
 
     private lateinit var feedbackListAdapter: FeedbackListAdapter
@@ -54,8 +57,6 @@ class GoodFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = GoodFragmentBinding.inflate(inflater)
-
         goodViewModel  = ViewModelProviders.of(
                 requireActivity(),
                 ViewModelFactory(requireActivity().applicationContext)

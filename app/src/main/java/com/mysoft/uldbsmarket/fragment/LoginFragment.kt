@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.LoginFragmentBinding
+import com.mysoft.uldbsmarket.databinding.PaymentFragmentBinding
 import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.model.dto.LoginResult
 import com.mysoft.uldbsmarket.vm.UserViewModel
@@ -20,11 +21,11 @@ import com.mysoft.uldbsmarket.vm.ViewModelFactory
 class LoginFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel;
     //Сгенерированный класс для датабайндинга
-    private lateinit var binding: LoginFragmentBinding
-
+    private val binding by lazy{
+        LoginFragmentBinding.inflate(layoutInflater);
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = LoginFragmentBinding.inflate(inflater)
         userViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)

@@ -12,11 +12,11 @@ import com.mysoft.uldbsmarket.databinding.PaymentFragmentBinding
 import com.mysoft.uldbsmarket.databinding.ProfileFragmentBinding
 
 class PaymentFragment : Fragment(R.layout.map_fragment){
-    private lateinit var binding: PaymentFragmentBinding;
+    private val binding by lazy{
+        PaymentFragmentBinding.inflate(layoutInflater);
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = PaymentFragmentBinding.inflate(inflater)
-
         val cardForm : CardForm = binding.cardForm;
         cardForm.cardRequired(true)
             .expirationRequired(true)

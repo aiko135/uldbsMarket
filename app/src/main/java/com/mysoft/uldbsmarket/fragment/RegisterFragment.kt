@@ -28,7 +28,9 @@ import java.util.*
 
 
 class RegisterFragment : Fragment() {
-    private lateinit var binding: RegisterFragmentBinding
+    private val binding by lazy{
+        RegisterFragmentBinding.inflate(layoutInflater);
+    }
     private lateinit var userViewModel: UserViewModel
 
     //Дата отражаемая на странице
@@ -74,8 +76,6 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = RegisterFragmentBinding.inflate(inflater)
-
         userViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)
