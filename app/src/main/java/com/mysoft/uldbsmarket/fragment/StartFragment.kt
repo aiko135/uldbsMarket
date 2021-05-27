@@ -25,18 +25,16 @@ class StartFragment : Fragment() {
         ).get(UserViewModel::class.java);
 
         //Запрашиваем запись пользователя из локального хранилища
-        userViewModel.userLD.observe(viewLifecycleOwner, Observer(this.onUserDataUpdate))
+        userViewModel.userLD.observe(viewLifecycleOwner, Observer{
+            //Проверка на наличие записи пользователя в локальном хранилище завершена
+            if(it == null)
+                findNavController().navigate(R.id.action_nav_start_fragment_to_nav_login_fragment)
+            else
+                findNavController().navigate(R.id.action_nav_start_fragment_to_nav_profile_fragment)
+        })
         userViewModel.readUserInfo();
 
         return view;
-    }
-
-    //Проверка на наличие записи пользователя в локальном хранилище завершена
-    private val onUserDataUpdate : ( user : User?) -> Unit = {
-        if(it == null)
-            findNavController().navigate(R.id.action_nav_start_fragment_to_nav_login_fragment)
-        else
-            findNavController().navigate(R.id.action_nav_start_fragment_to_nav_profile_fragment)
     }
 }
 

@@ -43,20 +43,18 @@ class   CatalogFragment : Fragment() {
         binding.catalogRv.layoutManager = LinearLayoutManager(context)
 
         //Observer
-        goodViewModel.goodsLD.observe(viewLifecycleOwner, Observer(onRequestResult))
+        goodViewModel.goodsLD.observe(viewLifecycleOwner, Observer {
+            if(it.isSuccess){
+                goodListAdapter.setGoods(it.entity!!)
+            }
+            else{
+                val toast = Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT)
+                toast.show()
+            }
+        })
 
         goodViewModel.loadGoods();
         return binding.root;
-    }
-
-    private val onRequestResult : (ReqResult<List<Good>>) -> Unit ={
-        if(it.isSuccess){
-            goodListAdapter.setGoods(it.entity!!)
-        }
-        else{
-            val toast = Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT)
-            toast.show()
-        }
     }
 
     private val onItemSelect : (Good) -> Unit = {

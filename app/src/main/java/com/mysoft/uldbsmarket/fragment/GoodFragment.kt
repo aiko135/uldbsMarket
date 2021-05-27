@@ -44,7 +44,13 @@ class GoodFragment : Fragment() {
         binding.feedbacksRv.layoutManager = LinearLayoutManager(context)
 
         goodViewModel.selectedGoodLD.observe(viewLifecycleOwner, Observer(onDataUpdate))
-        goodViewModel.isAddedToCardSLD.observe(viewLifecycleOwner, Observer(onAddedToCart))
+        goodViewModel.isAddedToCardSLD.observe(viewLifecycleOwner, Observer{
+            if(it){
+                binding.button9.isEnabled = false;
+                val toast = Toast.makeText(requireActivity().applicationContext, getString(R.string.done), Toast.LENGTH_SHORT)
+                toast.show()
+            }
+        })
 
         goodViewModel.getFullGoodData();
         return binding.root;
@@ -70,14 +76,6 @@ class GoodFragment : Fragment() {
         }
         else{
             val toast = Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT)
-            toast.show()
-        }
-    }
-
-    private val onAddedToCart : (isAdded : Boolean)->Unit = {
-        if(it){
-            binding.button9.isEnabled = false;
-            val toast = Toast.makeText(requireActivity().applicationContext, getString(R.string.done), Toast.LENGTH_SHORT)
             toast.show()
         }
     }

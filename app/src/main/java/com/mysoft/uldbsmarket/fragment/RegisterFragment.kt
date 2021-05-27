@@ -44,8 +44,21 @@ class RegisterFragment : Fragment() {
             ViewModelFactory(requireActivity().applicationContext)
         ).get(UserViewModel::class.java)
 
-        userViewModel.registerResultLD.observe(viewLifecycleOwner, Observer(onRegisterResult))
-        userViewModel.userLD.observe(viewLifecycleOwner, Observer(onUserFound))
+        userViewModel.registerResultLD.observe(viewLifecycleOwner, Observer{
+            if (!it.result || it.createdAccount == null) {
+                switchEnableButtons(true)
+                val toast = Toast.makeText(requireActivity().applicationContext,
+                    getString(R.string.error)+" "+it.message,
+                    Toast.LENGTH_SHORT)
+                toast.show()
+            }
+        })
+        userViewModel.userLD.observe(viewLifecycleOwner, Observer{
+            //После регистрации
+            switchEnableButtons(true)
+            if(it != null)
+                requireView().findNavController().navigate(R.id.nav_profile_fragment, null);
+        })
 
         binding.button4.setOnClickListener { findNavController().navigate(R.id.action_nav_reg_fragment_to_nav_login_fragment) }
         binding.button5.setOnClickListener(onClickRegister)
@@ -78,24 +91,6 @@ class RegisterFragment : Fragment() {
             val toast = Toast.makeText(requireActivity().applicationContext, R.string.password_dont_match, Toast.LENGTH_SHORT)
             toast.show()
         }
-    }
-
-    private val onRegisterResult : (res : RegisterResult) ->Unit = {
-        if (!it.result || it.createdAccount == null) {
-            switchEnableButtons(true)
-
-            val toast = Toast.makeText(requireActivity().applicationContext,
-                getString(R.string.error)+" "+it.message,
-                Toast.LENGTH_SHORT)
-            toast.show()
-        }
-    }
-
-    private val onUserFound : (data : User? ) -> Unit = {
-        //После регистрации
-        switchEnableButtons(true)
-        if(it != null)
-            requireView().findNavController().navigate(R.id.nav_profile_fragment, null);
     }
 
     private fun switchEnableButtons(state : Boolean){
