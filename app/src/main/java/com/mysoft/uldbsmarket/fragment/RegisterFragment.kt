@@ -70,8 +70,7 @@ class RegisterFragment : Fragment() {
         }else{
             binding.editTextTextPassword.text.clear();
             binding.editTextTextPassword3.text.clear();
-            val toast = Toast.makeText(requireActivity().applicationContext, R.string.password_dont_match, Toast.LENGTH_SHORT)
-            toast.show()
+            Toast.makeText(requireContext(), R.string.password_dont_match, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -84,10 +83,10 @@ class RegisterFragment : Fragment() {
         userViewModel.registerResultLD.observe(viewLifecycleOwner, Observer{
             if (!it.result || it.createdAccount == null) {
                 switchEnableButtons(true)
-                val toast = Toast.makeText(requireActivity().applicationContext,
+                Toast.makeText(requireContext(),
                     getString(R.string.error)+" "+it.message,
-                    Toast.LENGTH_SHORT)
-                toast.show()
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
         userViewModel.userLD.observe(viewLifecycleOwner, Observer{

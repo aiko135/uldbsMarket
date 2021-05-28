@@ -55,8 +55,7 @@ class   CatalogFragment : Fragment() {
                 goodListAdapter.setGoods(it.entity!!)
             }
             else{
-                val toast = Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT)
-                toast.show()
+                Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             }
         })
 

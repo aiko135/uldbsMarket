@@ -40,7 +40,7 @@ class ChatsFragment : Fragment() {
             chatViewModel.loadChats(chatViewModel.user.value!!.uuid) {
                 //Ошибка загрузки
                 requireActivity().runOnUiThread {
-                    Toast.makeText(requireActivity().applicationContext, R.string.request_err, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), R.string.request_err, Toast.LENGTH_SHORT).show()
                 }
             };
         }

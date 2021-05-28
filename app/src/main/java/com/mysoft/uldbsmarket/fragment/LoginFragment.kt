@@ -37,12 +37,11 @@ class LoginFragment : Fragment() {
             switchEnableButtons(true);
             if(!it.result){
                 //Пришел результат о неуспешной авторизации
-                val toast = Toast.makeText(
-                    requireActivity().applicationContext,
+                Toast.makeText(
+                    requireContext(),
                     getString(R.string.error)+" " +it.error,
                     Toast.LENGTH_SHORT
-                )
-                toast.show()
+                ).show()
                 binding.editTextTextPassword2.text.clear();
             }
         })

@@ -76,8 +76,7 @@ class GoodFragment : Fragment() {
         goodViewModel.isAddedToCardSLD.observe(viewLifecycleOwner, Observer{
             if(it){
                 binding.button9.isEnabled = false;
-                val toast = Toast.makeText(requireActivity().applicationContext, getString(R.string.done), Toast.LENGTH_SHORT)
-                toast.show()
+                Toast.makeText(requireContext(), getString(R.string.done), Toast.LENGTH_SHORT).show()
             }
         })
 
