@@ -13,20 +13,51 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.ChatListAdapter
 import com.mysoft.uldbsmarket.databinding.ChatsFragmentBinding
+import com.mysoft.uldbsmarket.databinding.GoodFragmentBinding
 import com.mysoft.uldbsmarket.model.Chat
 import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.vm.ChatViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
 class ChatsFragment : Fragment() {
-    private lateinit var binding: ChatsFragmentBinding
+    private val binding by lazy{
+        ChatsFragmentBinding.inflate(layoutInflater);
+    }
+
     private lateinit var chatViewModel: ChatViewModel;
 
     private lateinit var chatListAdapter : ChatListAdapter;
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ChatsFragmentBinding.inflate(inflater)
+    //Поиск пользователя в преференциях завершен
+    private val onUserFindResult : (User?)->Unit = {
+            result : User? ->
+        if(result == null || chatViewModel.user.value == null){
+            //Пользователь не авторизирован
+            binding.textView13.text = getString(R.string.not_authorized);
+        }
+        else{
+            //Пользователь авторизован
+            chatViewModel.loadChats(chatViewModel.user.value!!.uuid) {
+                //Ошибка загрузки
+                requireActivity().runOnUiThread {
+                    Toast.makeText(requireActivity().applicationContext, R.string.request_err, Toast.LENGTH_SHORT).show()
+                }
+            };
+        }
+    }
 
+    private val onItemSelect : (Chat) -> Unit = {
+            selected ->
+        //TDOD получение бандла в фрагмент назначения
+        val bundle : Bundle = Bundle();
+        bundle.putString("chatid",selected.uuid)
+        bundle.putString("managername",selected.managerUuid.name)
+        bundle.putString("userid", selected.clientUuid.uuid)
+        findNavController().navigate(R.id.action_nav_chats_fragment_to_nav_chat_fragment, bundle)
+    }
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         chatViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)
@@ -50,32 +81,4 @@ class ChatsFragment : Fragment() {
 
         return binding.root;
     }
-    //Поиск пользователя в преференциях завершен
-    private val onUserFindResult : (User?)->Unit = {
-        result : User? ->
-        if(result == null || chatViewModel.user.value == null){
-            //Пользователь не авторизирован
-            binding.textView13.text = getString(R.string.not_authorized);
-        }
-        else{
-            //Пользователь авторизован
-            chatViewModel.loadChats(chatViewModel.user.value!!.uuid) {
-                //Ошибка загрузки
-                requireActivity().runOnUiThread {
-                    Toast.makeText(requireActivity().applicationContext, R.string.request_err, Toast.LENGTH_SHORT).show()
-                }
-            };
-        }
-    }
-
-    private val onItemSelect : (Chat) -> Unit = {
-        selected ->
-        //TDOD получение бандла в фрагмент назначения
-        val bundle : Bundle = Bundle();
-        bundle.putString("chatid",selected.uuid)
-        bundle.putString("managername",selected.managerUuid.name)
-        bundle.putString("userid", selected.clientUuid.uuid)
-        findNavController().navigate(R.id.action_nav_chats_fragment_to_nav_chat_fragment, bundle)
-    }
-
 }

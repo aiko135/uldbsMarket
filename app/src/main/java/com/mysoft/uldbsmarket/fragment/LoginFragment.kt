@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.LoginFragmentBinding
+import com.mysoft.uldbsmarket.databinding.PaymentFragmentBinding
 import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.model.dto.LoginResult
 import com.mysoft.uldbsmarket.vm.UserViewModel
@@ -20,11 +21,11 @@ import com.mysoft.uldbsmarket.vm.ViewModelFactory
 class LoginFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel;
     //Сгенерированный класс для датабайндинга
-    private lateinit var binding: LoginFragmentBinding
-
+    private val binding by lazy{
+        LoginFragmentBinding.inflate(layoutInflater);
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = LoginFragmentBinding.inflate(inflater)
         userViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)
@@ -32,8 +33,25 @@ class LoginFragment : Fragment() {
 
         binding.button3.setOnClickListener{findNavController().navigate(R.id.action_nav_login_fragment_to_nav_reg_fragment)}
 
-        userViewModel.loginResultLD.observe(viewLifecycleOwner, Observer(onRequestResultObserver) )
-        userViewModel.userLD.observe(viewLifecycleOwner, Observer(onUserFound))
+        userViewModel.loginResultLD.observe(viewLifecycleOwner, Observer {
+            switchEnableButtons(true);
+            if(!it.result){
+                //Пришел результат о неуспешной авторизации
+                val toast = Toast.makeText(
+                    requireActivity().applicationContext,
+                    getString(R.string.error)+" " +it.error,
+                    Toast.LENGTH_SHORT
+                )
+                toast.show()
+                binding.editTextTextPassword2.text.clear();
+            }
+        })
+        userViewModel.userLD.observe(viewLifecycleOwner, Observer {
+            if(it != null){
+                binding.editTextTextPassword2.text.clear();
+                requireView().findNavController().navigate(R.id.nav_profile_fragment, null);
+            }
+        })
 
         binding.button.setOnClickListener{
             //Нажатие на кнопку логина
@@ -46,27 +64,6 @@ class LoginFragment : Fragment() {
         return binding.root;
     }
 
-
-    private val onRequestResultObserver : (data : LoginResult)->Unit = {
-        switchEnableButtons(true);
-        if(!it.result){
-            //Пришел результат о неуспешной авторизации
-            val toast = Toast.makeText(
-                requireActivity().applicationContext,
-                getString(R.string.error)+" " +it.error,
-                Toast.LENGTH_SHORT
-            )
-            toast.show()
-            binding.editTextTextPassword2.text.clear();
-        }
-    }
-
-    private val onUserFound: (User?)->Unit = {
-        if(it != null){
-            binding.editTextTextPassword2.text.clear();
-            requireView().findNavController().navigate(R.id.nav_profile_fragment, null);
-        }
-    }
 
     private fun switchEnableButtons(state : Boolean){
         binding.button.isEnabled= state;

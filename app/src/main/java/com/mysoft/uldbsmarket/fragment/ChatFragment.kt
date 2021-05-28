@@ -12,29 +12,36 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.MessageListAdapter
 import com.mysoft.uldbsmarket.databinding.ChatFragmentBinding
+import com.mysoft.uldbsmarket.databinding.ChatsFragmentBinding
 import com.mysoft.uldbsmarket.vm.ChatViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
 class ChatFragment : Fragment() {
-    private lateinit var binding: ChatFragmentBinding
+    private val binding by lazy{
+        ChatFragmentBinding.inflate(layoutInflater);
+    }
     private lateinit var chatViewModel : ChatViewModel;
 
     private lateinit var messageListAdapter : MessageListAdapter;
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ChatFragmentBinding.inflate(inflater)
 
+
+    private val onRequestError = {
+        requireActivity().runOnUiThread {
+            val toast = Toast.makeText(requireActivity().applicationContext, R.string.request_err, Toast.LENGTH_SHORT)
+            toast.show()
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         chatViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)
         ).get(ChatViewModel::class.java)
 
-        val chatUuid = arguments?.getString("chatid")
-        val userUuid =  arguments?.getString("userid")
-        val managerName=  arguments?.getString("managername")
-        binding.contactorName.text  = managerName;
 
-        chatViewModel.chatid = chatUuid;
-        chatViewModel.userid = userUuid;
+        binding.contactorName.text  = arguments?.getString("managername");
+        chatViewModel.chatid = arguments?.getString("chatid");
+        chatViewModel.userid = arguments?.getString("userid");
 
         //Recycler view
         var lm  = LinearLayoutManager(context);
@@ -51,12 +58,5 @@ class ChatFragment : Fragment() {
 
         chatViewModel.loadMessages(onRequestError)
         return binding.root;
-    }
-
-    private val onRequestError = {
-        requireActivity().runOnUiThread {
-            val toast = Toast.makeText(requireActivity().applicationContext, R.string.request_err, Toast.LENGTH_SHORT)
-            toast.show()
-        }
     }
 }

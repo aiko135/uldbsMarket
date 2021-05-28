@@ -12,26 +12,49 @@ import com.mysoft.uldbsmarket.model.Good
 import com.mysoft.uldbsmarket.vm.GoodViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.adapter.GoodListAdapter
+import com.mysoft.uldbsmarket.databinding.ItemCatalogFragmentBinding
 import com.mysoft.uldbsmarket.util.Util
 
 class CartFragment: Fragment() {
-    private lateinit var binding: BasketFragmentBinding;
+    private val binding by lazy{
+        BasketFragmentBinding.inflate(layoutInflater);
+    }
     private lateinit var goodViewModel: GoodViewModel;
 
     private lateinit var goodListAdapter: GoodListAdapter;
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = BasketFragmentBinding.inflate(inflater)
+    private val onCartGoodsFound : (List<Good>) -> Unit = {
+        if(it.isNotEmpty()){
+            binding.buttonPay.isEnabled = true;
+            binding.emptyCarTw.visibility = View.GONE;
+            binding.buttonClean.visibility = View.VISIBLE;
+        }
+        else{
+            binding.buttonPay.isEnabled = false;
+            binding.emptyCarTw.visibility = View.VISIBLE;
+            binding.buttonClean.visibility = View.GONE;
+        }
+        goodListAdapter.setGoods(it);
 
+        val price = goodViewModel.getSummPrice();
+        binding.priceTW.text = Util.priceToString(price)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         goodViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)
         ).get(GoodViewModel::class.java)
 
+        //Обработчики кнопок
         binding.buttonClean.setOnClickListener{
             goodViewModel.cleanCart();
+        }
+        binding.buttonPay.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_cart_fragment_to_nav_payment_fragment);
         }
 
         //Recycler view
@@ -39,24 +62,12 @@ class CartFragment: Fragment() {
         binding.goodsRv.adapter = goodListAdapter;
         binding.goodsRv.layoutManager = LinearLayoutManager(context)
 
+        //Обсервер
         goodViewModel.cartLD.observe(viewLifecycleOwner, Observer(onCartGoodsFound))
-        goodViewModel.loadGoodsCart();
 
+        //Начинаем загрузку данных для фрагмента
+        goodViewModel.loadGoodsCart();
         return binding.root;
     }
 
-    private val onCartGoodsFound : (List<Good>) -> Unit = {
-       if(it.isNotEmpty()){
-            binding.emptyCarTw.visibility = View.GONE;
-            binding.buttonClean.visibility = View.VISIBLE;
-       }
-        else{
-           binding.emptyCarTw.visibility = View.VISIBLE;
-           binding.buttonClean.visibility = View.GONE;
-       }
-        goodListAdapter.setGoods(it);
-
-        val price = goodViewModel.getSummPrice();
-        binding.priceTW.text = Util.priceToString(price)
-    }
 }

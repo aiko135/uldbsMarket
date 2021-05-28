@@ -9,24 +9,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.ProfileFragmentBinding
+import com.mysoft.uldbsmarket.databinding.RegisterFragmentBinding
 import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.util.Util
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat
-import java.util.*
-
 class ProfileFragment : Fragment() {
-    private lateinit var binding: ProfileFragmentBinding
+    private val binding by lazy{
+        ProfileFragmentBinding.inflate(layoutInflater);
+    }
     private lateinit var userViewModel: UserViewModel;
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding =  ProfileFragmentBinding.inflate(inflater)
-
         userViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)
@@ -53,22 +49,19 @@ class ProfileFragment : Fragment() {
 
 
     @SuppressLint("SetTextI18n")
-    private fun displayUserProfile(u : User){
-        var role : String = "User"
-        when{
-            u.role.toInt() == 2 ->{
-                role = "Manager";
-            }
-            u.role.toInt() == 3  ->{
-                role = "Administrator"
-            }
+    private fun displayUserProfile(currentUser : User){
+        val userRoleCode:Int = currentUser.role.toInt();
+        val roleString = when(userRoleCode) {
+             2 -> "Manager"
+             3 ->"Administrator"
+             else -> "User"
         }
 
-        var date_string : String = Util.dateToFormattedString(u.birthDate);
+       val date_string : String = Util.dateToFormattedString(currentUser.birthDate);
 
         //TODO REFACTOR WITH DATABINDING
         binding.textView3.text =
-            "Name: ${u.name} \n" + "Login: ${u.email}\n" + "Phone: ${u.phone}\n" + "Birth date: "+date_string +"\n\n" +
-                            "Account: "+role;
+            "Name: ${currentUser.name} \n" + "Login: ${currentUser.email}\n" + "Phone: ${currentUser.phone}\n" + "Birth date: "+date_string +"\n\n" +
+                            "Account: "+roleString;
     }
 }
