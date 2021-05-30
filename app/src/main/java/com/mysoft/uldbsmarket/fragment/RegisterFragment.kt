@@ -18,7 +18,6 @@ import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.RegisterFragmentBinding
 import com.mysoft.uldbsmarket.fragment.dialog.DatePickerFragment
 import com.mysoft.uldbsmarket.model.User
-import com.mysoft.uldbsmarket.model.dto.RegisterResult
 import com.mysoft.uldbsmarket.util.Util
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory

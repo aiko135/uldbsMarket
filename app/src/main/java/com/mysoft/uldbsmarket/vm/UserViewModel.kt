@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mysoft.uldbsmarket.model.User
-import com.mysoft.uldbsmarket.model.dto.LoginResult
-import com.mysoft.uldbsmarket.model.dto.RegisterResult
+import com.mysoft.uldbsmarket.model.dto.LoginResultDto
+import com.mysoft.uldbsmarket.model.dto.RegisterResultDto
 import com.mysoft.uldbsmarket.repositories.UserRepository
 import com.mysoft.uldbsmarket.util.SingleLiveEvent
 import com.mysoft.uldbsmarket.util.Util
@@ -14,12 +14,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserViewModel(private val userRepository: UserRepository): ViewModel() {
-    private val _loginResultSLD = SingleLiveEvent<LoginResult>();
-    val loginResultLD: LiveData<LoginResult>
+    private val _loginResultSLD = SingleLiveEvent<LoginResultDto>();
+    val loginResultLD: LiveData<LoginResultDto>
         get() = _loginResultSLD; //Инкапсуляция возможности обновлять LD данные
 
-    private val _registerResultSLD = SingleLiveEvent<RegisterResult>();
-    val registerResultLD: LiveData<RegisterResult>
+    private val _registerResultSLD = SingleLiveEvent<RegisterResultDto>();
+    val registerResultLD: LiveData<RegisterResultDto>
         get() = _registerResultSLD;
 
     private val _userLD = MutableLiveData<User?>();
@@ -41,7 +41,7 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
 
     fun register(u: User){
         viewModelScope.launch(Dispatchers.IO) {
-            val result : RegisterResult = userRepository.register(u);
+            val result : RegisterResultDto = userRepository.register(u);
             _registerResultSLD.postValue(result);
             if(result.result && result.createdAccount != null){
                 //Успешная регистрация

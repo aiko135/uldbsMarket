@@ -120,6 +120,17 @@
         android:id="@+id/nav_payment_fragment"
         android:label="Order payment"
         android:name="com.mysoft.uldbsmarket.fragment.PaymentFragment"
-        tools:layout="@layout/payment_fragment"/>
+        tools:layout="@layout/payment_fragment">
+        <action
+            android:id="@+id/action_nav_payment_fragment_to_nav_myorders_fragment"
+            app:destination="@id/nav_myorders_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_myorders_fragment"
+        android:label="My orders"
+        android:name="com.mysoft.uldbsmarket.fragment.MyOrdersFragment"
+        tools:layout="@layout/myorders_fragment"/>
+
 
 </navigation>

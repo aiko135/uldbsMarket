@@ -1,4 +1,4 @@
-package com.mysoft.uldbsmarket.model
+package com.mysoft.uldbsmarket.model.dto
 
 //Позволяет расширить любой тип, добавив полезную нагрузку
 class ReqResult<T>(

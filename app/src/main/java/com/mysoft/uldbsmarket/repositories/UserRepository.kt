@@ -1,18 +1,13 @@
 package com.mysoft.uldbsmarket.repositories
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.*
-import androidx.datastore.preferences.createDataStore
 import com.google.gson.Gson
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.model.User
-import com.mysoft.uldbsmarket.model.dto.LoginResult
-import com.mysoft.uldbsmarket.model.dto.RegisterResult
+import com.mysoft.uldbsmarket.model.dto.LoginResultDto
+import com.mysoft.uldbsmarket.model.dto.RegisterResultDto
 import com.mysoft.uldbsmarket.network.UserAPI
-import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Response
 
@@ -21,9 +16,9 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
     private val USER_PREF_KEY : String = "userds";
     private val SHARED_PREFERENCES_USER_FILE = "userdata"
 
-   suspend fun doLogin(login:String, pass:String) : LoginResult{
-            val call : Call<LoginResult>;
-            var res : Response<LoginResult>? = null;
+   suspend fun doLogin(login:String, pass:String) : LoginResultDto{
+            val call : Call<LoginResultDto>;
+            var res : Response<LoginResultDto>? = null;
             try {
                 call = userAPI.doLogin(login,pass);
                 res = call.execute();
@@ -35,19 +30,19 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
             }
             finally {
                 if(res != null && res.isSuccessful) {
-                    var result: LoginResult =
+                    var result: LoginResultDto =
                         res.body() ?:
-                        LoginResult(false, context.getString(R.string.response_empty_error),"",null)
+                        LoginResultDto(false, context.getString(R.string.response_empty_error),"",null)
                     return result
                 }else{
-                    return LoginResult(false,context.getString(R.string.request_err),"",null)
+                    return LoginResultDto(false,context.getString(R.string.request_err),"",null)
                 }
             }
     }
 
-    suspend fun register(u : User) : RegisterResult{
-        val call : Call<RegisterResult>
-        var res : Response<RegisterResult>? = null;
+    suspend fun register(u : User) : RegisterResultDto{
+        val call : Call<RegisterResultDto>
+        var res : Response<RegisterResultDto>? = null;
         try {
             call = userAPI.register(u);
             res = call.execute();
@@ -58,12 +53,12 @@ class UserRepository(private val userAPI: UserAPI, private val context : Context
         }
         finally {
             if(res != null && res.isSuccessful){
-                var result : RegisterResult =
+                var result : RegisterResultDto =
                     res.body() ?:
-                    RegisterResult(false, context.getString(R.string.response_empty_error),null);
+                    RegisterResultDto(false, context.getString(R.string.response_empty_error),null);
                 return result
             }else{
-                return  RegisterResult(false, context.getString(R.string.request_err),null)
+                return  RegisterResultDto(false, context.getString(R.string.request_err),null)
             }
         }
     }

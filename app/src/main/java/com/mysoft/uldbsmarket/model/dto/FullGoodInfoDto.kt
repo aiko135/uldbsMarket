@@ -5,7 +5,7 @@ import com.mysoft.uldbsmarket.model.Feedback
 import com.mysoft.uldbsmarket.model.Good
 import com.mysoft.uldbsmarket.model.User
 
-data class FullGoodInfo(
+data class FullGoodInfoDto(
     @SerializedName("good")
     val good : Good,
     @SerializedName("feedbacks")

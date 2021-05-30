@@ -13,10 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.GoodListAdapter
-import com.mysoft.uldbsmarket.databinding.ChatFragmentBinding
 import com.mysoft.uldbsmarket.databinding.ItemCatalogFragmentBinding
 import com.mysoft.uldbsmarket.model.Good
-import com.mysoft.uldbsmarket.model.ReqResult
 import com.mysoft.uldbsmarket.vm.GoodViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 

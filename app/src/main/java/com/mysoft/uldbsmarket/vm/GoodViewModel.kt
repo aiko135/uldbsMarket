@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mysoft.uldbsmarket.model.Good
-import com.mysoft.uldbsmarket.model.ReqResult
-import com.mysoft.uldbsmarket.model.dto.FullGoodInfo
+import com.mysoft.uldbsmarket.model.dto.ReqResult
+import com.mysoft.uldbsmarket.model.dto.FullGoodInfoDto
 import com.mysoft.uldbsmarket.repositories.GoodRepository
 import com.mysoft.uldbsmarket.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -14,13 +14,13 @@ import kotlinx.coroutines.launch
 
 class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
     //Список товаров
-    private val _goodsLD = MutableLiveData< ReqResult<List<Good>> >();
-    val goodsLD: LiveData< ReqResult<List<Good>> >
+    private val _goodsLD = MutableLiveData<ReqResult<List<Good>>>();
+    val goodsLD: LiveData<ReqResult<List<Good>>>
         get () = _goodsLD;
 
     //Выбранынй товар
-    private val _selectedGoodLD = MutableLiveData< ReqResult<FullGoodInfo> >();
-    val selectedGoodLD : LiveData< ReqResult<FullGoodInfo> >
+    private val _selectedGoodLD = MutableLiveData<ReqResult<FullGoodInfoDto>>();
+    val selectedGoodLDDto : LiveData<ReqResult<FullGoodInfoDto>>
         get() = _selectedGoodLD;
 
     //Удачно или неудачно (уже в корзине) добавление в корзину
@@ -38,7 +38,7 @@ class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
     fun getFullGoodData(){
         viewModelScope.launch(Dispatchers.IO) {
             if(goodid != null) {
-                val res: ReqResult<FullGoodInfo> = goodRepository.getGoodInfo(goodid!!);
+                val res: ReqResult<FullGoodInfoDto> = goodRepository.getGoodInfo(goodid!!);
                 _selectedGoodLD.postValue(res)
             }
         }
@@ -53,11 +53,11 @@ class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
 
     fun addSelectedGoodIntoCart(){
         viewModelScope.launch(Dispatchers.IO){
-            if(selectedGoodLD.value != null
-                && selectedGoodLD.value!!.isSuccess
-                && selectedGoodLD.value!!.entity != null
+            if(selectedGoodLDDto.value != null
+                && selectedGoodLDDto.value!!.isSuccess
+                && selectedGoodLDDto.value!!.entity != null
             ){
-                goodRepository.addGoodToCart(selectedGoodLD.value!!.entity!!.good)
+                goodRepository.addGoodToCart(selectedGoodLDDto.value!!.entity!!.good)
                 _isAddedToCardSLD.postValue(true);
             }
         }

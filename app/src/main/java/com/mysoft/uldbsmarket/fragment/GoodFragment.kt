@@ -13,9 +13,8 @@ import com.bumptech.glide.Glide
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.FeedbackListAdapter
 import com.mysoft.uldbsmarket.databinding.GoodFragmentBinding
-import com.mysoft.uldbsmarket.databinding.LoginFragmentBinding
-import com.mysoft.uldbsmarket.model.ReqResult
-import com.mysoft.uldbsmarket.model.dto.FullGoodInfo
+import com.mysoft.uldbsmarket.model.dto.ReqResult
+import com.mysoft.uldbsmarket.model.dto.FullGoodInfoDto
 import com.mysoft.uldbsmarket.network.RetrofitClient
 import com.mysoft.uldbsmarket.vm.GoodViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
@@ -29,9 +28,9 @@ class GoodFragment : Fragment() {
     private lateinit var feedbackListAdapter: FeedbackListAdapter
 
     //Пришло обновление из VM
-    private val onDataUpdate : (FullGoodInfo : ReqResult<FullGoodInfo>)->Unit = {
+    private val onDataUpdate : (FullGoodInfoDto : ReqResult<FullGoodInfoDto>)->Unit = {
         if(it.isSuccess && it.entity != null){
-            val data : FullGoodInfo = it.entity;
+            val data : FullGoodInfoDto = it.entity;
             binding.textView15.text = data.good.name;
             binding.textView17.text = data.good.price.toString() +" "+ getString(R.string.price_units)
             binding.textView18.text = data.good.descr
@@ -46,8 +45,7 @@ class GoodFragment : Fragment() {
             feedbackListAdapter.setFeedbacks(data.feedbacks)
         }
         else{
-            val toast = Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT)
-            toast.show()
+            Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -71,7 +69,7 @@ class GoodFragment : Fragment() {
         binding.feedbacksRv.adapter = feedbackListAdapter;
         binding.feedbacksRv.layoutManager = LinearLayoutManager(context)
 
-        goodViewModel.selectedGoodLD.observe(viewLifecycleOwner, Observer(onDataUpdate))
+        goodViewModel.selectedGoodLDDto.observe(viewLifecycleOwner, Observer(onDataUpdate))
         goodViewModel.isAddedToCardSLD.observe(viewLifecycleOwner, Observer{
             if(it){
                 binding.button9.isEnabled = false;

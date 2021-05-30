@@ -12,9 +12,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.LoginFragmentBinding
-import com.mysoft.uldbsmarket.databinding.PaymentFragmentBinding
-import com.mysoft.uldbsmarket.model.User
-import com.mysoft.uldbsmarket.model.dto.LoginResult
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 

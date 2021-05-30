@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.mysoft.uldbsmarket.model.Good
 import java.util.*
 
-data class UsersRequest(
+data class UsersRequestDto(
     @SerializedName("userUuid")
     val userUuid : UUID,
     @SerializedName("paymentData")

@@ -12,7 +12,7 @@
             <item android:id="@+id/nav_chats_fragment"
                 android:title="@string/chats"
                 android:icon="@drawable/ic_bottom_nav_chat" />
-            <item android:id="@+id/nav_oreders_fragment"
+            <item android:id="@+id/nav_myorders_fragment"
                 android:title="@string/my_orders"
                 android:icon="@drawable/ic_checkbox" />
         </menu>
