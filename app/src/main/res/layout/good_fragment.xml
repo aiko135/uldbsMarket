@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/imageView7"
+                android:layout_height="200dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_error_page"
                 android:layout_margin="11dp"/>
 

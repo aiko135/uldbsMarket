@@ -1,5 +1,7 @@
 package com.mysoft.uldbsmarket.adapter
 
+import android.app.AlertDialog.THEME_HOLO_LIGHT
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +10,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.model.Good
 import com.mysoft.uldbsmarket.network.RetrofitClient
-import com.squareup.picasso.Picasso
 
-class GoodListAdapter(private val onSelectListener : (c: Good)->Unit): RecyclerView.Adapter<GoodListAdapter.GoodViewHolder>() {
+
+class GoodListAdapter(
+    private val fragment: Fragment,
+    private val onSelectListener : (c: Good)->Unit
+): RecyclerView.Adapter<GoodListAdapter.GoodViewHolder>() {
     private var goods: List<Good> = ArrayList();
 
     class GoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -43,18 +50,18 @@ class GoodListAdapter(private val onSelectListener : (c: Good)->Unit): RecyclerV
         holder.title.text = current.name
         holder.price.text = "Price :${current.price.toString()} RUB"
 
-        //if(current.imgPath != null) {
+        if(current.imgPath != null) {
             val url: String = "${RetrofitClient.IMAGE_DOWNLOAD_URL}/${current.imgPath}";
-            Picasso.get()
+            Glide
+                .with(fragment)
                 .load(url)
-                .resize(200, 200)
-                .error(R.drawable.ic_error_page)
                 .centerCrop()
+                .error(R.drawable.ic_error_page)
                 .into(holder.itemImg);
-        //}else{
+        }else{
             //TODO сдесь дефолтную заставку если картинка не предусмотрена
-            //holder.itemImg.setImageDrawable(Drawable(R.drawable.ic_error_page));
-        //}
+            holder.itemImg.setImageDrawable(fragment.requireContext().getDrawable(R.drawable.ic_error_page));
+        }
     }
 
     fun setGoods(newGoods: List<Good>) {

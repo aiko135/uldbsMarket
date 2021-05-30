@@ -45,7 +45,7 @@ class   CatalogFragment : Fragment() {
         binding.button8.paintFlags = binding.button8.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         //Recycler view
-        goodListAdapter = GoodListAdapter(onItemSelect);
+        goodListAdapter = GoodListAdapter(this, onItemSelect);
         binding.catalogRv.adapter = goodListAdapter;
         binding.catalogRv.layoutManager = LinearLayoutManager(context)
 

@@ -58,7 +58,7 @@ class CartFragment: Fragment() {
         }
 
         //Recycler view
-        goodListAdapter = GoodListAdapter{};
+        goodListAdapter = GoodListAdapter(this){};
         binding.goodsRv.adapter = goodListAdapter;
         binding.goodsRv.layoutManager = LinearLayoutManager(context)
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.FeedbackListAdapter
 import com.mysoft.uldbsmarket.databinding.GoodFragmentBinding
@@ -18,7 +19,6 @@ import com.mysoft.uldbsmarket.model.dto.FullGoodInfo
 import com.mysoft.uldbsmarket.network.RetrofitClient
 import com.mysoft.uldbsmarket.vm.GoodViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
-import com.squareup.picasso.Picasso
 
 class GoodFragment : Fragment() {
     private val binding by lazy{
@@ -37,11 +37,10 @@ class GoodFragment : Fragment() {
             binding.textView18.text = data.good.descr
             if(data.good.imgPath != null){
                 val url: String = "${RetrofitClient.IMAGE_DOWNLOAD_URL}/${data.good.imgPath}";
-                Picasso.get()
+                Glide
+                    .with(this)
                     .load(url)
-                    // .resize(200, 200)
                     .error(R.drawable.ic_error_page)
-                    //.centerCrop()
                     .into(binding.imageView7);
             }
             feedbackListAdapter.setFeedbacks(data.feedbacks)
