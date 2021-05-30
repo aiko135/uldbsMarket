@@ -24,11 +24,10 @@ class ChatFragment : Fragment() {
 
     private lateinit var messageListAdapter : MessageListAdapter;
 
-
+    //TODO refactor
     private val onRequestError = {
         requireActivity().runOnUiThread {
-            val toast = Toast.makeText(requireActivity().applicationContext, R.string.request_err, Toast.LENGTH_SHORT)
-            toast.show()
+            Toast.makeText(requireContext(), R.string.request_err, Toast.LENGTH_SHORT).show()
         }
     }
 

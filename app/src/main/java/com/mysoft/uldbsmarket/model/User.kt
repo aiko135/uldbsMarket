@@ -7,7 +7,7 @@ import java.util.*
 
 data class User (
     @SerializedName("uuid")
-    val uuid : String,
+    val uuid : UUID,
     @SerializedName("email")
     val email : String,
     @SerializedName("pass")

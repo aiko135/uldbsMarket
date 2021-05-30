@@ -3,13 +3,11 @@ package com.mysoft.uldbsmarket.model
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
-data class Parametr (
+data class GoodRequest (
     @SerializedName("uuid")
     val uuid : UUID,
-    @SerializedName("question")
-    val question : String,
-    @SerializedName("name")
-    val name : String,
     @SerializedName("good")
-    val good : String
-)
+    val good : Good,
+    @SerializedName("request")
+    val request : UUID,
+    )

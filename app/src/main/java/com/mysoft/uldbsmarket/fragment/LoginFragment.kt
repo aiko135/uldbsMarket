@@ -12,9 +12,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.LoginFragmentBinding
-import com.mysoft.uldbsmarket.databinding.PaymentFragmentBinding
-import com.mysoft.uldbsmarket.model.User
-import com.mysoft.uldbsmarket.model.dto.LoginResult
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
@@ -37,12 +34,11 @@ class LoginFragment : Fragment() {
             switchEnableButtons(true);
             if(!it.result){
                 //Пришел результат о неуспешной авторизации
-                val toast = Toast.makeText(
-                    requireActivity().applicationContext,
+                Toast.makeText(
+                    requireContext(),
                     getString(R.string.error)+" " +it.error,
                     Toast.LENGTH_SHORT
-                )
-                toast.show()
+                ).show()
                 binding.editTextTextPassword2.text.clear();
             }
         })

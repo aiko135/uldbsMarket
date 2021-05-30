@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.mysoft.uldbsmarket.network.*
 import com.mysoft.uldbsmarket.repositories.ChatRepository
 import com.mysoft.uldbsmarket.repositories.GoodRepository
+import com.mysoft.uldbsmarket.repositories.RequestRepository
 import com.mysoft.uldbsmarket.repositories.UserRepository
 
 class ViewModelFactory(private val context : Context) : ViewModelProvider.Factory {
@@ -17,6 +18,7 @@ class ViewModelFactory(private val context : Context) : ViewModelProvider.Factor
             RetrofitClient.getTypedRetrofitInstance(MessageAPI::class.java)
         )
         val good_repository = GoodRepository(RetrofitClient.getTypedRetrofitInstance(GoodAPI::class.java), context);
+        val request_repository = RequestRepository(RetrofitClient.getTypedRetrofitInstance(RequestAPI::class.java), context)
         when {
             modelClass.isAssignableFrom(UserViewModel::class.java) -> {
                 return UserViewModel(user_repository) as T
@@ -26,6 +28,9 @@ class ViewModelFactory(private val context : Context) : ViewModelProvider.Factor
             }
             modelClass.isAssignableFrom(GoodViewModel::class.java)->{
                 return GoodViewModel(good_repository) as T
+            }
+            modelClass.isAssignableFrom(RequestViewModel::class.java)->{
+                return RequestViewModel(request_repository) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel")

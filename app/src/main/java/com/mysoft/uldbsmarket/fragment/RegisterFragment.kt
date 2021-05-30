@@ -18,7 +18,6 @@ import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.RegisterFragmentBinding
 import com.mysoft.uldbsmarket.fragment.dialog.DatePickerFragment
 import com.mysoft.uldbsmarket.model.User
-import com.mysoft.uldbsmarket.model.dto.RegisterResult
 import com.mysoft.uldbsmarket.util.Util
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
@@ -57,7 +56,7 @@ class RegisterFragment : Fragment() {
         if(binding.editTextTextPassword.text.toString() == binding.editTextTextPassword3.text.toString()){
             switchEnableButtons(false);
             var newUser : User = User(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 binding.editTextTextEmailAddress.text.toString(),
                 binding.editTextTextPassword.text.toString(),
                 1,
@@ -70,8 +69,7 @@ class RegisterFragment : Fragment() {
         }else{
             binding.editTextTextPassword.text.clear();
             binding.editTextTextPassword3.text.clear();
-            val toast = Toast.makeText(requireActivity().applicationContext, R.string.password_dont_match, Toast.LENGTH_SHORT)
-            toast.show()
+            Toast.makeText(requireContext(), R.string.password_dont_match, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -84,10 +82,10 @@ class RegisterFragment : Fragment() {
         userViewModel.registerResultLD.observe(viewLifecycleOwner, Observer{
             if (!it.result || it.createdAccount == null) {
                 switchEnableButtons(true)
-                val toast = Toast.makeText(requireActivity().applicationContext,
+                Toast.makeText(requireContext(),
                     getString(R.string.error)+" "+it.message,
-                    Toast.LENGTH_SHORT)
-                toast.show()
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
         userViewModel.userLD.observe(viewLifecycleOwner, Observer{

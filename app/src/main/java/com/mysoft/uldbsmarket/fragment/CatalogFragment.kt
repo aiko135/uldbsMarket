@@ -13,10 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.GoodListAdapter
-import com.mysoft.uldbsmarket.databinding.ChatFragmentBinding
 import com.mysoft.uldbsmarket.databinding.ItemCatalogFragmentBinding
 import com.mysoft.uldbsmarket.model.Good
-import com.mysoft.uldbsmarket.model.ReqResult
 import com.mysoft.uldbsmarket.vm.GoodViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
@@ -31,7 +29,7 @@ class   CatalogFragment : Fragment() {
 
     private val onItemSelect : (Good) -> Unit = {
         val bundle : Bundle = Bundle();
-        bundle.putString("goodid",it.uuid)
+        bundle.putString("goodid",it.uuid.toString())
         findNavController().navigate(R.id.action_nav_catalog_fragment_to_nav_good_fragment, bundle)
     }
 
@@ -45,7 +43,7 @@ class   CatalogFragment : Fragment() {
         binding.button8.paintFlags = binding.button8.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         //Recycler view
-        goodListAdapter = GoodListAdapter(onItemSelect);
+        goodListAdapter = GoodListAdapter(this, onItemSelect);
         binding.catalogRv.adapter = goodListAdapter;
         binding.catalogRv.layoutManager = LinearLayoutManager(context)
 
@@ -55,8 +53,7 @@ class   CatalogFragment : Fragment() {
                 goodListAdapter.setGoods(it.entity!!)
             }
             else{
-                val toast = Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT)
-                toast.show()
+                Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             }
         })
 

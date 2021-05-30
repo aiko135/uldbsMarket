@@ -6,13 +6,13 @@
             <item android:id="@+id/nav_login_fragment"
                 android:title="@string/profile"
                 android:icon="@drawable/ic_bottom_nav_profile" />
-            <item android:id="@+id/nav_basket_fragment"
+            <item android:id="@+id/nav_cart_fragment"
                 android:title="@string/basket"
                 android:icon="@drawable/ic_bottom_nav_basket" />
             <item android:id="@+id/nav_chats_fragment"
                 android:title="@string/chats"
                 android:icon="@drawable/ic_bottom_nav_chat" />
-            <item android:id="@+id/nav_oreders_fragment"
+            <item android:id="@+id/nav_myorders_fragment"
                 android:title="@string/my_orders"
                 android:icon="@drawable/ic_checkbox" />
         </menu>

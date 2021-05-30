@@ -39,7 +39,7 @@ class MessageListAdapter(private var currentUserUuid : String) : RecyclerView.Ad
 
         val constraintSet = ConstraintSet()
         constraintSet.clone(holder.constraint)
-        if(currentMess.userUuid == currentUserUuid){
+        if(currentMess.user == currentUserUuid){
             constraintSet.connect(R.id.card_view_mess,ConstraintSet.END,R.id.constraint_mess,ConstraintSet.END,0);
             holder.message.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
             holder.message.setTextColor(Color.parseColor("#ffffff"))

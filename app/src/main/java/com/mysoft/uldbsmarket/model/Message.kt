@@ -5,11 +5,11 @@ import java.util.*
 
 data class Message(
     @SerializedName("uuid")
-    val uuid : String,
-    @SerializedName("userUuid")
-    val userUuid: String,
-    @SerializedName("chatUuid")
-    val chatUuid: String,
+    val uuid : UUID,
+    @SerializedName("user")
+    val user: String,
+    @SerializedName("chat")
+    val chat: String,
     @SerializedName("text")
     val text: String,
     @SerializedName("timestamp")
