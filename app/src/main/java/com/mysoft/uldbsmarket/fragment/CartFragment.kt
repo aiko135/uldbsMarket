@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.mysoft.uldbsmarket.R
-import com.mysoft.uldbsmarket.databinding.BasketFragmentBinding
+import com.mysoft.uldbsmarket.databinding.CartFragmentBinding
 import com.mysoft.uldbsmarket.model.Good
 import com.mysoft.uldbsmarket.vm.GoodViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
@@ -17,12 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.adapter.GoodListAdapter
 import com.mysoft.uldbsmarket.databinding.ItemCatalogFragmentBinding
 import com.mysoft.uldbsmarket.util.Util
+import com.mysoft.uldbsmarket.vm.UserViewModel
 
 class CartFragment: Fragment() {
     private val binding by lazy{
-        BasketFragmentBinding.inflate(layoutInflater);
+        CartFragmentBinding.inflate(layoutInflater);
     }
     private lateinit var goodViewModel: GoodViewModel;
+    private lateinit var userViewModel: UserViewModel;
 
     private lateinit var goodListAdapter: GoodListAdapter;
 
@@ -48,13 +50,21 @@ class CartFragment: Fragment() {
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)
         ).get(GoodViewModel::class.java)
+        userViewModel = ViewModelProviders.of(
+            requireActivity(),
+            ViewModelFactory(requireActivity().applicationContext)
+        ).get(UserViewModel::class.java)
 
         //Обработчики кнопок
         binding.buttonClean.setOnClickListener{
             goodViewModel.cleanCart();
         }
         binding.buttonPay.setOnClickListener{
-            findNavController().navigate(R.id.action_nav_cart_fragment_to_nav_payment_fragment);
+            //Если пользователь авторизован - переход на страницу с оплатой. Иначе - редирект на страницу авторизации
+            if(userViewModel.userLD.value != null)
+                findNavController().navigate(R.id.action_nav_cart_fragment_to_nav_payment_fragment)
+            else
+                findNavController().navigate(R.id.action_nav_cart_fragment_to_nav_login_fragment)
         }
 
         //Recycler view

@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.model.Feedback
-import com.mysoft.uldbsmarket.model.Good
 
 
 class FeedbackListAdapter() : RecyclerView.Adapter<FeedbackListAdapter.FeedbackViewHolder>() {
@@ -32,8 +31,8 @@ class FeedbackListAdapter() : RecyclerView.Adapter<FeedbackListAdapter.FeedbackV
     override fun onBindViewHolder(holder: FeedbackViewHolder, position: Int) {
         val current = feedbacks[position]
 
-        if(current.userUuid != null){
-            holder.username.text = current.userUuid.name;
+        if(current.user != null){
+            holder.username.text = current.user.name;
         }
         holder.gradevalue.text = current.grade.toString()
         if(current.feedback == null){

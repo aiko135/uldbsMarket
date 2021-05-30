@@ -57,7 +57,7 @@ class RegisterFragment : Fragment() {
         if(binding.editTextTextPassword.text.toString() == binding.editTextTextPassword3.text.toString()){
             switchEnableButtons(false);
             var newUser : User = User(
-                UUID.randomUUID().toString(),
+                UUID.randomUUID(),
                 binding.editTextTextEmailAddress.text.toString(),
                 binding.editTextTextPassword.text.toString(),
                 1,

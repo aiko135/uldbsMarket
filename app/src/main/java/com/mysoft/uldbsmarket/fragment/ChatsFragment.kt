@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.ChatListAdapter
 import com.mysoft.uldbsmarket.databinding.ChatsFragmentBinding
-import com.mysoft.uldbsmarket.databinding.GoodFragmentBinding
 import com.mysoft.uldbsmarket.model.Chat
 import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.vm.ChatViewModel
@@ -37,7 +36,7 @@ class ChatsFragment : Fragment() {
         }
         else{
             //Пользователь авторизован
-            chatViewModel.loadChats(chatViewModel.user.value!!.uuid) {
+            chatViewModel.loadChats(chatViewModel.user.value!!.uuid.toString()) {
                 //Ошибка загрузки
                 requireActivity().runOnUiThread {
                     Toast.makeText(requireContext(), R.string.request_err, Toast.LENGTH_SHORT).show()
@@ -50,9 +49,9 @@ class ChatsFragment : Fragment() {
             selected ->
         //TDOD получение бандла в фрагмент назначения
         val bundle : Bundle = Bundle();
-        bundle.putString("chatid",selected.uuid)
-        bundle.putString("managername",selected.managerUuid.name)
-        bundle.putString("userid", selected.clientUuid.uuid)
+        bundle.putString("chatid",selected.uuid.toString())
+        bundle.putString("managername",selected.manager.name)
+        bundle.putString("userid", selected.client.uuid.toString())
         findNavController().navigate(R.id.action_nav_chats_fragment_to_nav_chat_fragment, bundle)
     }
 

@@ -3,7 +3,6 @@ package com.mysoft.uldbsmarket.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mysoft.uldbsmarket.R
@@ -33,7 +32,7 @@ class ChatListAdapter(private val onSelectListener : (c: Chat)->Unit )
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val currentChat = chats[position];
-        holder.nameTV.text = currentChat.managerUuid.name;
+        holder.nameTV.text = currentChat.manager.name;
     }
 
     fun setChats(newChatList : List<Chat>){

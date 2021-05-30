@@ -1,12 +1,13 @@
 package com.mysoft.uldbsmarket.model
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class Good (
     @SerializedName("uuid")
-    val uuid : String,
-    @SerializedName("catalogUuid")
-    val catalogUuid : String,
+    val uuid : UUID,
+    @SerializedName("catalog")
+    val catalog : String,
     @SerializedName("descr")
     val descr: String,
     @SerializedName("name")
