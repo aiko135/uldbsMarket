@@ -29,8 +29,16 @@ class MainActivity : AppCompatActivity() {
         findViewById<NavigationView>(R.id.nav_view)
             .setupWithNavController(navController)
 
+        //Это те фрагменты в которых кнопка будет в виде полосок.
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_login_fragment, R.id.nav_reg_fragment, R.id.nav_profile_fragment ),
+            setOf(
+                R.id.nav_login_fragment,
+                R.id.nav_profile_fragment,
+                R.id.nav_cart_fragment,
+                R.id.nav_myorders_fragment,
+                R.id.nav_catalog_fragment,
+                R.id.nav_map_fragment
+            ),
             drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

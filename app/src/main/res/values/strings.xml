@@ -85,8 +85,13 @@
 
     <string name="delete_cart">Delete all</string>
     <string name="empty_cart">Your cart is empty</string>
+    <string name="order_number">Order №</string>
+    <string name="goods">Your order goods:</string>
+    <string name="manager_for_order">Manager responsible for the order</string>
+    <string name="orders_details">Your order details</string>
+    <string name="order_status">Order status</string>
 
-
+    <string name="to_chat_with_manager">Contact the manager in chat</string>
     <string name="welcome">ULDBS market</string>
     <string name="done">Done</string>
 </resources>

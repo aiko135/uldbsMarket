@@ -32,7 +32,8 @@ class ChatsFragment : Fragment() {
             result : User? ->
         if(result == null || chatViewModel.user.value == null){
             //Пользователь не авторизирован
-            binding.textView13.text = getString(R.string.not_authorized);
+            Toast.makeText(requireContext(), getString(R.string.not_authorized), Toast.LENGTH_SHORT).show();
+            findNavController().navigate(R.id.nav_login_fragment)
         }
         else{
             //Пользователь авторизован

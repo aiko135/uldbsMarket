@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.ChatListAdapter
@@ -39,7 +40,7 @@ class MyOrdersFragment : Fragment() {
         ).get(UserViewModel::class.java)
 
         //Recycler view
-        orderListAdapter = OrderListAdapter();
+        orderListAdapter = OrderListAdapter(requireContext());
         binding.orderslistrv.adapter = orderListAdapter;
         binding.orderslistrv.layoutManager = LinearLayoutManager(context)
 
@@ -51,9 +52,10 @@ class MyOrdersFragment : Fragment() {
                 Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
         })
 
-        if(userViewModel.userLD.value == null)
+        if(userViewModel.userLD.value == null) {
             Toast.makeText(requireContext(), getString(R.string.not_authorized), Toast.LENGTH_SHORT).show()
-        else
+            findNavController().navigate(R.id.nav_login_fragment)
+        }else
             requestViewModel.getMyOrders(userViewModel.userLD.value!!.uuid)
 
         return binding.root;
