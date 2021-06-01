@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.model.Feedback
+import com.mysoft.uldbsmarket.util.Util
 
 
 class FeedbackListAdapter() : RecyclerView.Adapter<FeedbackListAdapter.FeedbackViewHolder>() {
@@ -16,6 +17,7 @@ class FeedbackListAdapter() : RecyclerView.Adapter<FeedbackListAdapter.FeedbackV
         val username : TextView = itemView.findViewById(R.id.chat_user_name)
         val gradevalue : TextView = itemView.findViewById(R.id.grade_number_tv)
         val feedbacktext : TextView = itemView.findViewById(R.id.feedback_text_tv)
+        val feedbackTimestamp: TextView = itemView.findViewById(R.id.feedback_timestamp)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedbackViewHolder {
@@ -35,6 +37,7 @@ class FeedbackListAdapter() : RecyclerView.Adapter<FeedbackListAdapter.FeedbackV
             holder.username.text = current.user.name;
         }
         holder.gradevalue.text = current.grade.toString()
+        holder.feedbackTimestamp.text = Util.timestampToFormattedString(current.timestamp)
         if(current.feedback == null){
             holder.feedbacktext.text = "";
         }
@@ -44,7 +47,7 @@ class FeedbackListAdapter() : RecyclerView.Adapter<FeedbackListAdapter.FeedbackV
     }
 
     fun setFeedbacks(newFeedbacks: List<Feedback>) {
-        feedbacks = newFeedbacks
+        feedbacks = newFeedbacks.sortedByDescending { it.timestamp }
         notifyDataSetChanged()
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mysoft.uldbsmarket.model.Feedback
 import com.mysoft.uldbsmarket.model.Good
 import com.mysoft.uldbsmarket.model.dto.ReqResult
 import com.mysoft.uldbsmarket.model.dto.FullGoodInfoDto
@@ -11,6 +12,7 @@ import com.mysoft.uldbsmarket.repositories.GoodRepository
 import com.mysoft.uldbsmarket.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
     //Список товаров
@@ -33,12 +35,17 @@ class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
     val cartLD : LiveData< MutableList<Good> >
         get() = _cartLD;
 
-    var goodid : String? = null
+    private val _isFeedbackAddedSLD = SingleLiveEvent< ReqResult<Boolean>>()
+    val isFeedbackAddedSLD: LiveData< ReqResult<Boolean> >
+        get() = _isFeedbackAddedSLD
+
+
+    var m_GoodId : String? = null
 
     fun getFullGoodData(){
         viewModelScope.launch(Dispatchers.IO) {
-            if(goodid != null) {
-                val res: ReqResult<FullGoodInfoDto> = goodRepository.getGoodInfo(goodid!!);
+            if(m_GoodId != null) {
+                val res: ReqResult<FullGoodInfoDto> = goodRepository.getGoodInfo(m_GoodId!!);
                 _selectedGoodLD.postValue(res)
             }
         }
@@ -86,6 +93,25 @@ class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
         }
         else{
             return 0.0f
+        }
+    }
+
+    fun postFeedback(userId: UUID, goodId:UUID, grade:Int, feedback : String?){
+        viewModelScope.launch(Dispatchers.IO){
+            val fb :String? = feedback?.replace("\n", " ")
+            val res = goodRepository.postFeedback(
+                userId.toString(),
+                goodId.toString(),
+                Feedback(
+                    UUID.randomUUID(),
+                    null,
+                    Date(),
+                    grade,
+                    feedback,
+                    goodId.toString()
+                )
+            );
+            _isFeedbackAddedSLD.postValue(res)
         }
     }
 }

@@ -9,11 +9,11 @@ data class Feedback (
     @SerializedName("user")
     val user : User?,
     @SerializedName("timestamp")
-    val timestamp : String,
+    val timestamp : Date,
     @SerializedName("grade")
     val grade : Int,
     @SerializedName("feedback")
-    val feedback : String?,
+    var feedback : String?,
     @SerializedName("good")
     val good : String
 )

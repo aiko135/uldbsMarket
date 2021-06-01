@@ -14,7 +14,6 @@ import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.ChatListAdapter
 import com.mysoft.uldbsmarket.databinding.ChatsFragmentBinding
 import com.mysoft.uldbsmarket.model.Chat
-import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.vm.ChatViewModel
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
@@ -55,7 +54,7 @@ class ChatsFragment : Fragment() {
         binding.chatslistrv.layoutManager = LinearLayoutManager(context)
 
         //VM Observer
-        chatViewModel.chats.observe(viewLifecycleOwner, Observer{
+        chatViewModel.chatsLD.observe(viewLifecycleOwner, Observer{
             if(it.isSuccess && it.entity != null)
                 updateChats(it.entity);
             else

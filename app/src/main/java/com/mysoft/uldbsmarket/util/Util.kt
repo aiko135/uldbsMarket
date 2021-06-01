@@ -1,7 +1,6 @@
 package com.mysoft.uldbsmarket.util
 
 
-import com.mysoft.uldbsmarket.model.Status
 import com.mysoft.uldbsmarket.model.StatusHistory
 import java.math.BigInteger
 import java.security.MessageDigest
@@ -38,6 +37,11 @@ class Util {
                     first = next;
             }
             return first;
+        }
+
+        fun isStringEmpty(str : String):Boolean{
+            val test_string = str.replace(" ","").replace("\n", "");
+            return test_string.isEmpty()
         }
     }
 }

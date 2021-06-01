@@ -9,10 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.MessageListAdapter
 import com.mysoft.uldbsmarket.databinding.ChatFragmentBinding
-import com.mysoft.uldbsmarket.databinding.ChatsFragmentBinding
 import com.mysoft.uldbsmarket.vm.ChatViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 import java.util.*
@@ -44,7 +42,7 @@ class ChatFragment : Fragment() {
             binding.recyclerChat.adapter =  messageListAdapter;
 
             //Observer
-            chatViewModel.messages.observe(viewLifecycleOwner, Observer {
+            chatViewModel.messagesLD.observe(viewLifecycleOwner, Observer {
                 if(it.isSuccess && it.entity != null) {
                     messageListAdapter.setMessagees(it.entity)
                     if(messageListAdapter.itemCount > 1)
