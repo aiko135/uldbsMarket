@@ -3,6 +3,7 @@ package com.mysoft.uldbsmarket.model.dto
 import com.google.gson.annotations.SerializedName
 import com.mysoft.uldbsmarket.model.GoodRequest
 import com.mysoft.uldbsmarket.model.StatusHistory
+import com.mysoft.uldbsmarket.util.Util
 import java.util.*
 
 data class MyRequestDto (
@@ -21,5 +22,4 @@ data class MyRequestDto (
 
     @SerializedName("statusHistoryList")
     val statusHistoryList : List<StatusHistory>,
-
 )

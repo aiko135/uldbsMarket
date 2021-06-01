@@ -15,6 +15,7 @@ import com.mysoft.uldbsmarket.databinding.ChatFragmentBinding
 import com.mysoft.uldbsmarket.databinding.ChatsFragmentBinding
 import com.mysoft.uldbsmarket.vm.ChatViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
+import java.util.*
 
 class ChatFragment : Fragment() {
     private val binding by lazy{
@@ -24,38 +25,35 @@ class ChatFragment : Fragment() {
 
     private lateinit var messageListAdapter : MessageListAdapter;
 
-    //TODO refactor
-    private val onRequestError = {
-        requireActivity().runOnUiThread {
-            Toast.makeText(requireContext(), R.string.request_err, Toast.LENGTH_SHORT).show()
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         chatViewModel = ViewModelProviders.of(
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)
         ).get(ChatViewModel::class.java)
 
-
         binding.contactorName.text  = arguments?.getString("managername");
-        chatViewModel.chatid = arguments?.getString("chatid");
-        chatViewModel.userid = arguments?.getString("userid");
+        val chatid = arguments?.getString("chatid");
+        val userid = arguments?.getString("userid");
 
-        //Recycler view
-        var lm  = LinearLayoutManager(context);
-       // lm.reverseLayout = true;
-        lm.stackFromEnd = true
-        binding.recyclerChat.layoutManager = lm
-        messageListAdapter = MessageListAdapter(chatViewModel.userid!!);
-        binding.recyclerChat.adapter =  messageListAdapter;
+        if(chatid != null && userid != null){
+            //Recycler view
+            val lm  = LinearLayoutManager(context);
+            lm.stackFromEnd = true
+            binding.recyclerChat.layoutManager = lm
+            messageListAdapter = MessageListAdapter(userid!!);
+            binding.recyclerChat.adapter =  messageListAdapter;
 
-        //Observer
-        chatViewModel.messages.observe(viewLifecycleOwner, Observer {
-            messageListAdapter.setMessagees(it)
-        })
+            //Observer
+            chatViewModel.messages.observe(viewLifecycleOwner, Observer {
+                if(it.isSuccess && it.entity != null)
+                    messageListAdapter.setMessagees(it.entity)
+                else
+                    Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
 
-        chatViewModel.loadMessages(onRequestError)
+            })
+
+            chatViewModel.loadMessages(UUID.fromString(chatid))
+        }
         return binding.root;
     }
 }

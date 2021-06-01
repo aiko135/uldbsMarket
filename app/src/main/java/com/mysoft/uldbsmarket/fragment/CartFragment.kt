@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.mysoft.uldbsmarket.R
@@ -63,8 +64,11 @@ class CartFragment: Fragment() {
             //Если пользователь авторизован - переход на страницу с оплатой. Иначе - редирект на страницу авторизации
             if(userViewModel.userLD.value != null)
                 findNavController().navigate(R.id.action_nav_cart_fragment_to_nav_payment_fragment)
-            else
+            else{
+                Toast.makeText(requireContext(), getString(R.string.not_authorized), Toast.LENGTH_SHORT).show();
                 findNavController().navigate(R.id.action_nav_cart_fragment_to_nav_login_fragment)
+            }
+
         }
 
         //Recycler view

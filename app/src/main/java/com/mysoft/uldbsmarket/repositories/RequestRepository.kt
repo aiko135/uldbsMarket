@@ -28,23 +28,11 @@ class RequestRepository(private val requestAPI: RequestAPI, private val context 
         finally {
             if(res != null && res.isSuccessful) {
                 return if(res.body() == null)
-                    ReqResult(
-                        false,
-                        context.getString(R.string.response_empty_error),
-                        null
-                    )
+                    ReqResult(false, context.getString(R.string.response_empty_error), null)
                 else
-                    ReqResult(
-                        true,
-                        "",
-                        res.body()
-                    )
+                    ReqResult(true, "", res.body())
             }else{
-                return ReqResult(
-                    false,
-                    context.getString(R.string.request_err),
-                    null
-                )
+                return ReqResult(false, context.getString(R.string.request_err), null)
             }
         }
     }

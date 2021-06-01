@@ -1,6 +1,8 @@
 package com.mysoft.uldbsmarket.util
 
 
+import com.mysoft.uldbsmarket.model.Status
+import com.mysoft.uldbsmarket.model.StatusHistory
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.text.DateFormat
@@ -21,6 +23,16 @@ class Util {
 
         fun priceToString(price:Float):String{
             return "%.2f".format(price)
+        }
+
+        fun getCurrentStatusFromHistory(history : List<StatusHistory>): StatusHistory{
+            var first : StatusHistory = history[0];
+            for(i in 1 until history.size){
+                val next = history[i];
+                if(next.setupTimestamp.after(first.setupTimestamp))
+                    first = next;
+            }
+            return first;
         }
     }
 }
