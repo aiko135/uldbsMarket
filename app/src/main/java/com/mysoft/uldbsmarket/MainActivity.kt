@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         public fun showMenuGroups(currentUser: User, navigationView: NavigationView){
             val MANAGER:Short = 2;
             val ADMIN:Short = 3;
-            if(currentUser.role != MANAGER || currentUser.role != ADMIN)
+            if(currentUser.role != MANAGER  && currentUser.role != ADMIN)
                 return;
 
             val nav_Menu: Menu = navigationView.menu
@@ -83,6 +83,12 @@ class MainActivity : AppCompatActivity() {
                 nav_Menu.findItem(R.id.manager_menu_group).isVisible = true;
                 nav_Menu.findItem(R.id.admin_menu_group).isVisible = true;
             }
+        }
+
+        public fun hideMenuGroups(navigationView: NavigationView){
+            val nav_Menu: Menu = navigationView.menu
+            nav_Menu.findItem(R.id.manager_menu_group).isVisible = false;
+            nav_Menu.findItem(R.id.admin_menu_group).isVisible = false;
         }
     }
 }

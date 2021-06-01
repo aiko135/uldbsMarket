@@ -47,7 +47,8 @@ class ChatFragment : Fragment() {
             chatViewModel.messages.observe(viewLifecycleOwner, Observer {
                 if(it.isSuccess && it.entity != null) {
                     messageListAdapter.setMessagees(it.entity)
-                    binding.recyclerChat.smoothScrollToPosition(messageListAdapter.itemCount - 1);
+                    if(messageListAdapter.itemCount > 1)
+                        binding.recyclerChat.smoothScrollToPosition(messageListAdapter.itemCount - 1);
                 }
                 else
                     Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()

@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.navigation.NavigationView
+import com.mysoft.uldbsmarket.MainActivity
+import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.ProfileFragmentBinding
 import com.mysoft.uldbsmarket.databinding.RegisterFragmentBinding
 import com.mysoft.uldbsmarket.model.User
@@ -44,6 +47,7 @@ class ProfileFragment : Fragment() {
 
     private val onClickSignOut : View.OnClickListener = View.OnClickListener{
         userViewModel.signOut();
+        MainActivity.hideMenuGroups(requireActivity().findViewById<NavigationView>(R.id.nav_view))
         findNavController().popBackStack()
     }
 
