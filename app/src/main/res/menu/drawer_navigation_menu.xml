@@ -27,7 +27,10 @@
                 android:icon="@drawable/ic_map_marker" />
         </menu>
     </item>
-    <item android:title="@string/moderator">
+    <item
+        android:id="@+id/manager_menu_group"
+        android:title="@string/moderator"
+        android:visible="false">
         <menu>
             <item android:id="@+id/nav_manager_menu_fragment"
                 android:title="@string/manager_menu"
@@ -37,7 +40,10 @@
                 android:icon="@drawable/ic_bottom_nav_chat" />
         </menu>
     </item>
-    <item android:title="@string/admin">
+    <item
+        android:id="@+id/admin_menu_group"
+        android:title="@string/admin"
+        android:visible="false">
         <menu>
             <item android:id="@+id/nav_admin_menu_fragment"
                 android:title="@string/admin_menu"

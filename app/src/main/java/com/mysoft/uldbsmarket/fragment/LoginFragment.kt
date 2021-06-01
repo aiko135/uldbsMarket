@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.navigation.NavigationView
+import com.mysoft.uldbsmarket.MainActivity
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.LoginFragmentBinding
 import com.mysoft.uldbsmarket.vm.UserViewModel
@@ -45,6 +47,7 @@ class LoginFragment : Fragment() {
         userViewModel.userLD.observe(viewLifecycleOwner, Observer {
             if(it != null){
                 binding.editTextTextPassword2.text.clear();
+                MainActivity.showMenuGroups(it,requireActivity().findViewById<NavigationView>(R.id.nav_view))
                 requireView().findNavController().navigate(R.id.nav_profile_fragment, null);
             }
         })

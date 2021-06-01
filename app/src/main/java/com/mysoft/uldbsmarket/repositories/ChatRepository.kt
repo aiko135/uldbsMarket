@@ -110,4 +110,27 @@ class ChatRepository(
             }
         }
     }
+
+    suspend fun postMessage(clientId: String, chatId: String, text: String):ReqResult< List<Message> > {
+        val call : Call<List<Message>>
+        var res : Response<List<Message>>? = null;
+        try {
+            call = messageAPI.postRequest(clientId,chatId,text);
+            res = call.execute();
+        }catch (e:Exception){
+            Log.e(tag, "exception: " + e.message);
+            Log.e(tag, "exception: " + e.toString());
+            e.printStackTrace()
+        }
+        finally {
+            if(res != null && res.isSuccessful) {
+                return if(res.body() == null)
+                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+                else
+                    ReqResult(true, "", res.body())
+            }else{
+                return ReqResult(false, context.getString(R.string.request_err), null)
+            }
+        }
+    }
 }

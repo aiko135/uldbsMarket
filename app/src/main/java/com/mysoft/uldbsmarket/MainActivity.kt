@@ -1,18 +1,17 @@
 package com.mysoft.uldbsmarket
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.mysoft.uldbsmarket.model.User
 
 class MainActivity : AppCompatActivity() {
     lateinit var drawerLayout: DrawerLayout
@@ -68,4 +67,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    companion object {
+        //Исходя из роли пользователя (админ, менеджер) делает видимыми соответств. разделы в меню
+        public fun showMenuGroups(currentUser: User, navigationView: NavigationView){
+            val MANAGER:Short = 2;
+            val ADMIN:Short = 3;
+            if(currentUser.role != MANAGER || currentUser.role != ADMIN)
+                return;
+
+            val nav_Menu: Menu = navigationView.menu
+            if(currentUser.role == MANAGER){
+                nav_Menu.findItem(R.id.manager_menu_group).isVisible = true;
+            }
+            if(currentUser.role == ADMIN){
+                nav_Menu.findItem(R.id.manager_menu_group).isVisible = true;
+                nav_Menu.findItem(R.id.admin_menu_group).isVisible = true;
+            }
+        }
+    }
 }

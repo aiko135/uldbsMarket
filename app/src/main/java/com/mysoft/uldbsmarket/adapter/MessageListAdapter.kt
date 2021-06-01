@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.model.Message
+import com.mysoft.uldbsmarket.util.Util
 
 
 class MessageListAdapter(private var currentUserUuid : String) : RecyclerView.Adapter<MessageListAdapter.MessageViewHolder>()  {
@@ -21,6 +22,7 @@ class MessageListAdapter(private var currentUserUuid : String) : RecyclerView.Ad
         val message: TextView = itemView.findViewById(R.id.chat_mess);
         val cardView : CardView = itemView.findViewById(R.id.card_view_mess)
         val constraint : ConstraintLayout = itemView.findViewById(R.id.constraint_mess)
+        val chat_timestamp : TextView = itemView.findViewById(R.id.message_timestamp)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
@@ -36,6 +38,7 @@ class MessageListAdapter(private var currentUserUuid : String) : RecyclerView.Ad
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         val currentMess = messages[position];
         holder.message.text = currentMess.text;
+        holder.chat_timestamp.text = Util.timestampToFormattedString(currentMess.timestamp)
 
         val constraintSet = ConstraintSet()
         constraintSet.clone(holder.constraint)
@@ -43,11 +46,14 @@ class MessageListAdapter(private var currentUserUuid : String) : RecyclerView.Ad
             constraintSet.connect(R.id.card_view_mess,ConstraintSet.END,R.id.constraint_mess,ConstraintSet.END,0);
             holder.message.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
             holder.message.setTextColor(Color.parseColor("#ffffff"))
+            holder.chat_timestamp.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
+            holder.chat_timestamp.setTextColor(Color.parseColor("#ffffff"))
             holder.cardView.setBackgroundResource(R.color.colorPrimary)
             holder.cardView.alpha = 1f
 
         }else{
             holder.message.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+            holder.chat_timestamp.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
             constraintSet.connect(R.id.card_view_mess,ConstraintSet.START,R.id.constraint_mess,ConstraintSet.START,0);
             holder.cardView.alpha = 1f
         }
@@ -56,7 +62,7 @@ class MessageListAdapter(private var currentUserUuid : String) : RecyclerView.Ad
     }
 
     fun setMessagees(newMessList  : List<Message>){
-        messages = newMessList;
+        messages = newMessList.sortedBy { it.timestamp };
         notifyDataSetChanged();
     }
 }

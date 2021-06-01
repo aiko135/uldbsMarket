@@ -17,7 +17,12 @@ class Util {
         }
 
         fun dateToFormattedString(date: Date):String{
-            var df : DateFormat = SimpleDateFormat("d MMM yyyy" , Locale.getDefault())
+            val df : DateFormat = SimpleDateFormat("d MMM yyyy" , Locale.getDefault())
+            return df.format(date);
+        }
+
+        fun timestampToFormattedString(date: Date):String{
+            val df : DateFormat = SimpleDateFormat("HH:mm:ss dd.MM.yyyy" , Locale.getDefault())
             return df.format(date);
         }
 

@@ -67,4 +67,12 @@ class ChatViewModel(private val chatRepository: ChatRepository): ViewModel() {
             _isChatCreatedSLD.postValue(res);
         }
     }
+
+    fun postMessage(userId: String, chatId: String, text:String){
+        viewModelScope.launch(Dispatchers.IO){
+            val text_formatted = text.replace("\n", " ")
+            val res = chatRepository.postMessage(userId, chatId, text_formatted)
+            _messages.postValue(res);
+        }
+    }
 }

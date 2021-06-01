@@ -55,7 +55,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
-            android:id="@+id/editTextTextPersonName3"
+            android:id="@+id/editTextChat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,7 +63,7 @@
             android:gravity="top|left"
             android:hint="@string/message"
             android:inputType="textMultiLine"
-            android:lines="1"
+            android:lines="2"
             android:maxLines="4" />
 
 

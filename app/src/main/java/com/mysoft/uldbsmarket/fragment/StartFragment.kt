@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
+import com.mysoft.uldbsmarket.MainActivity
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.vm.UserViewModel
@@ -29,8 +31,10 @@ class StartFragment : Fragment() {
             //Проверка на наличие записи пользователя в локальном хранилище завершена
             if(it == null)
                 findNavController().navigate(R.id.action_nav_start_fragment_to_nav_login_fragment)
-            else
+            else{
+                MainActivity.showMenuGroups(it,requireActivity().findViewById<NavigationView>(R.id.nav_view))
                 findNavController().navigate(R.id.action_nav_start_fragment_to_nav_profile_fragment)
+            }
         })
         userViewModel.readUserInfo();
 

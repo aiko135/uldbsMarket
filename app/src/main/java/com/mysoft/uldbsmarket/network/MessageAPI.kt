@@ -16,6 +16,6 @@ interface MessageAPI {
     fun postRequest(
         @Header("userid") userId:String,
         @Header("chatid") chatId:String,
-        @Header("text") text:String
-    ):Call<Boolean>
+        @Body text:String
+    ):Call<List<Message>>
 }

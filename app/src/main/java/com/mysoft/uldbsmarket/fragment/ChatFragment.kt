@@ -45,12 +45,19 @@ class ChatFragment : Fragment() {
 
             //Observer
             chatViewModel.messages.observe(viewLifecycleOwner, Observer {
-                if(it.isSuccess && it.entity != null)
+                if(it.isSuccess && it.entity != null) {
                     messageListAdapter.setMessagees(it.entity)
+                    binding.recyclerChat.smoothScrollToPosition(messageListAdapter.itemCount - 1);
+                }
                 else
                     Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
 
             })
+
+            binding.button6.setOnClickListener{
+                binding.editTextChat.clearFocus();
+                chatViewModel.postMessage(userid,chatid,binding.editTextChat.text.toString())
+            }
 
             chatViewModel.loadMessages(UUID.fromString(chatid))
         }
