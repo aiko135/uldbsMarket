@@ -16,35 +16,17 @@ import com.mysoft.uldbsmarket.databinding.ChatsFragmentBinding
 import com.mysoft.uldbsmarket.model.Chat
 import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.vm.ChatViewModel
+import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
 class ChatsFragment : Fragment() {
     private val binding by lazy{
         ChatsFragmentBinding.inflate(layoutInflater);
     }
-
     private lateinit var chatViewModel: ChatViewModel;
+    private lateinit var userViewModel: UserViewModel;
 
     private lateinit var chatListAdapter : ChatListAdapter;
-
-    //Поиск пользователя в преференциях завершен
-    private val onUserFindResult : (User?)->Unit = {
-            result : User? ->
-        if(result == null || chatViewModel.user.value == null){
-            //Пользователь не авторизирован
-            Toast.makeText(requireContext(), getString(R.string.not_authorized), Toast.LENGTH_SHORT).show();
-            findNavController().navigate(R.id.nav_login_fragment)
-        }
-        else{
-            //Пользователь авторизован
-            chatViewModel.loadChats(chatViewModel.user.value!!.uuid.toString()) {
-                //Ошибка загрузки
-                requireActivity().runOnUiThread {
-                    Toast.makeText(requireContext(), R.string.request_err, Toast.LENGTH_SHORT).show()
-                }
-            };
-        }
-    }
 
     private val onItemSelect : (Chat) -> Unit = {
             selected ->
@@ -62,6 +44,10 @@ class ChatsFragment : Fragment() {
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)
         ).get(ChatViewModel::class.java)
+        userViewModel = ViewModelProviders.of(
+            requireActivity(),
+            ViewModelFactory(requireActivity().applicationContext)
+        ).get(UserViewModel::class.java)
 
         //Recycler view
         chatListAdapter = ChatListAdapter(onItemSelect);
@@ -69,16 +55,45 @@ class ChatsFragment : Fragment() {
         binding.chatslistrv.layoutManager = LinearLayoutManager(context)
 
         //VM Observer
-        chatViewModel.chats.observe(viewLifecycleOwner, Observer{ updated : List<Chat> ->
-            chatListAdapter.setChats(updated);
-        })
-        chatViewModel.user.observe(viewLifecycleOwner, Observer{
-            onUserFindResult.invoke(it);
+        chatViewModel.chats.observe(viewLifecycleOwner, Observer{
+            if(it.isSuccess && it.entity != null)
+                updateChats(it.entity);
+            else
+                Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
+
         })
 
-        //Ищем пользователя
-        chatViewModel.readUserInfo()
-
+        if(userViewModel.userLD.value == null) {
+            Toast.makeText(requireContext(), getString(R.string.not_authorized), Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.nav_login_fragment)
+        }else{
+            chatViewModel.loadChats(userViewModel.userLD.value!!.uuid)
+        }
         return binding.root;
+    }
+
+    private fun updateChats(chatsToDisplay:List<Chat>){
+        if(chatsToDisplay.isNotEmpty()){
+            binding.createNewChatGroup.visibility = View.GONE;
+            chatListAdapter.setChats(chatsToDisplay);
+        }
+        else{
+            /*Если нет чатов, то у пользователя есть возможность создать 1 чат с рандомным менеджером. для того, чтобы пользователь мог задать вопрос */
+            chatListAdapter.setChats(emptyList())
+            binding.createNewChatGroup.visibility = View.VISIBLE;
+            binding.createChatButton.setOnClickListener{
+                binding.createChatButton.isEnabled = false;
+                chatViewModel.autoCreateChat(userViewModel.userLD.value!!.uuid)
+                chatViewModel.isChatCreatedSLD.observe(viewLifecycleOwner, Observer{
+                    //Новый чат создан
+                    if( !(it.isSuccess && it.entity != null))
+                        Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
+                    binding.createChatButton.isEnabled = true;
+                    binding.createNewChatGroup.visibility = View.GONE;
+                    chatViewModel.loadChats(userViewModel.userLD.value!!.uuid) //Обновляем чаты
+                })
+            }
+        }
+
     }
 }

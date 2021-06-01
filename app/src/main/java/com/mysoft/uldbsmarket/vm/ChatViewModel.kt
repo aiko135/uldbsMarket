@@ -4,64 +4,67 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mysoft.uldbsmarket.model.Chat
 import com.mysoft.uldbsmarket.model.Message
 import com.mysoft.uldbsmarket.model.User
+import com.mysoft.uldbsmarket.model.dto.ReqResult
 import com.mysoft.uldbsmarket.repositories.ChatRepository
 import com.mysoft.uldbsmarket.repositories.UserRepository
+import com.mysoft.uldbsmarket.util.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
-class ChatViewModel(private val chatRepository: ChatRepository,
-                    private val userRepository: UserRepository
-): ViewModel() {
-    private val _messages = MutableLiveData<List<Message>>();
-    val messages : LiveData<List<Message>>
-        get() = _messages;
-
-    public var chatid : String? = null
-    public var userid : String? = null;
-
-    fun loadMessages(onError:()->Unit){
-        if(chatid == null)
-            onError.invoke();
-
-        CoroutineScope(Dispatchers.IO).launch {
-            var result : List<Message>? = chatRepository.getMessagesByChat(chatid!!);
-            if(result == null)
-                onError.invoke();
-            else
-                _messages.postValue(result);
-        }
-    }
-
-    private val _chats = MutableLiveData<List<Chat>>();
-    val chats: LiveData<List<Chat>>
+class ChatViewModel(private val chatRepository: ChatRepository): ViewModel() {
+    private val _chats = MutableLiveData< ReqResult<List<Chat>> >();
+    val chats: LiveData<ReqResult< List<Chat>> >
         get() = _chats;
 
-    private val _user = MutableLiveData<User?>();
-    val user: LiveData<User?>
-        get() = _user;
+    private val _messages = MutableLiveData< ReqResult<List<Message>> >();
+    val messages : LiveData< ReqResult<List<Message>> >
+        get() = _messages;
 
-    @SuppressLint("NullSafeMutableLiveData")
-    fun loadChats(userUuid : String, onError:()->Unit){
-        CoroutineScope(Dispatchers.IO).launch {
-            var result : List<Chat>?= chatRepository.getChatsByClient(userUuid);
-            if(result == null)
-                onError.invoke();
-            else
-                _chats.postValue(result);
+    //Чат создан
+    private val _isChatCreatedSLD = SingleLiveEvent<ReqResult<Boolean>>();
+    val isChatCreatedSLD : LiveData<ReqResult<Boolean>>
+        get() = _isChatCreatedSLD;
+
+    fun loadChats(userUuid : UUID){
+        viewModelScope.launch(Dispatchers.IO){
+            val res = chatRepository.getChatsByClient(userUuid.toString());
+            _chats.postValue(res)
         }
     }
 
-    fun readUserInfo( ){
-        CoroutineScope(Dispatchers.IO).launch {
-            val found : User? = userRepository.readUserPref()
-            withContext(Dispatchers.Main) {
-                _user.postValue(found);
+    fun loadMessages(chatId: UUID){
+        if(chats.value == null || !(chats.value!!.isSuccess) || chats.value!!.entity == null )
+            return;
+
+        viewModelScope.launch(Dispatchers.IO){
+            chats.value!!.entity!!.find { it.uuid == chatId }.also {
+                if(it != null){
+                    val res = chatRepository.getMessagesByChat(it.uuid.toString())
+                    _messages.postValue(res)
+                }
             }
+        }
+    }
+
+
+    fun createChat(clientUuid:UUID, managerUuid:UUID){
+        viewModelScope.launch(Dispatchers.IO){
+            val res = chatRepository.createChat(clientUuid.toString(),managerUuid.toString());
+            _isChatCreatedSLD.postValue(res);
+        }
+    }
+
+    fun autoCreateChat(clientUuid: UUID){
+        viewModelScope.launch(Dispatchers.IO){
+            val res = chatRepository.autoCrateChat(clientUuid.toString());
+            _isChatCreatedSLD.postValue(res);
         }
     }
 }

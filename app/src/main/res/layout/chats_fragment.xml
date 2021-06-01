@@ -17,9 +17,31 @@
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+        <LinearLayout
+            android:id="@+id/createNewChatGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <TextView
+                android:text="@string/crate_new_chat_offer"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:layout_margin="5dp"
+               android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </TextView>
+            <Button
+                android:id="@+id/create_chat_button"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/start_chatting"/>
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chatslistrv"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,14 +5,21 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mysoft.uldbsmarket.R
+import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.model.dto.MyRequestDto
 import com.mysoft.uldbsmarket.util.Util.Companion.getCurrentStatusFromHistory
 import com.mysoft.uldbsmarket.util.Util.Companion.priceToString
+import java.util.*
+import kotlin.collections.ArrayList
 
-class OrderListAdapter(private val context: Context) : RecyclerView.Adapter<OrderListAdapter.OrdersViewHolder>() {
+class OrderListAdapter(
+    private val context: Context,
+    private val onButtonClickListener: (Button,UUID)->Unit
+) : RecyclerView.Adapter<OrderListAdapter.OrdersViewHolder>() {
 
     private var orders: List<MyRequestDto> = ArrayList();
 
@@ -21,6 +28,8 @@ class OrderListAdapter(private val context: Context) : RecyclerView.Adapter<Orde
         val goods_conteiner: ViewGroup = itemView.findViewById(R.id.goods_contaier)
         val manager_data: TextView = itemView.findViewById(R.id.manager_data)
         val orders_status: TextView = itemView.findViewById(R.id.order_status_tv)
+
+        val button:Button = itemView.findViewById(R.id.go_to_chat);
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrdersViewHolder {
@@ -45,11 +54,16 @@ class OrderListAdapter(private val context: Context) : RecyclerView.Adapter<Orde
         else
             getCurrentStatusFromHistory(currentOrder.statusHistoryList).status.name;
 
+        holder.goods_conteiner.removeAllViews()
         for(good in currentOrder.goodRequestList){
             val good_tv = generateGoodView()
             good_tv.text = "${good.good.name} - - - - ${priceToString(good.good.price)}" ;
             holder.goods_conteiner.addView(good_tv)
         }
+
+        holder.button.setOnClickListener{
+            onButtonClickListener.invoke(holder.button, currentOrder.managerUuid)
+        };
     }
 
     override fun getItemCount(): Int {

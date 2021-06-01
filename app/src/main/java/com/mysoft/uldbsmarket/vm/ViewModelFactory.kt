@@ -15,7 +15,8 @@ class ViewModelFactory(private val context : Context) : ViewModelProvider.Factor
         val user_repository = UserRepository( RetrofitClient.getTypedRetrofitInstance(UserAPI::class.java) , context)
         val chat_repository = ChatRepository(
             RetrofitClient.getTypedRetrofitInstance(ChatAPI::class.java),
-            RetrofitClient.getTypedRetrofitInstance(MessageAPI::class.java)
+            RetrofitClient.getTypedRetrofitInstance(MessageAPI::class.java),
+            context
         )
         val good_repository = GoodRepository(RetrofitClient.getTypedRetrofitInstance(GoodAPI::class.java), context);
         val request_repository = RequestRepository(RetrofitClient.getTypedRetrofitInstance(RequestAPI::class.java), context)
@@ -24,7 +25,7 @@ class ViewModelFactory(private val context : Context) : ViewModelProvider.Factor
                 return UserViewModel(user_repository) as T
             }
             modelClass.isAssignableFrom(ChatViewModel::class.java)->{
-                return ChatViewModel(chat_repository, user_repository) as T;
+                return ChatViewModel(chat_repository) as T;
             }
             modelClass.isAssignableFrom(GoodViewModel::class.java)->{
                 return GoodViewModel(good_repository) as T
