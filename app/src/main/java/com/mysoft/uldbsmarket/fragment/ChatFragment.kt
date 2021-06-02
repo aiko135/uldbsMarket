@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.adapter.MessageListAdapter
 import com.mysoft.uldbsmarket.databinding.ChatFragmentBinding
+import com.mysoft.uldbsmarket.model.Chat
+import com.mysoft.uldbsmarket.model.Message
 import com.mysoft.uldbsmarket.vm.ChatViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 import java.util.*
@@ -28,8 +30,9 @@ class ChatFragment : Fragment() {
             requireActivity(),
             ViewModelFactory(requireActivity().applicationContext)
         ).get(ChatViewModel::class.java)
+        chatViewModel.clearMessages()
 
-        binding.contactorName.text  = arguments?.getString("managername");
+        binding.contactorName.text  = arguments?.getString("contactor_name");
         val chatid = arguments?.getString("chatid");
         val userid = arguments?.getString("userid");
 

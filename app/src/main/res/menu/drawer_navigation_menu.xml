@@ -9,7 +9,7 @@
             <item android:id="@+id/nav_cart_fragment"
                 android:title="@string/basket"
                 android:icon="@drawable/ic_bottom_nav_basket" />
-            <item android:id="@+id/nav_chats_fragment"
+            <item android:id="@+id/nav_chats_fragment_client"
                 android:title="@string/chats"
                 android:icon="@drawable/ic_bottom_nav_chat" />
             <item android:id="@+id/nav_myorders_fragment"
@@ -35,7 +35,7 @@
             <item android:id="@+id/nav_manager_menu_fragment"
                 android:title="@string/manager_menu"
                 android:icon="@drawable/ic_checkbox" />
-            <item android:id="@+id/nav_chats_fragment1"
+            <item android:id="@+id/nav_chats_fragment_manager"
                 android:title="@string/chatting_with_cl"
                 android:icon="@drawable/ic_bottom_nav_chat" />
         </menu>

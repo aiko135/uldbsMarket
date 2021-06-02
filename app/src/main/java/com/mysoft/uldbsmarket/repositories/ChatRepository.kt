@@ -18,11 +18,14 @@ class ChatRepository(
 ) {
     private val tag: String = "ChatRepository-network";
 
-    suspend fun getChatsByClient(clientId : String):ReqResult< List<Chat> >{
+    suspend fun getChats(userId : String, asManager:Boolean):ReqResult< List<Chat> >{
         val call : Call<List<Chat>>
         var res : Response<List<Chat>>? = null;
         try {
-            call = chatAPI.getChatsByClient(clientId);
+            call = if(asManager)
+                chatAPI.getChatsByManager(userId)
+            else
+                chatAPI.getChatsByClient(userId);
             res = call.execute();
         }catch (e:Exception){
             Log.e(tag, "exception: " + e.message);

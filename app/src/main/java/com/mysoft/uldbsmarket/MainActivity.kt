@@ -6,14 +6,17 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.mysoft.uldbsmarket.model.User
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,8 +28,11 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-        findViewById<NavigationView>(R.id.nav_view)
-            .setupWithNavController(navController)
+//        findViewById<NavigationView>(R.id.nav_view)
+//            .setupWithNavController(navController)
+
+        //слушатель нажатия на кнопки навигации
+        findViewById<NavigationView>(R.id.nav_view).setNavigationItemSelectedListener(this);
 
         //Это те фрагменты в которых кнопка будет в виде полосок.
         val appBarConfiguration = AppBarConfiguration(
@@ -34,6 +40,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_login_fragment,
                 R.id.nav_profile_fragment,
                 R.id.nav_cart_fragment,
+                R.id.nav_chats_fragment_client,
+                R.id.nav_chats_fragment_manager,
                 R.id.nav_myorders_fragment,
                 R.id.nav_catalog_fragment,
                 R.id.nav_map_fragment
@@ -65,6 +73,28 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    //Нажатие на итемы в drawer
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val id =item.itemId;
+        drawerLayout.closeDrawer(GravityCompat.START)
+        when(id){
+            R.id.nav_chats_fragment_client ->{
+                val bundle : Bundle = Bundle();
+                bundle.putString("mode","CLIENT")
+                this.findNavController(R.id.nav_host_fragment)
+                    .navigate(R.id.nav_chats_fragment, bundle);
+            }
+            R.id.nav_chats_fragment_manager->{
+                val bundle : Bundle = Bundle();
+                bundle.putString("mode","MANAGER")
+                this.findNavController(R.id.nav_host_fragment)
+                    .navigate(R.id.nav_chats_fragment, bundle);
+            }
+            else -> this.findNavController(R.id.nav_host_fragment).navigate(id);
+        }
+        return true;
     }
 
     companion object {

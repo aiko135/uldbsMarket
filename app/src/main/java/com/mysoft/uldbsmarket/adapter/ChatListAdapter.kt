@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.model.Chat
 
-class ChatListAdapter(private val onSelectListener : (c: Chat)->Unit )
-    : RecyclerView.Adapter<ChatListAdapter.ChatViewHolder>() {
+class ChatListAdapter(
+    private val onSelectListener : (c: Chat)->Unit,
+    private val isManagerMode : Boolean
+) : RecyclerView.Adapter<ChatListAdapter.ChatViewHolder>() {
 
     private var chats: List<Chat> = ArrayList();
 
@@ -32,7 +34,10 @@ class ChatListAdapter(private val onSelectListener : (c: Chat)->Unit )
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val currentChat = chats[position];
-        holder.nameTV.text = currentChat.manager.name;
+        holder.nameTV.text = if(isManagerMode)
+            currentChat.client.name
+        else
+            currentChat.manager.name;
     }
 
     fun setChats(newChatList : List<Chat>){

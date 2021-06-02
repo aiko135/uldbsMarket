@@ -27,9 +27,9 @@ class ChatViewModel(private val chatRepository: ChatRepository): ViewModel() {
     val isChatCreatedSLD : LiveData<ReqResult<Boolean>>
         get() = _isChatCreatedSLD;
 
-    fun loadChats(userUuid : UUID){
+    fun loadChats(userUuid : UUID, asManager:Boolean = false){
         viewModelScope.launch(Dispatchers.IO){
-            val res = chatRepository.getChatsByClient(userUuid.toString());
+            val res = chatRepository.getChats(userUuid.toString(), asManager);
             _chatsLD.postValue(res)
         }
     }
@@ -46,6 +46,9 @@ class ChatViewModel(private val chatRepository: ChatRepository): ViewModel() {
                 }
             }
         }
+    }
+    fun clearMessages(){
+        _messagesLD.value = ReqResult(false,"",null)
     }
 
 

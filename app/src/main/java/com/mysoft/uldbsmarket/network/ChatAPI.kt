@@ -10,6 +10,9 @@ interface ChatAPI {
     @GET("/uldbs-back/chat/getChatsByClient")
     fun getChatsByClient(@Header("client") clientId:String):Call<List<Chat>>
 
+    @GET("/uldbs-back/chat/getChatsByManager")
+    fun getChatsByManager(@Header("manager") managerId:String):Call<List<Chat>>
+
     @GET("/uldbs-back/chat/createChat")
     fun createChat(
         @Header("client") clientId:String,

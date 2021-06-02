@@ -32,11 +32,18 @@ class ChatsFragment : Fragment() {
         //TDOD получение бандла в фрагмент назначения
         val bundle : Bundle = Bundle();
         bundle.putString("chatid",selected.uuid.toString())
-        bundle.putString("managername",selected.manager.name)
+        bundle.putString("contactor_name",
+            if(m_mode == "CLIENT")
+                selected.manager.name
+            else
+                selected.client.name
+        )
         bundle.putString("userid", selected.client.uuid.toString())
         findNavController().navigate(R.id.action_nav_chats_fragment_to_nav_chat_fragment, bundle)
     }
 
+
+    private var m_mode = "CLIENT";
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         chatViewModel = ViewModelProviders.of(
@@ -48,8 +55,14 @@ class ChatsFragment : Fragment() {
             ViewModelFactory(requireActivity().applicationContext)
         ).get(UserViewModel::class.java)
 
+        arguments?.let{
+            if(it.getString("mode") != null)
+                m_mode = it.getString("mode")!!
+        }
+        binding.textView13.text = "${getString(R.string.your_chats)} ($m_mode)"
+
         //Recycler view
-        chatListAdapter = ChatListAdapter(onItemSelect);
+        chatListAdapter = ChatListAdapter(onItemSelect, m_mode == "MANAGER");
         binding.chatslistrv.adapter = chatListAdapter;
         binding.chatslistrv.layoutManager = LinearLayoutManager(context)
 
@@ -66,7 +79,8 @@ class ChatsFragment : Fragment() {
             Toast.makeText(requireContext(), getString(R.string.not_authorized), Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.nav_login_fragment)
         }else{
-            chatViewModel.loadChats(userViewModel.userLD.value!!.uuid)
+            val asManager:Boolean = m_mode == "MANAGER";
+            chatViewModel.loadChats(userViewModel.userLD.value!!.uuid, asManager)
         }
         return binding.root;
     }
@@ -79,6 +93,8 @@ class ChatsFragment : Fragment() {
         else{
             /*Если нет чатов, то у пользователя есть возможность создать 1 чат с рандомным менеджером. для того, чтобы пользователь мог задать вопрос */
             chatListAdapter.setChats(emptyList())
+            if(m_mode != "CLIENT")
+                return
             binding.createNewChatGroup.visibility = View.VISIBLE;
             binding.createChatButton.setOnClickListener{
                 binding.createChatButton.isEnabled = false;
