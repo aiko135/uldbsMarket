@@ -3,6 +3,7 @@ package com.mysoft.uldbsmarket.repositories
 import android.content.Context
 import android.util.Log
 import com.mysoft.uldbsmarket.R
+import com.mysoft.uldbsmarket.model.Status
 import com.mysoft.uldbsmarket.model.dto.MyRequestDto
 import com.mysoft.uldbsmarket.model.dto.ReqResult
 import com.mysoft.uldbsmarket.model.dto.UsersRequestDto
@@ -37,11 +38,14 @@ class RequestRepository(private val requestAPI: RequestAPI, private val context 
         }
     }
 
-    suspend fun getMyOrders(user_id: UUID) : ReqResult< List<MyRequestDto> > {
+    suspend fun getMyOrders(user_id: UUID, isManager:Boolean = false) : ReqResult< List<MyRequestDto> > {
         val call : Call<List<MyRequestDto>>
         var res : Response<List<MyRequestDto>>? = null;
         try {
-            call = requestAPI.getMyRequests(user_id.toString());
+            call = if(isManager)
+                requestAPI.getManagerRequests(user_id.toString())
+            else
+                requestAPI.getClientRequests(user_id.toString());
             res = call.execute();
         }catch (e:Exception){
             Log.e(tag, "exception: " + e.message);
@@ -51,23 +55,34 @@ class RequestRepository(private val requestAPI: RequestAPI, private val context 
         finally {
             if(res != null && res.isSuccessful) {
                 return if(res.body() == null)
-                    ReqResult(
-                        false,
-                        context.getString(R.string.response_empty_error),
-                        null
-                    )
+                    ReqResult(false, context.getString(R.string.response_empty_error), null)
                 else
-                    ReqResult(
-                        true,
-                        "",
-                        res.body()
-                    )
+                    ReqResult(true, "", res.body())
             }else{
-                return ReqResult(
-                    false,
-                    context.getString(R.string.request_err),
-                    null
-                )
+                return ReqResult(false, context.getString(R.string.request_err), null)
+            }
+        }
+    }
+
+    suspend fun getAllStatusList() : ReqResult< List<Status> > {
+        val call : Call<List<Status>>
+        var res : Response<List<Status>>? = null;
+        try {
+            call = requestAPI.getAllStatus();
+            res = call.execute();
+        }catch (e:Exception){
+            Log.e(tag, "exception: " + e.message);
+            Log.e(tag, "exception: " + e.toString());
+            e.printStackTrace()
+        }
+        finally {
+            if(res != null && res.isSuccessful) {
+                return if(res.body() == null)
+                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+                else
+                    ReqResult(true, "", res.body())
+            }else{
+                return ReqResult(false, context.getString(R.string.request_err), null)
             }
         }
     }

@@ -9,32 +9,30 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mysoft.uldbsmarket.R
-import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.model.dto.MyRequestDto
 import com.mysoft.uldbsmarket.util.Util
-import com.mysoft.uldbsmarket.util.Util.Companion.getCurrentStatusFromHistory
-import com.mysoft.uldbsmarket.util.Util.Companion.priceToString
 import java.util.*
 import kotlin.collections.ArrayList
 
-class OrderListAdapter(
+class ManagerOrderListAdapter (
     private val context: Context,
-    private val onButtonClickListener: (Button,UUID)->Unit
-) : RecyclerView.Adapter<OrderListAdapter.OrdersViewHolder>() {
+    private val onButtonClickListener: (Button, UUID)->Unit
+) : RecyclerView.Adapter<ManagerOrderListAdapter.OrdersViewHolder>() {
 
     private var orders: List<MyRequestDto> = ArrayList();
 
     class OrdersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val order_uuid: TextView = itemView.findViewById(R.id.order_id);
         val goods_conteiner: ViewGroup = itemView.findViewById(R.id.goods_contaier)
-        val manager_data: TextView = itemView.findViewById(R.id.manager_data)
+        val user_data: TextView = itemView.findViewById(R.id.manager_data)
         val orders_status: TextView = itemView.findViewById(R.id.order_status_tv)
 
-        val button:Button = itemView.findViewById(R.id.go_to_chat);
+        val button_go_chat: Button = itemView.findViewById(R.id.go_to_chat)
+        val button_submit: Button = itemView.findViewById(R.id.submitButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrdersViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_order, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_order_manager, parent, false)
         val viewHolder = OrdersViewHolder(view)
 //        view.setOnClickListener{
 //            onSelectListener.invoke(chats[viewHolder.adapterPosition])
@@ -42,29 +40,29 @@ class OrderListAdapter(
         return viewHolder;
     }
 
-    override fun onBindViewHolder(holder: OrderListAdapter.OrdersViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ManagerOrderListAdapter.OrdersViewHolder, position: Int) {
         val currentOrder = orders[position];
         holder.order_uuid.text = currentOrder.requestUuid.toString();
-        holder.manager_data.text =
+        holder.user_data.text =
             "Manager name: ${currentOrder.contactorName} \n"+
-            "Manager email: ${currentOrder.contactorEmail}\n"+
+                    "Manager email: ${currentOrder.contactorEmail}\n"+
                     "Manager phone: ${currentOrder.contactorPhone}\n";
 
         holder.orders_status.text =  if(currentOrder.statusHistoryList.isEmpty())
             "no status mark"
         else
-            with(getCurrentStatusFromHistory(currentOrder.statusHistoryList)){
+            with(Util.getCurrentStatusFromHistory(currentOrder.statusHistoryList)){
                 "${status.name}\n${Util.dateToFormattedString(setupTimestamp)}"}
 
         holder.goods_conteiner.removeAllViews()
         for(good in currentOrder.goodRequestList){
             val good_tv = generateGoodView()
-            good_tv.text = "${good.good.name} - - - - ${priceToString(good.good.price)}" ;
+            good_tv.text = "${good.good.name} - - - - ${Util.priceToString(good.good.price)}" ;
             holder.goods_conteiner.addView(good_tv)
         }
 
-        holder.button.setOnClickListener{
-            onButtonClickListener.invoke(holder.button, currentOrder.contactorUuid)
+        holder.button_go_chat.setOnClickListener{
+            onButtonClickListener.invoke(holder.button_go_chat, currentOrder.contactorUuid)
         };
     }
 
@@ -77,7 +75,7 @@ class OrderListAdapter(
         notifyDataSetChanged()
     }
 
-    private fun generateGoodView():TextView{
+    private fun generateGoodView(): TextView {
         val lparams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )

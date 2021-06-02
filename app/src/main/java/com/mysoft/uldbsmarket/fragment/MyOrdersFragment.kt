@@ -12,9 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.R
-import com.mysoft.uldbsmarket.adapter.ChatListAdapter
 import com.mysoft.uldbsmarket.adapter.OrderListAdapter
-import com.mysoft.uldbsmarket.databinding.ItemCatalogFragmentBinding
 import com.mysoft.uldbsmarket.databinding.MyordersFragmentBinding
 import com.mysoft.uldbsmarket.vm.*
 import java.util.*
@@ -72,7 +70,7 @@ class MyOrdersFragment : Fragment() {
             Toast.makeText(requireContext(), getString(R.string.not_authorized), Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.nav_login_fragment)
         }else
-            requestViewModel.getMyOrders(userViewModel.userLD.value!!.uuid)
+            requestViewModel.getOrders(userViewModel.userLD.value!!.uuid, false)
 
         return binding.root;
     }

@@ -5,4 +5,10 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="white">#FFFFFF</color>
     <color name="chat_background">#c1c4c9</color>
+    
+    <color name="green">#4CAF50</color>
+    <color name="blue">#008CBA</color>
+    <color name="red">#f44336</color>
+    <color name="gray">#e7e7e7</color>
+    <color name="black">#555555</color>
 </resources>

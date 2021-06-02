@@ -132,5 +132,11 @@
         android:name="com.mysoft.uldbsmarket.fragment.MyOrdersFragment"
         tools:layout="@layout/myorders_fragment"/>
 
+    <fragment
+        android:id="@+id/nav_manager_menu_fragment"
+        android:label="Order control"
+        android:name="com.mysoft.uldbsmarket.fragment.ManagerMenuFragment"
+        tools:layout="@layout/manager_menu_fragment"/>
+
 
 </navigation>

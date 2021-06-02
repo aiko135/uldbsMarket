@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mysoft.uldbsmarket.model.Good
+import com.mysoft.uldbsmarket.model.Status
 import com.mysoft.uldbsmarket.model.dto.MyRequestDto
 import com.mysoft.uldbsmarket.model.dto.ReqResult
 import com.mysoft.uldbsmarket.model.dto.UsersRequestDto
@@ -25,6 +26,10 @@ class RequestViewModel(private val requestRepository: RequestRepository): ViewMo
     val myOrdersLD: LiveData<ReqResult<List<MyRequestDto>>>
         get () = _myOrdersLD;
 
+    private val _allStatusLD = MutableLiveData<ReqResult<List<Status>>>();
+    val allStatusLD: LiveData<ReqResult<List<Status>>>
+        get() = _allStatusLD;
+
     fun postNewOrder(
         current_user: UUID,
         paymentData:String,
@@ -36,10 +41,17 @@ class RequestViewModel(private val requestRepository: RequestRepository): ViewMo
         }
     }
 
-    fun getMyOrders(current_user: UUID){
+    fun getOrders(current_user: UUID, isManagerMode:Boolean){
         viewModelScope.launch(Dispatchers.IO) {
-            val res = requestRepository.getMyOrders(current_user);
+            val res = requestRepository.getMyOrders(current_user, isManagerMode);
             _myOrdersLD.postValue(res);
+        }
+    }
+
+    fun loadAllStatusList(){
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = requestRepository.getAllStatusList()
+            _allStatusLD.postValue(res)
         }
     }
 }

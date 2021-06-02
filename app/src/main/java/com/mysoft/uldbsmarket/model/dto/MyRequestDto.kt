@@ -9,14 +9,14 @@ import java.util.*
 data class MyRequestDto (
     @SerializedName("goodRequestList")
     val goodRequestList : List<GoodRequest>,
-    @SerializedName("managerEmail")
-    val managerEmail : String,
-    @SerializedName("managerName")
-    val managerName : String,
-    @SerializedName("managerPhone")
-    val managerPhone : String,
-    @SerializedName("managerUuid")
-    val managerUuid : UUID,
+    @SerializedName("contactorEmail")
+    val contactorEmail : String,
+    @SerializedName("contactorName")
+    val contactorName : String,
+    @SerializedName("contactorPhone")
+    val contactorPhone : String,
+    @SerializedName("contactorUuid")
+    val contactorUuid : UUID,
     @SerializedName("requestUuid")
     val requestUuid : UUID,
 
