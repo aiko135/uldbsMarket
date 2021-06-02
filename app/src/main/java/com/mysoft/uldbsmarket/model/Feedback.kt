@@ -1,6 +1,8 @@
 package com.mysoft.uldbsmarket.model
 
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
+import com.mysoft.uldbsmarket.util.DateTypeAdapter
 import java.util.*
 
 data class Feedback (
@@ -9,6 +11,7 @@ data class Feedback (
     @SerializedName("user")
     val user : User?,
     @SerializedName("timestamp")
+    @JsonAdapter(DateTypeAdapter::class)
     val timestamp : Date,
     @SerializedName("grade")
     val grade : Int,

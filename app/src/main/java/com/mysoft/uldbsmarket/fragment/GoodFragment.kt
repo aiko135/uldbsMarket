@@ -71,7 +71,7 @@ class GoodFragment : Fragment() {
             goodViewModel.postFeedback(
                 userViewModel.userLD.value!!.uuid,
                 UUID.fromString(goodViewModel.m_GoodId),
-                binding.spinner.selectedItem as Int,
+                Integer.parseInt(binding.spinner.selectedItem as String) ,
                 feedback
             )
         }
@@ -109,9 +109,11 @@ class GoodFragment : Fragment() {
 
         goodViewModel.isFeedbackAddedSLD.observe(viewLifecycleOwner, Observer{
             if(it.isSuccess && it.entity != null) {
-               if(it.entity)
+               if(it.entity){
                    goodViewModel.getFullGoodData(); //Запрашиваем инфомрацию о товаре заново, чтобы перезагрузить комментарии
-                else
+                   binding.editTextTextMultiLine2.text.clear();
+
+               }else
                    Toast.makeText(requireActivity().applicationContext, resources.getString(R.string.you_should_order_good), Toast.LENGTH_SHORT).show()
             }
             else
