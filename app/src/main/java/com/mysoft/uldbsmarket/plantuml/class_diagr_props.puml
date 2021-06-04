@@ -1,0 +1,281 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+'abstract class AbstractList
+'abstract AbstractCollection
+'interface List
+'interface Collection
+'
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+'
+'Collection <. List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+'
+'class ArrayList {
+'Object[] elementData
+'Collection Collection
+'size()
+'}
+'
+'enum TimeUnit {
+'DAYS
+'HOURS
+'MINUTES
+'}
+
+
+
+'package fragments{
+    class CartFragment{
+        + goodViewModel: GoodViewModel
+        + userViewModel: UserViewModel
+        + goodListAdapter: GoodListAdapter
+        onCreateView()
+    }
+    class CatalogFragment{
+        + goodViewModel: GoodViewModel
+        + goodListAdapter: GoodListAdapter
+        onCreateView()
+    }
+    class GoodFragment{
+        + goodViewModel: GoodViewModel
+        + userViewModel: UserViewModel
+        + feedbackListAdapter: FeedbackListAdapter
+        onCreateView()
+        onClickPostFeedback()
+        onDataUpdate()
+    }
+    class LoginFragment{
+        + userViewModel: UserViewModel
+        onCreateView()
+        switchEnableButtons()
+    }
+    class ManagerMenuFragment{
+        + requestViewModel: RequestViewModel
+        + userViewModel: UserViewModel
+        + orderListAdapter: ManagerOrderListAdapter
+        onCreateView()
+        loadOrders()
+    }
+    class MyOrdersFragment{
+        + requestViewModel: RequestViewModel
+        + userViewModel: UserViewModel
+        + chatViewModel: ChatViewModel
+        + orderListAdapter:OrderListAdapter
+         onCreateView()
+        onButtonCreateChatPress()
+    }
+    class PaymentFragment{
+        + userViewModel: UserViewModel
+        + requestViewModel: RequestViewModel
+        + goodViewModel: GoodViewModel
+         onCreateView()
+    }
+    class ProfileFragment{
+        + userViewModel: UserViewModel
+        onCreateView()
+    }
+    class RegisterFragment{
+        + userViewModel: UserViewModel
+        onClickOpenDatePicker()
+        onCreateView()
+    }
+    class StartFragment{
+         + userViewModel: UserViewModel
+         onCreateView()
+    }
+'}
+
+'package adapters{
+'    class ChatListAdapter{
+'    }
+'    class FeedbackListAdapter{
+'    }
+'    class GoodListAdapter{
+'    }
+'    class ManagerOrderListAdapter{
+'    }
+'    class MessageListAdapter{
+'    }
+'    class OrderListAdapter{
+'    }
+'}
+
+package models{
+
+    class Chat{
+    }
+    class Feedback{
+    }
+    class Good{
+    }
+    class GoodRequest{
+    }
+    class Message{
+    }
+    class Status{
+    }
+    class StatusHistory{
+    }
+    class User{
+    }
+}
+
+'package network{
+    interface ChatAPI{
+        getChatsByClient(clientId:String):List<Chat>
+        getChatsByManager(managerId:String):ist<Chat>
+        createChat(clientId:String,managerId:String):Boolean
+        autoCreateChat(clientId:String):Boolean
+    }
+    interface GoodAPI{
+       getAllGoods():List<Good>
+        getFullInfoForGood( goodUuid : String): FullGoodInfoDto
+       postFeedback(userId:String, goodId:String, feedback: Feedback): Boolean
+    }
+    interface MessageAPI{
+        getMessagesForChat(hatId:String):List<Message>
+        postRequest(userId:String,chatId:String,text:String):List<Message>
+    }
+    interface RequestAPI{
+        postRequest(usersRequest: UsersRequestDto):Boolean
+        getClientRequests(clientId : String): List<MyRequestDto>
+        getManagerRequests(managerId : String): List<MyRequestDto>
+        getAllStatus():List<Status>
+    }
+    interface UserAPI{
+       doLogin(login:String,pass : String): LoginResultDto
+      register(user: User):RegisterResultDto
+    }
+    class RetrofitClient{
+        - client : OkHttpClient
+         getTypedRetrofitInstance(ofClass: Class<T>):T
+    }
+
+    RetrofitClient ..> ChatAPI
+    RetrofitClient ..> MessageAPI
+    RetrofitClient ..> GoodAPI
+    RetrofitClient ..> RequestAPI
+    RetrofitClient ..> UserAPI
+'}
+
+'package repositories{
+    class ChatRepository{
+        + chatAPI : ChatAPI
+        + messageAPI: MessageAPI
+    }
+    class GoodRepository{
+       + goodAPI: GoodAPI
+    }
+    class RequestRepository{
+        + requestAPI: RequestAPI
+    }
+    class UserRepository{
+        + userAPI: UserAPI
+    }
+'}
+
+'package viewmodel{
+'   class ViewModelFactory{
+'        }
+    class ChatViewModel{
+        + chatsLD : ReqResult<List<Chat>>
+        + messagesLD = ReqResult<List<Message>>
+        + isChatCreatedSLD = ReqResult<Boolean>
+        loadChats(userUuid : UUID, asManager:Boolean)
+        loadMessages(chatId: UUID){
+        clearMessages()
+        createChat(clientUuid:UUID, managerUuid:UUID)
+        autoCreateChat(clientUuid: UUID)
+        postMessage(userId: String, chatId: String, text:String)
+    }
+    class GoodViewModel{
+        + goodsLD: ReqResult<List<Good>>
+        + selectedGoodLD: ReqResult<FullGoodInfoDto>
+        + isAddedToCardSLD: Boolean
+        + cartLD: MutableList<Good>
+        + isFeedbackAddedSLD: ReqResult<Boolean>
+        getFullGoodData()
+        loadGoods()
+        addSelectedGoodIntoCart()
+        loadGoodsCart()
+        cleanCart()
+        postFeedback(userId: UUID, goodId:UUID, grade:Int, feedback : String?)
+    }
+    class RequestViewModel{
+        + isNewOrderAddedSLD: ReqResult<Boolean>
+        + myOrdersLD: ReqResult<List<MyRequestDto>>
+        + allStatusLD: ReqResult<List<Status>>
+        postNewOrder(current_user: UUID,paymentData:String,goods:List<Good>)
+        getOrders(current_user: UUID, isManagerMode:Boolean)
+        loadAllStatusList()
+    }
+    class UserViewModel{
+          + loginResultSLD: LoginResultDto>
+          + registerResultSLD: RegisterResultDto
+          + userLD: User?
+            fun doLogin(login:String, pass:String){
+            fun register(u: User)
+            fun readUserInfo()
+            fun signOut()
+
+    }
+'
+'    ViewModelFactory ..> GoodViewModel
+'    ViewModelFactory ..> UserViewModel
+'    ViewModelFactory ..> ChatViewModel
+'    ViewModelFactory ..> RequestViewModel
+
+'}
+
+
+class MainActivity{
+drawerLayout
+onCreate()
+onOptionsItemSelected()
+}
+
+ChatRepository o-- ChatAPI
+ChatRepository o-- MessageAPI
+GoodRepository o-- GoodAPI
+RequestRepository o-- RequestAPI
+UserRepository o-- UserAPI
+
+CartFragment *-- GoodViewModel
+CartFragment *-- UserViewModel
+CatalogFragment *-- GoodViewModel
+GoodFragment *-- GoodViewModel
+GoodFragment *-- UserViewModel
+LoginFragment *-- UserViewModel
+ManagerMenuFragment *-- UserViewModel
+ManagerMenuFragment *-- RequestViewModel
+ManagerMenuFragment  *-- ChatViewModel
+MyOrdersFragment *-- RequestViewModel
+MyOrdersFragment  *-- UserViewModel
+MyOrdersFragment  *-- ChatViewModel
+PaymentFragment *-- UserViewModel
+PaymentFragment *-- RequestViewModel
+PaymentFragment *-- GoodViewModel
+ProfileFragment *-- UserViewModel
+RegisterFragment *-- UserViewModel
+StartFragment *-- UserViewModel
+
+ChatViewModel o-- ChatRepository
+GoodViewModel o-- GoodRepository
+RequestViewModel o-- RequestRepository
+UserViewModel o-- UserRepository
+
+MainActivity ..> CartFragment
+MainActivity ..> CatalogFragment
+MainActivity ..> LoginFragment
+MainActivity ..> ManagerMenuFragment
+MainActivity ..> MyOrdersFragment
+MainActivity ..> PaymentFragment
+MainActivity ..> ProfileFragment
+MainActivity ..> RegisterFragment
+MainActivity ..> GoodFragment
+MainActivity ..> StartFragment
+
+@enduml

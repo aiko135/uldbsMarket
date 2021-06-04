@@ -1,0 +1,188 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package models{
+
+    class Chat{
+        +uuid:UUID
+        +client:User
+        +manager: User
+    }
+    class Feedback{
+     + uuid : UUID
+     + user : User?
+     + timestamp : Date
+     + grade : Int
+     + feedback : String?
+     + good : Good
+    }
+    class Good{
+        + uuid : UUID
+       + catalog : String
+        + descr: String
+        + name: String
+       + price: Float
+        + imgPath: String?
+       + parametrList: List<Parametr>
+    }
+    class GoodRequest{
+        + uuid : UUID
+        + good : Good
+        + request : Request
+    }
+    class Message{
+        + uuid : UUID
+        + user: User
+        + chat: Chat
+        + text: String
+        + timestamp: Date
+    }
+    class Status{
+        + uuid : UUID
+        +  name : String
+        + isInitial : Int
+        +  isTerminal : Int
+    }
+    class StatusHistory{
+        + uuid : UUID
+        +request: Request
+       + comment : String
+        + setupTimestamp: Date
+       + status : Status
+    }
+    class User{
+        +  uuid : UUID
+        +  email : String
+        +  pass : String
+        + role: Short
+        +  name: String
+        + birthDate: Date
+        +  phone: String
+    }
+       class Parameter{
+            +  uuid : UUID
+            + name : String
+            + good: Good
+        }
+
+    class Request{
+     +  uuid : UUID
+     + paymentData: String,
+     + client: User
+     + manager: User
+    }
+
+    Chat "*"--"1" User
+    Feedback "*"--"1" User
+    StatusHistory "*"--"1" Status
+    Message "*"--"1" User
+    Message "*"--"1" Chat
+    Feedback "*"--"1" Good
+    GoodRequest "*"--"1" Good
+    GoodRequest "*"--"1" Request
+    Request "1"--"*" User
+    StatusHistory "*"--"1" Request
+    Parameter "*"--"*" Good
+}
+
+
+class EntityManager{}
+
+class ChatFacade{
+    - EntityManager entityManager
+    List<Chat> getChatsByClientId(UUID clientId)
+    List<Chat> getChatsByManagerId(UUID managerId)
+    Boolean createChat(UUID userId, UUID managerId)
+    Boolean createChatWithRandomManager(UUID userId)
+}
+class FeedbackFacade{
+    - EntityManager entityManager
+    Boolean addFeedback(Feedback feedback)
+    List<Feedback> getAllFeedbacks(int limit, int offset)
+}
+class GoodFacade{
+    - EntityManager entityManager
+    List<Good> getAllGoods(int limit, int offset)
+    List<Good> getGoodsByPopularity(int limit, int offset)
+    List<Good> getGoodsByRequests(int limit, int offset)
+    FullGoodInfoDto getFullInfoForGood(UUID goodUuid)
+    Boolean createGood(Good good, UUID catalog)
+}
+class MessageFacade{
+    - EntityManager entityManager;
+    List<Message> getMessagesForChat(UUID chat)
+    List<Message> postMessage(String text)
+}
+class RequestFacade{
+    - EntityManager entityManager;
+    UUID getUuidOfFinalStatus()
+    Boolean postRequest(UsersRequestDto request)
+    List<MyRequestDto> getMyRequests(UUID user)
+    List<Request> getAllUnfinishedRequests()
+    public List<Request> getAllUnfinished(UUID maUuid)
+}
+class UserFacade{
+    - EntityManager entityManager;
+    LoginResultDto doLogin(String login, String password)
+    RegisterResultDto register(User regdata)
+    List<User> getAllUsers(int limit, int offset)
+    List<User> getAllManagers(int limit, int offset)
+}
+
+
+
+class UserService{
+    - UserFacade userFacade;
+    LoginResultDto doLogin(String login,String password)
+    RegisterResultDto register(User regdata)
+    List<User> getAllUsers()
+    List<User> getAllManagers()
+}
+class RequestService{
+    - RequestFacade requestFacade
+    Boolean postRequest(UsersRequestDto request)
+    List<MyRequestDto> getMyRequests(UUID user)
+    List<Request> getAllUnfinished()
+    List<Request> getAllUnfinishedForManager(UUID managerId)
+}
+class MessageService{
+    - MessageFacade messageFacade;
+    List<Message> getMessagesForChat(UUID chat)
+    List<Message> postMessage()
+}
+class GoodService{
+    - GoodFacade goodFacade
+    List<Good> getMessagesForChat()
+    List<Good> getGoodsByPopularity()
+    List<Good> getGoodsByRequests()
+    FullGoodInfoDto getFullGoodInfo(UUID good)
+    Boolean createGood(Good good)
+}
+class FeedbackService{
+    - FeedbackFacade feedbackFacade
+    Boolean postFeedback(Feedback feedback)
+   List<Feedback> getAllFeedbacks()
+}
+class ChatService{
+    - ChatFacade chatFacade
+    public List<Chat> getChatsByClientId(UUID clientId)
+    public List<Chat> getChatsByManagerId(UID managerId)
+    public Boolean createChat(UUID client,UUID manager)
+    public Boolean autoCreateChat(UUID client)
+}
+
+UserService ..o UserFacade
+RequestService ..o RequestFacade
+MessageService ..o MessageFacade
+GoodService ..o GoodFacade
+FeedbackService ..o FeedbackFacade
+ChatService ..o ChatFacade
+
+EntityManager ..o UserService
+EntityManager ..o RequestService
+EntityManager ..o MessageService
+EntityManager ..o GoodService
+EntityManager ..o FeedbackService
+EntityManager ..o ChatService
+
+@enduml

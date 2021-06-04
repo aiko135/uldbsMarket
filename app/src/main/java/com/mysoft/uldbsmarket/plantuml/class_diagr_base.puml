@@ -1,0 +1,235 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+'abstract class AbstractList
+'abstract AbstractCollection
+'interface List
+'interface Collection
+'
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+'
+'Collection <. List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+'
+'class ArrayList {
+'Object[] elementData
+'Collection Collection
+'size()
+'}
+'
+'enum TimeUnit {
+'DAYS
+'HOURS
+'MINUTES
+'}
+
+
+
+'package fragments{
+    class CartFragment{
+    }
+    class CatalogFragment{
+    }
+    class ChatFragment{
+    }
+    class ChatsFragment{
+    }
+    class GoodFragement{
+    }
+    class LoginFragment{
+    }
+    class ManagerMenuFragment{
+    }
+    class MapFragment{
+    }
+    class MyOrdersFragment{
+    }
+    class PaymentFragment{
+    }
+    class ProfilleFragment{
+    }
+    class RegisterFragment{
+    }
+    class StartFragment{
+    }
+'}
+
+'package adapters{
+'    class ChatListAdapter{
+'    }
+'    class FeedbackListAdapter{
+'    }
+'    class GoodListAdapter{
+'    }
+'    class ManagerOrderListAdapter{
+'    }
+'    class MessageListAdapter{
+'    }
+'    class OrderListAdapter{
+'    }
+'}
+
+package models{
+
+    class Chat{
+        +uuid:UUID
+        +client:User
+        +manager: User
+    }
+    class Feedback{
+     + uuid : UUID
+     + user : User?
+     + timestamp : Date
+     + grade : Int
+     + feedback : String?
+     + good : String
+    }
+    class Good{
+        + uuid : UUID
+       + catalog : String
+        + descr: String
+        + name: String
+       + price: Float
+        + imgPath: String?
+       + parametrList: List<Parametr>
+    }
+    class GoodRequest{
+        + uuid : UUID
+        + good : Good
+        + request : UUID
+    }
+    class Message{
+        + uuid : UUID
+        + user: String
+        + chat: String
+        + text: String
+        + timestamp: Date
+    }
+    class Status{
+        + uuid : UUID
+        +  name : String
+        + isInitial : Int
+        +  isTerminal : Int
+    }
+    class StatusHistory{
+        + uuid : UUID
+       + comment : String
+        + setupTimestamp: Date
+       + status : Status
+    }
+    class User{
+        +  uuid : UUID
+        +  email : String
+        +  pass : String
+        + role: Short
+        +  name: String
+        + birthDate: Date
+        +  phone: String
+    }
+}
+
+'package network{
+    interface ChatAPI{
+    }
+    interface GoodAPI{
+    }
+    interface MessageAPI{
+    }
+    interface RequestAPI{
+    }
+    interface UserAPI{
+    }
+    class RetrofitClient{
+    }
+
+    RetrofitClient ..> ChatAPI
+    RetrofitClient ..> MessageAPI
+    RetrofitClient ..> GoodAPI
+    RetrofitClient ..> RequestAPI
+    RetrofitClient ..> UserAPI
+'}
+
+'package repositories{
+    class ChatRepository{
+    }
+    class GoodRepository{
+    }
+    class RequestRepository{
+    }
+    class UserRepository{
+    }
+'}
+
+'package viewmodel{
+   class ViewModelFactory{
+        }
+    class ChatViewModel{
+    }
+    class GoodViewModel{
+    }
+    class RequestViewModel{
+    }
+    class UserViewModel{
+    }
+
+    ViewModelFactory ..> GoodViewModel
+    ViewModelFactory ..> UserViewModel
+    ViewModelFactory ..> ChatViewModel
+    ViewModelFactory ..> RequestViewModel
+
+'}
+
+
+class MainActivity{
+drawerLayout
+onCreate()
+onOptionsItemSelected()
+}
+
+ChatRepository o-- ChatAPI
+ChatRepository o-- MessageAPI
+GoodRepository o-- GoodAPI
+RequestRepository o-- RequestAPI
+UserRepository o-- UserAPI
+
+CartFragment *-- GoodViewModel
+CartFragment *-- UserViewModel
+CatalogFragment *-- GoodViewModel
+ChatFragment  *-- ChatViewModel
+GoodFragment *-- GoodViewModel
+GoodFragment *-- UserViewModel
+LoginFragment *-- UserViewModel
+ManagerMenuFragment *-- UserViewModel
+ManagerMenuFragment *-- RequestViewModel
+ManagerMenuFragment  *-- ChatViewModel
+MyOrdersFragment *-- RequestViewModel
+MyOrdersFragment  *-- UserViewModel
+MyOrdersFragment  *-- ChatViewModel
+PaymentFragment *-- UserViewModel
+PaymentFragment *-- RequestViewModel
+PaymentFragment *-- GoodViewModel
+ProfilleFragment *-- UserViewModel
+RegisterFragment *-- UserViewModel
+GoodFragement *-- GoodViewModel
+StartFragment *-- UserViewModel
+
+ChatViewModel o-- ChatRepository
+GoodViewModel o-- GoodRepository
+RequestViewModel o-- RequestRepository
+UserViewModel o-- UserRepository
+
+MainActivity ..> CartFragment
+MainActivity ..> CatalogFragment
+MainActivity ..> GoodFragement
+MainActivity ..> LoginFragment
+MainActivity ..> ManagerMenuFragment
+MainActivity ..> MyOrdersFragment
+MainActivity ..> PaymentFragment
+MainActivity ..> ProfilleFragment
+MainActivity ..> RegisterFragment
+MainActivity ..> GoodFragement
+MainActivity ..> StartFragment
+
+@enduml
