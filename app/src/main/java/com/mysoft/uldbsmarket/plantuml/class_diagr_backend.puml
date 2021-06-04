@@ -89,86 +89,86 @@ package models{
 class EntityManager{}
 
 class ChatFacade{
-    - EntityManager entityManager
-    List<Chat> getChatsByClientId(UUID clientId)
-    List<Chat> getChatsByManagerId(UUID managerId)
-    Boolean createChat(UUID userId, UUID managerId)
-    Boolean createChatWithRandomManager(UUID userId)
+    - entityManager:EntityManager
+    getChatsByClientId(clientId:UUID):List<Chat>
+    getChatsByManagerId(manager:UUID):List<Chat>
+    createChat(userId:UUID, managerId:UUID):Boolean
+    createChatWithRandomManager(userId:UUID):Boolean
 }
 class FeedbackFacade{
-    - EntityManager entityManager
-    Boolean addFeedback(Feedback feedback)
-    List<Feedback> getAllFeedbacks(int limit, int offset)
+    - entityManager:EntityManager
+    addFeedback(feedback:Feedback):Boolean
+    getAllFeedbacks(limit:int, offset:int):List<Feedback>
 }
 class GoodFacade{
-    - EntityManager entityManager
-    List<Good> getAllGoods(int limit, int offset)
-    List<Good> getGoodsByPopularity(int limit, int offset)
-    List<Good> getGoodsByRequests(int limit, int offset)
-    FullGoodInfoDto getFullInfoForGood(UUID goodUuid)
-    Boolean createGood(Good good, UUID catalog)
+    - entityManager:EntityManager
+    getAllGoods(limit:int, offset:int):List<Good>
+     getGoodsByPopularity(limit:int, offset:int):List<Good>
+     getGoodsByRequests(limit:int, offset:int):List<Good>
+    getFullInfoForGood(good_id:UUID):FullGoodInfoDto
+    createGood(good:Good, catalog:UUID):Boolean
 }
 class MessageFacade{
-    - EntityManager entityManager;
-    List<Message> getMessagesForChat(UUID chat)
-    List<Message> postMessage(String text)
+    - entityManager:EntityManager
+     getMessagesForChat(chat:UUID):List<Message>
+     postMessage(text:String):List<Message>
 }
 class RequestFacade{
-    - EntityManager entityManager;
-    UUID getUuidOfFinalStatus()
-    Boolean postRequest(UsersRequestDto request)
-    List<MyRequestDto> getMyRequests(UUID user)
-    List<Request> getAllUnfinishedRequests()
-    public List<Request> getAllUnfinished(UUID maUuid)
+    - entityManager:EntityManager
+    getUuidOfFinalStatus():UUID
+    postRequest(request:UsersRequestDto):Boolean
+     getMyRequests(user:UUID):List<MyRequestDto>
+    getAllUnfinishedRequests():List<Request>
+    getAllUnfinished(maUuid:UUID):List<Request>
 }
 class UserFacade{
-    - EntityManager entityManager;
-    LoginResultDto doLogin(String login, String password)
-    RegisterResultDto register(User regdata)
-    List<User> getAllUsers(int limit, int offset)
-    List<User> getAllManagers(int limit, int offset)
+    - entityManager:EntityManager
+    doLogin(login:String, password:String):LoginResultDto
+    register(regdata:User):RegisterResultDto
+    getAllUsers(limit:int, offset:int):List<User>
+    getAllManagers(limit:int, offset:int):List<User>
 }
 
 
 
 class UserService{
-    - UserFacade userFacade;
-    LoginResultDto doLogin(String login,String password)
-    RegisterResultDto register(User regdata)
-    List<User> getAllUsers()
-    List<User> getAllManagers()
+    - userFacade:UserFacade
+     doLogin(login:String,password:String):LoginResultDto
+     register(regdata:User):RegisterResultDto
+     getAllUsers():List<User>
+     getAllManagers():List<User>
 }
 class RequestService{
-    - RequestFacade requestFacade
-    Boolean postRequest(UsersRequestDto request)
-    List<MyRequestDto> getMyRequests(UUID user)
-    List<Request> getAllUnfinished()
-    List<Request> getAllUnfinishedForManager(UUID managerId)
+    - requestFacade:RequestFacade
+    postRequest(request:UsersRequestDto):Boolean
+     getMyRequests(user:UUID):List<MyRequestDto>
+     getAllUnfinished():List<Request>
+     getAllUnfinishedForManager(managerId:UUID):List<Request>
 }
 class MessageService{
-    - MessageFacade messageFacade;
-    List<Message> getMessagesForChat(UUID chat)
-    List<Message> postMessage()
+    - messageFacade:MessageFacade
+    getMessagesForChat(chat:UUID ):List<Message>
+    postMessage():List<Message>
 }
 class GoodService{
-    - GoodFacade goodFacade
-    List<Good> getMessagesForChat()
-    List<Good> getGoodsByPopularity()
-    List<Good> getGoodsByRequests()
-    FullGoodInfoDto getFullGoodInfo(UUID good)
-    Boolean createGood(Good good)
+    - goodFacade:GoodFacade
+    getMessagesForChat():List<Good>
+    getGoodsByPopularity():List<Good>
+    getGoodsByRequests():List<Good>
+    getFullGoodInfo(good:UUID):FullGoodInfoDto
+    createGood(good:Good):Boolean
 }
 class FeedbackService{
-    - FeedbackFacade feedbackFacade
-    Boolean postFeedback(Feedback feedback)
-   List<Feedback> getAllFeedbacks()
+    - feedbackFacade:FeedbackFacade
+    postFeedback(feedback:Feedback):Boolean
+    getAllFeedbacks():List<Feedback>
 }
 class ChatService{
-    - ChatFacade chatFacade
-    public List<Chat> getChatsByClientId(UUID clientId)
-    public List<Chat> getChatsByManagerId(UID managerId)
-    public Boolean createChat(UUID client,UUID manager)
-    public Boolean autoCreateChat(UUID client)
+    - chatFacade:ChatFacade
+    getChatsByClientId(clientId:UUID):List<Chat>
+    getChatsByManagerId(managerId:UUID):List<Chat>
+    createChat(client:UUID,manager:UUID):Boolean
+    autoCreateChat(client:UUID):Boolean
 }
 
 UserService ..o UserFacade
