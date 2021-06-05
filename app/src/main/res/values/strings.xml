@@ -105,4 +105,6 @@
     <string name="show_finished_orders">Show finished orders</string>
     <string name="set_up_status">Set status</string>
     <string name="confirm_the_status">Confirm new status</string>
+
+    <string name="shop_location">Shop location "ул. Московская, 30"</string>
 </resources>

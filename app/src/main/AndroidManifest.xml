@@ -11,6 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA8zaDcZ5gzEaP0oQnueRj_QqAzXR3f7ng" />
+
         <activity android:name=".MainActivity"
             android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
@@ -19,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
