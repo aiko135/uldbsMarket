@@ -63,9 +63,12 @@ class ProfileFragment : Fragment() {
 
        val date_string : String = Util.dateToFormattedString(currentUser.birthDate);
 
-        //TODO REFACTOR WITH DATABINDING
-        binding.textView3.text =
-            "Name: ${currentUser.name} \n" + "Login: ${currentUser.email}\n" + "Phone: ${currentUser.phone}\n" + "Birth date: "+date_string +"\n\n" +
-                            "Account: "+roleString;
+        binding.textView3.text = getString(R.string.profile_info,
+            currentUser.name,
+            currentUser.email,
+            currentUser.phone,
+            date_string,
+            roleString
+        )
     }
 }

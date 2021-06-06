@@ -122,4 +122,12 @@
         Телефон клиента: %3$s\n
     </string>
 
+    <string name="profile_info">
+        Имя: %1$s\n
+        Логин: %2$s\n
+        Телефон: %3$s\n\
+        Дата рождения: %4$s\n\n
+        Аккаунт: %5$s
+    </string>
+
 </resources>
