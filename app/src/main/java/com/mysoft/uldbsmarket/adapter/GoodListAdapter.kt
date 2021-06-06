@@ -3,6 +3,7 @@ package com.mysoft.uldbsmarket.adapter
 import android.app.AlertDialog.THEME_HOLO_LIGHT
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +49,7 @@ class GoodListAdapter(
         val current : Good = goods[position];
 
         holder.title.text = current.name
-        holder.price.text = "Price :${current.price.toString()} RUB"
+        holder.price.text = fragment.getString(R.string.price) + current.price.toString() + " " + fragment.getString(R.string.price_units);
 
         if(current.imgPath != null) {
             val url: String = "${RetrofitClient.IMAGE_DOWNLOAD_URL}/${current.imgPath}";

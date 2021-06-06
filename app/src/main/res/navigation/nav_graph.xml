@@ -29,6 +29,12 @@
             app:destination="@id/nav_profile_fragment"
             app:popUpToInclusive="true"
             app:popUpTo="@+id/nav_graph"/>
+        <action
+            android:id="@+id/action_nav_start_fragment_to_nav_map_fragment"
+            app:destination="@id/nav_map_fragment" />
+        <action
+            android:id="@+id/action_nav_start_fragment_to_nav_manager_menu_fragment"
+            app:destination="@id/nav_manager_menu_fragment" />
 
     </fragment>
 

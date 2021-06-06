@@ -1,0 +1,113 @@
+<resources>
+    <string-array name="grades">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string name="app_name">uldbsMarket</string>
+    
+    <string name="profile">User</string>
+    <string name="catalog">Catalog</string>
+    <string name="basket">Cart</string>
+    <string name="chats">Chats</string>
+
+    <string name="request_err">Error! Cannot connect to service.</string>
+    <string name="wrong_login_data">Wrong password or login</string>
+    <string name="success">Success</string>
+
+    <string name="no_data">Error. No data</string>
+
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="pass">Password</string>
+    <string name="confirmpass">Confirm password</string>
+    <string name="phone">Phone</string>
+    <string name="birthdate">Birth date</string>
+
+    <string name="password_dont_match">Password dont match</string>
+
+    <string name="missing_data">Error! Some data have missed</string>
+    <string name="error">Error.</string>
+
+    <string name="your_chats">Your chats</string>
+    <string name="not_authorized">You are not authorized</string>
+
+    <string name="chatting_with">Chatting with</string>
+
+    <string name="sign_out">Sign out</string>
+    <string name="submit">Submit</string>
+    <string name="profile_">Profile settings</string>
+    <string name="login">Login:</string>
+    <string name="password">Password:</string>
+    <string name="enter">Enter</string>
+    <string name="register">Register</string>
+    <string name="reg_suggest">Dont have an account?</string>
+    <string name="log_suggest">Already registered?</string>
+    <string name="do_login">Do login</string>
+
+    <string name="grades">Best graded</string>
+    <string name="orders">Most popular</string>
+
+    <string name="good_name">good_name</string>
+    <string name="price">Price:</string>
+    <string name="price_units">RUB</string>
+
+    <string name="feedback_for_this">Feedbacks for this good</string>
+    <string name="add_to_basket">Add to cart</string>
+    <string name="leave_your_feedback">Write your feedback...</string>
+    <string name="grade">Select your rating</string>
+    <string name="leave_your_feedback2">Leave your feedback for this</string>
+
+    <string name="stayed_grade">Grade:</string>
+
+    <string name="publish">Publish</string>
+
+    <string name="message">Message...</string>
+    <string name="total_price">Total price:</string>
+    <string name="to_payment">To payment</string>
+
+    <string name="response_empty_error">Response is empty</string>
+
+    <string name="personal">Personal</string>
+    <string name="shop">Shop</string>
+    <string name="moderator">Manager</string>
+    <string name="admin">Admin</string>
+    <string name="map">Our location</string>
+    <string name="manager_menu">Manager menu</string>
+    <string name="chatting_with_cl">Chats with clients</string>
+    <string name="admin_menu">Admin menu</string>
+    <string name="catalog_control">Catalog control</string>
+    <string name="my_orders">My orders</string>
+
+    <string name="delete_cart">Delete all</string>
+    <string name="empty_cart">Your cart is empty</string>
+    <string name="order_number">Order №</string>
+    <string name="goods">The order goods:</string>
+    <string name="manager_for_order">Manager responsible for the order</string>
+    <string name="orders_details">Your order details</string>
+    <string name="orders_details2">This order details</string>
+    <string name="order_status">Order status</string>
+    <string name="crate_new_chat_offer">If you have a question you can start chatting wtih a shop manager</string>
+    <string name="start_chatting">Start chatting</string>
+    <string name="you_should_order_good">You should order the good before commenting</string>
+
+    <string name="to_chat_with_manager">Contact the manager in chat</string>
+    <string name="welcome">ULDBS market</string>
+    <string name="done">Done</string>
+    <string name="user_details">User details</string>
+    <string name="contact_the_user">Contact the user</string>
+
+    <string name="hide_finished_orders">Hide finished orders</string>
+    <string name="show_finished_orders">Show finished orders</string>
+    <string name="set_up_status">Set status</string>
+    <string name="confirm_the_status">Confirm new status</string>
+
+    <string name="shop_location">Shop location "ул. Московская, 30"</string>
+
+    <string name="submit_order">Submit order</string>
+    <string name="payment_data">Payment data</string>
+</resources>

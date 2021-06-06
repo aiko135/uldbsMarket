@@ -10,101 +10,116 @@
 
     <string name="app_name">uldbsMarket</string>
     
-    <string name="profile">User</string>
-    <string name="catalog">Catalog</string>
-    <string name="basket">Cart</string>
-    <string name="chats">Chats</string>
+    <string name="profile">Профиль</string>
+    <string name="catalog">Каталог</string>
+    <string name="basket">Корзина</string>
+    <string name="chats">Чаты</string>
 
     <string name="request_err">Error! Cannot connect to service.</string>
-    <string name="wrong_login_data">Wrong password or login</string>
-    <string name="success">Success</string>
+    <string name="wrong_login_data">Неверный логин или пароль</string>
+    <string name="success">Успешно</string>
 
-    <string name="no_data">Error. No data</string>
+    <string name="no_data">Ошибка. Нет данных</string>
 
     <string name="email">Email</string>
-    <string name="name">Name</string>
-    <string name="pass">Password</string>
-    <string name="confirmpass">Confirm password</string>
-    <string name="phone">Phone</string>
-    <string name="birthdate">Birth date</string>
+    <string name="name">Имя</string>
+    <string name="pass">Пароль</string>
+    <string name="confirmpass">Подтвердите пароль</string>
+    <string name="phone">Телефон</string>
+    <string name="birthdate">Дата рождения</string>
 
-    <string name="password_dont_match">Password dont match</string>
+    <string name="password_dont_match">Пароли не совпадают</string>
 
     <string name="missing_data">Error! Some data have missed</string>
-    <string name="error">Error.</string>
+    <string name="error">Ошибка</string>
 
-    <string name="your_chats">Your chats</string>
-    <string name="not_authorized">You are not authorized</string>
+    <string name="your_chats">Ваши чаты</string>
+    <string name="not_authorized">Вы не авторизованы</string>
 
-    <string name="chatting_with">Chatting with</string>
+    <string name="chatting_with">Чат с</string>
 
-    <string name="sign_out">Sign out</string>
-    <string name="submit">Submit</string>
-    <string name="profile_">Profile settings</string>
-    <string name="login">Login:</string>
-    <string name="password">Password:</string>
-    <string name="enter">Enter</string>
-    <string name="register">Register</string>
-    <string name="reg_suggest">Dont have an account?</string>
-    <string name="log_suggest">Already registered?</string>
-    <string name="do_login">Do login</string>
+    <string name="sign_out">Войти в систему</string>
+    <string name="submit">Подтвердить</string>
+    <string name="profile_">Личный профиль</string>
+    <string name="login">Логин:</string>
+    <string name="password">Пароль:</string>
+    <string name="enter">Ввод</string>
+    <string name="register">Создать аккаунт</string>
+    <string name="reg_suggest">У вас нет аккаунта?</string>
+    <string name="log_suggest">Уже зарегистрированы?</string>
+    <string name="do_login">Войти в систему</string>
 
-    <string name="grades">Best graded</string>
-    <string name="orders">Most popular</string>
+    <string name="grades">Самые оцененные</string>
+    <string name="orders">Самые популярные</string>
 
-    <string name="good_name">good_name</string>
-    <string name="price">Price:</string>
+    <string name="good_name">Имя товара</string>
+    <string name="price">Цена:</string>
     <string name="price_units">RUB</string>
 
-    <string name="feedback_for_this">Feedbacks for this good</string>
-    <string name="add_to_basket">Add to cart</string>
-    <string name="leave_your_feedback">Write your feedback...</string>
-    <string name="grade">Select your rating</string>
-    <string name="leave_your_feedback2">Leave your feedback for this</string>
+    <string name="feedback_for_this">Отзывы для данного товара</string>
+    <string name="add_to_basket">Добавить в корзину</string>
+    <string name="leave_your_feedback">Оставьте ваш отзыв...</string>
+    <string name="grade">Выберите оценку</string>
+    <string name="leave_your_feedback2">Оставьте ваш отзыв</string>
 
-    <string name="stayed_grade">Grade:</string>
+    <string name="stayed_grade">Оценка:</string>
 
-    <string name="publish">Publish</string>
+    <string name="publish">Отправить</string>
 
-    <string name="message">Message...</string>
-    <string name="total_price">Total price:</string>
-    <string name="to_payment">To payment</string>
+    <string name="message">Сообщение...</string>
+    <string name="total_price">Итого цена:</string>
+    <string name="to_payment">К оплате</string>
 
     <string name="response_empty_error">Response is empty</string>
 
-    <string name="personal">Personal</string>
-    <string name="shop">Shop</string>
-    <string name="moderator">Manager</string>
-    <string name="admin">Admin</string>
-    <string name="map">Our location</string>
-    <string name="manager_menu">Manager menu</string>
-    <string name="chatting_with_cl">Chats with clients</string>
-    <string name="admin_menu">Admin menu</string>
-    <string name="catalog_control">Catalog control</string>
-    <string name="my_orders">My orders</string>
+    <string name="personal">Персональные</string>
+    <string name="shop">Магазин</string>
+    <string name="moderator">Менеджер</string>
+    <string name="admin">Администратор</string>
+    <string name="map">Наше местоположение</string>
+    <string name="manager_menu">Меню менеджера</string>
+    <string name="chatting_with_cl">Чаты с клиентами</string>
+    <string name="admin_menu">Админ меню</string>
+    <string name="catalog_control">Управление каталогом</string>
+    <string name="my_orders">Мои заказы</string>
 
-    <string name="delete_cart">Delete all</string>
-    <string name="empty_cart">Your cart is empty</string>
-    <string name="order_number">Order №</string>
-    <string name="goods">The order goods:</string>
-    <string name="manager_for_order">Manager responsible for the order</string>
-    <string name="orders_details">Your order details</string>
-    <string name="orders_details2">This order details</string>
-    <string name="order_status">Order status</string>
-    <string name="crate_new_chat_offer">If you have a question you can start chatting wtih a shop manager</string>
-    <string name="start_chatting">Start chatting</string>
-    <string name="you_should_order_good">You should order the good before commenting</string>
+    <string name="delete_cart">Убрать все</string>
+    <string name="empty_cart">Ваша корзина пуста</string>
+    <string name="order_number">Заказ №</string>
+    <string name="goods">Товары этого заказа:</string>
+    <string name="manager_for_order">Ответственный менеджер</string>
+    <string name="orders_details">Детали заказа</string>
+    <string name="orders_details2">Детали заказа</string>
+    <string name="order_status">Состояние заказа</string>
+    <string name="crate_new_chat_offer">Если у вас есть вопросы, вы можете связаться с менеджером</string>
+    <string name="start_chatting">Начать чат</string>
+    <string name="you_should_order_good">Вы должны приобрести товар перед выставлением оценки</string>
 
-    <string name="to_chat_with_manager">Contact the manager in chat</string>
+    <string name="to_chat_with_manager">Связаться с менеджером в чате</string>
     <string name="welcome">ULDBS market</string>
-    <string name="done">Done</string>
-    <string name="user_details">User details</string>
-    <string name="contact_the_user">Contact the user</string>
+    <string name="done">Выполнено</string>
+    <string name="user_details">Детали пользователя</string>
+    <string name="contact_the_user">Связаться с пользователем</string>
 
-    <string name="hide_finished_orders">Hide finished orders</string>
-    <string name="show_finished_orders">Show finished orders</string>
-    <string name="set_up_status">Set status</string>
-    <string name="confirm_the_status">Confirm new status</string>
+    <string name="hide_finished_orders">Скрыть завершенные</string>
+    <string name="show_finished_orders">Показать завершенные</string>
+    <string name="set_up_status">Установить статус</string>
+    <string name="confirm_the_status">Подтвердить статус</string>
 
-    <string name="shop_location">Shop location "ул. Московская, 30"</string>
+    <string name="shop_location">Местоположение магазина "ул. Московская, 30"</string>
+    <string name="submit_order">Подтвердить заказ</string>
+    <string name="payment_data">Данные оплаты</string>
+    <string name="total_goods">Всего товаров:</string>
+    <style name="payment_data">Данные оплаты</style>
+
+    <string name="info_about_manager"> Имя менеджера: %1$s \n
+        Email менеджера: %2$s\n
+        Телефон менеджера: %3$s\n
+    </string>
+
+    <string name="info_about_client"> Имя клиента: %1$s \n
+        Email клиента: %2$s\n
+        Телефон клиента: %3$s\n
+    </string>
+
 </resources>

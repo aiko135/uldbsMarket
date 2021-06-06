@@ -43,10 +43,11 @@ class ManagerOrderListAdapter (
     override fun onBindViewHolder(holder: ManagerOrderListAdapter.OrdersViewHolder, position: Int) {
         val currentOrder = orders[position];
         holder.order_uuid.text = currentOrder.requestUuid.toString();
-        holder.user_data.text =
-            "Manager name: ${currentOrder.contactorName} \n"+
-                    "Manager email: ${currentOrder.contactorEmail}\n"+
-                    "Manager phone: ${currentOrder.contactorPhone}\n";
+        holder.user_data.text = context.getString(R.string.info_about_manager,
+            currentOrder.contactorName,
+            currentOrder.contactorEmail,
+            currentOrder.contactorPhone
+        );
 
         holder.orders_status.text =  if(currentOrder.statusHistoryList.isEmpty())
             "no status mark"
