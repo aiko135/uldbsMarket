@@ -17,7 +17,8 @@
             android:value="AIzaSyA8zaDcZ5gzEaP0oQnueRj_QqAzXR3f7ng" />
 
         <activity android:name=".MainActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize">
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -38,12 +38,12 @@
 
     <string name="chatting_with">Чат с</string>
 
-    <string name="sign_out">Войти в систему</string>
+    <string name="sign_out">Выйти из системы</string>
     <string name="submit">Подтвердить</string>
     <string name="profile_">Личный профиль</string>
     <string name="login">Логин:</string>
     <string name="password">Пароль:</string>
-    <string name="enter">Ввод</string>
+    <string name="enter">Вход</string>
     <string name="register">Создать аккаунт</string>
     <string name="reg_suggest">У вас нет аккаунта?</string>
     <string name="log_suggest">Уже зарегистрированы?</string>
