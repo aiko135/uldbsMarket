@@ -4,9 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.model.Status
-import com.mysoft.uldbsmarket.model.dto.MyRequestDto
-import com.mysoft.uldbsmarket.model.dto.ReqResult
-import com.mysoft.uldbsmarket.model.dto.UsersRequestDto
+import com.mysoft.uldbsmarket.model.dto.*
 import com.mysoft.uldbsmarket.network.RequestAPI
 import retrofit2.Call
 import retrofit2.Response
@@ -15,7 +13,7 @@ import java.util.*
 class RequestRepository(private val requestAPI: RequestAPI, private val context : Context) {
     private val tag: String = "RequestRepository-network";
 
-    suspend fun postNewOrder(newOrder:UsersRequestDto) : ReqResult<Boolean> {
+    suspend fun postNewOrder(newOrder:UsersRequestDto) : RequestResult<Boolean> {
         val call : Call<Boolean>
         var res : Response<Boolean>? = null;
         try {
@@ -27,18 +25,18 @@ class RequestRepository(private val requestAPI: RequestAPI, private val context 
             e.printStackTrace()
         }
         finally {
-            if(res != null && res.isSuccessful) {
-                return if(res.body() == null)
-                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+            return if(res != null && res.isSuccessful) {
+                if(res.body() != null)
+                    RequestSuccess(res.body()!!)
                 else
-                    ReqResult(true, "", res.body())
+                    RequestError(context.getString(R.string.response_empty_error))
             }else{
-                return ReqResult(false, context.getString(R.string.request_err), null)
+                RequestError (context.getString(R.string.request_err))
             }
         }
     }
 
-    suspend fun getMyOrders(user_id: UUID, isManager:Boolean = false) : ReqResult< List<MyRequestDto> > {
+    suspend fun getMyOrders(user_id: UUID, isManager:Boolean = false) : RequestResult< List<MyRequestDto> > {
         val call : Call<List<MyRequestDto>>
         var res : Response<List<MyRequestDto>>? = null;
         try {
@@ -53,18 +51,18 @@ class RequestRepository(private val requestAPI: RequestAPI, private val context 
             e.printStackTrace()
         }
         finally {
-            if(res != null && res.isSuccessful) {
-                return if(res.body() == null)
-                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+            return if(res != null && res.isSuccessful) {
+                if(res.body() != null)
+                    RequestSuccess(res.body()!!)
                 else
-                    ReqResult(true, "", res.body())
+                    RequestError(context.getString(R.string.response_empty_error))
             }else{
-                return ReqResult(false, context.getString(R.string.request_err), null)
+                RequestError (context.getString(R.string.request_err))
             }
         }
     }
 
-    suspend fun getAllStatusList() : ReqResult< List<Status> > {
+    suspend fun getAllStatusList() : RequestResult< List<Status> > {
         val call : Call<List<Status>>
         var res : Response<List<Status>>? = null;
         try {
@@ -76,13 +74,13 @@ class RequestRepository(private val requestAPI: RequestAPI, private val context 
             e.printStackTrace()
         }
         finally {
-            if(res != null && res.isSuccessful) {
-                return if(res.body() == null)
-                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+            return if(res != null && res.isSuccessful) {
+                if(res.body() != null)
+                    RequestSuccess(res.body()!!)
                 else
-                    ReqResult(true, "", res.body())
+                    RequestError(context.getString(R.string.response_empty_error))
             }else{
-                return ReqResult(false, context.getString(R.string.request_err), null)
+                RequestError (context.getString(R.string.request_err))
             }
         }
     }

@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mysoft.uldbsmarket.model.Feedback
 import com.mysoft.uldbsmarket.model.Good
-import com.mysoft.uldbsmarket.model.dto.ReqResult
+import com.mysoft.uldbsmarket.model.dto.RequestResult
 import com.mysoft.uldbsmarket.model.dto.FullGoodInfoDto
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.repositories.GoodRepository
 import com.mysoft.uldbsmarket.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -16,13 +17,13 @@ import java.util.*
 
 class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
     //Список товаров
-    private val _goodsLD = MutableLiveData<ReqResult<List<Good>>>();
-    val goodsLD: LiveData<ReqResult<List<Good>>>
+    private val _goodsLD = MutableLiveData<RequestResult<List<Good>>>();
+    val goodsLD: LiveData<RequestResult<List<Good>>>
         get () = _goodsLD;
 
     //Выбранынй товар
-    private val _selectedGoodLD = MutableLiveData<ReqResult<FullGoodInfoDto>>();
-    val selectedGoodLDDto : LiveData<ReqResult<FullGoodInfoDto>>
+    private val _selectedGoodLD = MutableLiveData<RequestResult<FullGoodInfoDto>>();
+    val selectedGoodLDDto : LiveData<RequestResult<FullGoodInfoDto>>
         get() = _selectedGoodLD;
 
     //Удачно или неудачно (уже в корзине) добавление в корзину
@@ -35,8 +36,8 @@ class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
     val cartLD : LiveData< MutableList<Good> >
         get() = _cartLD;
 
-    private val _isFeedbackAddedSLD = SingleLiveEvent< ReqResult<Boolean>>()
-    val isFeedbackAddedSLD: LiveData< ReqResult<Boolean> >
+    private val _isFeedbackAddedSLD = SingleLiveEvent< RequestResult<Boolean>>()
+    val isFeedbackAddedSLD: LiveData< RequestResult<Boolean> >
         get() = _isFeedbackAddedSLD
 
 
@@ -45,7 +46,7 @@ class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
     fun getFullGoodData(){
         viewModelScope.launch(Dispatchers.IO) {
             if(m_GoodId != null) {
-                val res: ReqResult<FullGoodInfoDto> = goodRepository.getGoodInfo(m_GoodId!!);
+                val res: RequestResult<FullGoodInfoDto> = goodRepository.getGoodInfo(m_GoodId!!);
                 _selectedGoodLD.postValue(res)
             }
         }
@@ -61,10 +62,11 @@ class GoodViewModel(private val goodRepository: GoodRepository):ViewModel() {
     fun addSelectedGoodIntoCart(){
         viewModelScope.launch(Dispatchers.IO){
             if(selectedGoodLDDto.value != null
-                && selectedGoodLDDto.value!!.isSuccess
-                && selectedGoodLDDto.value!!.entity != null
+                && selectedGoodLDDto.value is RequestSuccess
             ){
-                goodRepository.addGoodToCart(selectedGoodLDDto.value!!.entity!!.good)
+                goodRepository.addGoodToCart(
+                    (selectedGoodLDDto.value as RequestSuccess<FullGoodInfoDto>).entity.good
+                )
                 _isAddedToCardSLD.postValue(true);
             }
         }

@@ -13,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 import com.braintreepayments.cardform.view.CardForm
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.PaymentFragmentBinding
+import com.mysoft.uldbsmarket.model.dto.RequestError
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.vm.GoodViewModel
 import com.mysoft.uldbsmarket.vm.RequestViewModel
 import com.mysoft.uldbsmarket.vm.UserViewModel
@@ -73,15 +75,17 @@ class PaymentFragment : Fragment(){
         }
 
         requestViewModel.isNewOrderAddedSLD.observe(viewLifecycleOwner, Observer{
-            if(it.isSuccess && it.entity != null){
-                Toast.makeText(requireActivity().applicationContext, getString(R.string.success), Toast.LENGTH_SHORT).show()
-                 goodViewModel.cleanCart()//empty cart
-                //redirect to "my orders" page
-                findNavController().navigate(R.id.action_nav_payment_fragment_to_nav_myorders_fragment)
-            }
-            else{
-                Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
-                binding.buttonSubmit.isEnabled = true;
+            when (it){
+                is RequestSuccess -> {
+                    Toast.makeText(requireActivity().applicationContext, getString(R.string.success), Toast.LENGTH_SHORT).show()
+                    goodViewModel.cleanCart()//empty cart
+                    //redirect to "my orders" page
+                    findNavController().navigate(R.id.action_nav_payment_fragment_to_nav_myorders_fragment)
+                }
+                is RequestError -> {
+                    Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
+                    binding.buttonSubmit.isEnabled = true;
+                }
             }
         })
 

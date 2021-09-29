@@ -14,8 +14,10 @@ import com.bumptech.glide.Glide
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.FeedbackListAdapter
 import com.mysoft.uldbsmarket.databinding.GoodFragmentBinding
-import com.mysoft.uldbsmarket.model.dto.ReqResult
+import com.mysoft.uldbsmarket.model.dto.RequestResult
 import com.mysoft.uldbsmarket.model.dto.FullGoodInfoDto
+import com.mysoft.uldbsmarket.model.dto.RequestError
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.network.RetrofitClient
 import com.mysoft.uldbsmarket.util.Util
 import com.mysoft.uldbsmarket.vm.GoodViewModel
@@ -33,24 +35,24 @@ class GoodFragment : Fragment() {
     private lateinit var feedbackListAdapter: FeedbackListAdapter
 
     //Пришло обновление из VM
-    private val onDataUpdate : (FullGoodInfoDto : ReqResult<FullGoodInfoDto>)->Unit = {
-        if(it.isSuccess && it.entity != null){
-            val data : FullGoodInfoDto = it.entity;
-            binding.textView15.text = data.good.name;
-            binding.textView17.text = data.good.price.toString() +" "+ getString(R.string.price_units)
-            binding.textView18.text = data.good.descr
-            if(data.good.imgPath != null){
-                val url: String = "${RetrofitClient.IMAGE_DOWNLOAD_URL}/${data.good.imgPath}";
-                Glide
-                    .with(this)
-                    .load(url)
-                    .error(R.drawable.ic_error_page)
-                    .into(binding.imageView7);
+    private val onDataUpdate : (FullGoodInfoDto : RequestResult<FullGoodInfoDto>)->Unit = {
+        when (it){
+            is RequestSuccess -> {
+                val data : FullGoodInfoDto = it.entity;
+                binding.textView15.text = data.good.name;
+                binding.textView17.text = data.good.price.toString() +" "+ getString(R.string.price_units)
+                binding.textView18.text = data.good.descr
+                if(data.good.imgPath != null){
+                    val url: String = "${RetrofitClient.IMAGE_DOWNLOAD_URL}/${data.good.imgPath}";
+                    Glide
+                        .with(this)
+                        .load(url)
+                        .error(R.drawable.ic_error_page)
+                        .into(binding.imageView7);
+                }
+                feedbackListAdapter.setFeedbacks(data.feedbacks)
             }
-            feedbackListAdapter.setFeedbacks(data.feedbacks)
-        }
-        else{
-            Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
+            is RequestError -> Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -108,16 +110,14 @@ class GoodFragment : Fragment() {
         })
 
         goodViewModel.isFeedbackAddedSLD.observe(viewLifecycleOwner, Observer{
-            if(it.isSuccess && it.entity != null) {
-               if(it.entity){
-                   goodViewModel.getFullGoodData(); //Запрашиваем инфомрацию о товаре заново, чтобы перезагрузить комментарии
-                   binding.editTextTextMultiLine2.text.clear();
+            when (it){
+                is RequestSuccess -> {
+                    goodViewModel.getFullGoodData(); //Запрашиваем инфомрацию о товаре заново, чтобы перезагрузить комментарии
+                    binding.editTextTextMultiLine2.text.clear();
 
-               }else
-                   Toast.makeText(requireActivity().applicationContext, resources.getString(R.string.you_should_order_good), Toast.LENGTH_SHORT).show()
+                }
+                is RequestError -> Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
             }
-            else
-                Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
         })
 
         goodViewModel.getFullGoodData();

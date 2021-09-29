@@ -5,7 +5,9 @@ import android.util.Log
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.model.Chat
 import com.mysoft.uldbsmarket.model.Message
-import com.mysoft.uldbsmarket.model.dto.ReqResult
+import com.mysoft.uldbsmarket.model.dto.RequestError
+import com.mysoft.uldbsmarket.model.dto.RequestResult
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.network.ChatAPI
 import com.mysoft.uldbsmarket.network.MessageAPI
 import retrofit2.Call
@@ -18,7 +20,7 @@ class ChatRepository(
 ) {
     private val tag: String = "ChatRepository-network";
 
-    suspend fun getChats(userId : String, asManager:Boolean):ReqResult< List<Chat> >{
+    suspend fun getChats(userId : String, asManager:Boolean):RequestResult< List<Chat> >{
         val call : Call<List<Chat>>
         var res : Response<List<Chat>>? = null;
         try {
@@ -33,19 +35,19 @@ class ChatRepository(
             e.printStackTrace()
         }
         finally {
-            if(res != null && res.isSuccessful) {
-                return if(res.body() == null)
-                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+            return if(res != null && res.isSuccessful) {
+                if(res.body() != null)
+                    RequestSuccess(res.body()!!)
                 else
-                    ReqResult(true, "", res.body())
+                    RequestError(context.getString(R.string.response_empty_error))
             }else{
-                return ReqResult(false, context.getString(R.string.request_err), null)
+                RequestError (context.getString(R.string.request_err))
             }
         }
     }
 
 
-    suspend fun getMessagesByChat(chatId : String):ReqResult< List<Message> >{
+    suspend fun getMessagesByChat(chatId : String):RequestResult< List<Message> >{
         val call : Call<List<Message>>
         var res : Response<List<Message>>? = null;
         try {
@@ -57,18 +59,18 @@ class ChatRepository(
             e.printStackTrace()
         }
         finally {
-            if(res != null && res.isSuccessful) {
-                return if(res.body() == null)
-                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+            return if(res != null && res.isSuccessful) {
+                if(res.body() != null)
+                    RequestSuccess(res.body()!!)
                 else
-                    ReqResult(true, "", res.body())
+                    RequestError(context.getString(R.string.response_empty_error))
             }else{
-                return ReqResult(false, context.getString(R.string.request_err), null)
+                RequestError (context.getString(R.string.request_err))
             }
         }
     }
 
-    suspend fun createChat(clientId: String, managerId:String):ReqResult<Boolean>{
+    suspend fun createChat(clientId: String, managerId:String):RequestResult<Boolean>{
         val call : Call<Boolean>
         var res : Response<Boolean>? = null;
         try {
@@ -80,18 +82,18 @@ class ChatRepository(
             e.printStackTrace()
         }
         finally {
-            if(res != null && res.isSuccessful) {
-                return if(res.body() == null)
-                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+            return if(res != null && res.isSuccessful) {
+                if(res.body() != null)
+                    RequestSuccess(res.body()!!)
                 else
-                    ReqResult(true, "", res.body())
+                    RequestError(context.getString(R.string.response_empty_error))
             }else{
-                return ReqResult(false, context.getString(R.string.request_err), null)
+                RequestError (context.getString(R.string.request_err))
             }
         }
     }
 
-    suspend fun autoCrateChat(clientId: String):ReqResult<Boolean>{
+    suspend fun autoCrateChat(clientId: String):RequestResult<Boolean>{
         val call : Call<Boolean>
         var res : Response<Boolean>? = null;
         try {
@@ -103,18 +105,18 @@ class ChatRepository(
             e.printStackTrace()
         }
         finally {
-            if(res != null && res.isSuccessful) {
-                return if(res.body() == null)
-                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+            return if(res != null && res.isSuccessful) {
+                if(res.body() != null)
+                    RequestSuccess(res.body()!!)
                 else
-                    ReqResult(true, "", res.body())
+                    RequestError(context.getString(R.string.response_empty_error))
             }else{
-                return ReqResult(false, context.getString(R.string.request_err), null)
+                RequestError (context.getString(R.string.request_err))
             }
         }
     }
 
-    suspend fun postMessage(clientId: String, chatId: String, text: String):ReqResult< List<Message> > {
+    suspend fun postMessage(clientId: String, chatId: String, text: String):RequestResult< List<Message> > {
         val call : Call<List<Message>>
         var res : Response<List<Message>>? = null;
         try {
@@ -126,13 +128,13 @@ class ChatRepository(
             e.printStackTrace()
         }
         finally {
-            if(res != null && res.isSuccessful) {
-                return if(res.body() == null)
-                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+            return if(res != null && res.isSuccessful) {
+                if(res.body() != null)
+                    RequestSuccess(res.body()!!)
                 else
-                    ReqResult(true, "", res.body())
+                    RequestError(context.getString(R.string.response_empty_error))
             }else{
-                return ReqResult(false, context.getString(R.string.request_err), null)
+                RequestError (context.getString(R.string.request_err))
             }
         }
     }

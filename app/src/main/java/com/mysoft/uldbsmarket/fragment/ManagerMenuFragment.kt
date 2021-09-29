@@ -16,6 +16,8 @@ import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.ManagerOrderListAdapter
 import com.mysoft.uldbsmarket.adapter.OrderListAdapter
 import com.mysoft.uldbsmarket.databinding.ManagerMenuFragmentBinding
+import com.mysoft.uldbsmarket.model.dto.RequestError
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.vm.RequestViewModel
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
@@ -61,10 +63,10 @@ class ManagerMenuFragment : Fragment() {
             findNavController().navigate(R.id.nav_login_fragment)
         }else{
             requestViewModel.allStatusLD.observe(viewLifecycleOwner, Observer {
-                if(it.isSuccess && it.entity != null)
-                    loadOrders()
-                else
-                    Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
+                when (it){
+                    is RequestSuccess -> loadOrders()
+                    is RequestError -> Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
+                }
             })
             requestViewModel.loadAllStatusList();
         }
@@ -74,10 +76,10 @@ class ManagerMenuFragment : Fragment() {
 
     private fun loadOrders(){
         requestViewModel.myOrdersLD.observe(viewLifecycleOwner, Observer {
-            if(it.isSuccess && it.entity != null)
-                orderListAdapter.setOrders(it.entity)
-            else
-                Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
+            when (it){
+                is RequestSuccess -> orderListAdapter.setOrders(it.entity)
+                is RequestError -> Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
+            }
         })
         requestViewModel.getOrders(userViewModel.userLD.value!!.uuid, true)
     }

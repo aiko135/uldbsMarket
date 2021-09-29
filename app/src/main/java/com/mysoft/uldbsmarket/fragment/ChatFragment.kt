@@ -13,6 +13,8 @@ import com.mysoft.uldbsmarket.adapter.MessageListAdapter
 import com.mysoft.uldbsmarket.databinding.ChatFragmentBinding
 import com.mysoft.uldbsmarket.model.Chat
 import com.mysoft.uldbsmarket.model.Message
+import com.mysoft.uldbsmarket.model.dto.RequestError
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.vm.ChatViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 import java.util.*
@@ -46,14 +48,14 @@ class ChatFragment : Fragment() {
 
             //Observer
             chatViewModel.messagesLD.observe(viewLifecycleOwner, Observer {
-                if(it.isSuccess && it.entity != null) {
-                    messageListAdapter.setMessagees(it.entity)
-                    if(messageListAdapter.itemCount > 1)
-                        binding.recyclerChat.smoothScrollToPosition(messageListAdapter.itemCount - 1);
+                when (it){
+                    is RequestSuccess -> {
+                        messageListAdapter.setMessagees(it.entity)
+                        if(messageListAdapter.itemCount > 1)
+                            binding.recyclerChat.smoothScrollToPosition(messageListAdapter.itemCount - 1);
+                    }
+                    is RequestError -> Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
                 }
-                else
-                    Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
-
             })
 
             binding.button6.setOnClickListener{

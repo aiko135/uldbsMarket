@@ -6,9 +6,10 @@ import com.google.gson.Gson
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.model.Feedback
 import com.mysoft.uldbsmarket.model.Good
-import com.mysoft.uldbsmarket.model.Message
-import com.mysoft.uldbsmarket.model.dto.ReqResult
+import com.mysoft.uldbsmarket.model.dto.RequestResult
 import com.mysoft.uldbsmarket.model.dto.FullGoodInfoDto
+import com.mysoft.uldbsmarket.model.dto.RequestError
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.network.GoodAPI
 import retrofit2.Call
 import retrofit2.Response
@@ -19,7 +20,7 @@ class GoodRepository(private val goodAPI: GoodAPI, private val context : Context
     private val CART_PREF_KEY : String = "goodscart";
     private val SHARED_PREFERENCES_CART_FILE = "cart"
 
-    suspend fun getAllGoods(): ReqResult<List<Good>> {
+    suspend fun getAllGoods(): RequestResult<List<Good>> {
         val call : Call<List<Good>>
         var res : Response<List<Good>>? = null;
         try {
@@ -31,18 +32,18 @@ class GoodRepository(private val goodAPI: GoodAPI, private val context : Context
             e.printStackTrace();
         }
         finally {
-            if(res != null && res.isSuccessful) {
-                return if(res.body() == null)
-                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+            return if(res != null && res.isSuccessful) {
+                if(res.body() != null)
+                    RequestSuccess(res.body()!!)
                 else
-                    ReqResult(true, "", res.body())
+                    RequestError(context.getString(R.string.response_empty_error))
             }else{
-                return ReqResult(false, context.getString(R.string.request_err), null)
+                RequestError (context.getString(R.string.request_err))
             }
         }
     }
 
-    suspend fun getGoodInfo(goodId : String): ReqResult<FullGoodInfoDto> {
+    suspend fun getGoodInfo(goodId : String): RequestResult<FullGoodInfoDto> {
         val call : Call<FullGoodInfoDto>
         var res : Response<FullGoodInfoDto>? = null;
         try {
@@ -54,13 +55,13 @@ class GoodRepository(private val goodAPI: GoodAPI, private val context : Context
             e.printStackTrace();
         }
         finally {
-            if(res != null && res.isSuccessful) {
-                return if(res.body() == null)
-                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+            return if(res != null && res.isSuccessful) {
+                if(res.body() != null)
+                    RequestSuccess(res.body()!!)
                 else
-                    ReqResult(true, "", res.body())
+                    RequestError(context.getString(R.string.response_empty_error))
             }else{
-                return ReqResult(false, context.getString(R.string.request_err), null)
+                RequestError (context.getString(R.string.request_err))
             }
         }
     }
@@ -109,7 +110,7 @@ class GoodRepository(private val goodAPI: GoodAPI, private val context : Context
             }
     }
 
-    suspend fun postFeedback(userId:String, goodId:String, feedback: Feedback):ReqResult< Boolean > {
+    suspend fun postFeedback(userId:String, goodId:String, feedback: Feedback):RequestResult< Boolean > {
         val call : Call<Boolean>
         var res : Response<Boolean>? = null;
         try {
@@ -121,13 +122,13 @@ class GoodRepository(private val goodAPI: GoodAPI, private val context : Context
             e.printStackTrace()
         }
         finally {
-            if(res != null && res.isSuccessful) {
-                return if(res.body() == null)
-                    ReqResult(false, context.getString(R.string.response_empty_error), null)
+            return if(res != null && res.isSuccessful) {
+                if(res.body() != null)
+                    RequestSuccess(res.body()!!)
                 else
-                    ReqResult(true, "", res.body())
+                    RequestError(context.getString(R.string.response_empty_error))
             }else{
-                return ReqResult(false, context.getString(R.string.request_err), null)
+                RequestError (context.getString(R.string.request_err))
             }
         }
     }

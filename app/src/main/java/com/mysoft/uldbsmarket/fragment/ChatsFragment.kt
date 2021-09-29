@@ -14,6 +14,8 @@ import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.ChatListAdapter
 import com.mysoft.uldbsmarket.databinding.ChatsFragmentBinding
 import com.mysoft.uldbsmarket.model.Chat
+import com.mysoft.uldbsmarket.model.dto.RequestError
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.vm.ChatViewModel
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
@@ -68,11 +70,10 @@ class ChatsFragment : Fragment() {
 
         //VM Observer
         chatViewModel.chatsLD.observe(viewLifecycleOwner, Observer{
-            if(it.isSuccess && it.entity != null)
-                updateChats(it.entity);
-            else
-                Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
-
+            when (it){
+                is RequestSuccess -> updateChats(it.entity);
+                is RequestError -> Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
+            }
         })
 
         if(userViewModel.userLD.value == null) {
@@ -100,9 +101,11 @@ class ChatsFragment : Fragment() {
                 binding.createChatButton.isEnabled = false;
                 chatViewModel.autoCreateChat(userViewModel.userLD.value!!.uuid)
                 chatViewModel.isChatCreatedSLD.observe(viewLifecycleOwner, Observer{
+
                     //Новый чат создан
-                    if( !(it.isSuccess && it.entity != null))
+                    if( it is RequestError)
                         Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
+
                     binding.createChatButton.isEnabled = true;
                     binding.createNewChatGroup.visibility = View.GONE;
                     chatViewModel.loadChats(userViewModel.userLD.value!!.uuid) //Обновляем чаты

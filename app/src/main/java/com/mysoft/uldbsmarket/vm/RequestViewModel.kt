@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.mysoft.uldbsmarket.model.Good
 import com.mysoft.uldbsmarket.model.Status
 import com.mysoft.uldbsmarket.model.dto.MyRequestDto
-import com.mysoft.uldbsmarket.model.dto.ReqResult
+import com.mysoft.uldbsmarket.model.dto.RequestResult
 import com.mysoft.uldbsmarket.model.dto.UsersRequestDto
 import com.mysoft.uldbsmarket.repositories.RequestRepository
 import com.mysoft.uldbsmarket.util.SingleLiveEvent
@@ -18,16 +18,16 @@ import java.util.*
 class RequestViewModel(private val requestRepository: RequestRepository): ViewModel() {
 
     //Удачно или неудачно заказ добавлен в систему
-    private val _isNewOrderAddedSLD = SingleLiveEvent<ReqResult<Boolean>>();
-    val isNewOrderAddedSLD : LiveData<ReqResult<Boolean>>
+    private val _isNewOrderAddedSLD = SingleLiveEvent<RequestResult<Boolean>>();
+    val isNewOrderAddedSLD : LiveData<RequestResult<Boolean>>
         get() = _isNewOrderAddedSLD;
 
-    private val _myOrdersLD = MutableLiveData<ReqResult<List<MyRequestDto>>>();
-    val myOrdersLD: LiveData<ReqResult<List<MyRequestDto>>>
+    private val _myOrdersLD = MutableLiveData<RequestResult<List<MyRequestDto>>>();
+    val myOrdersLD: LiveData<RequestResult<List<MyRequestDto>>>
         get () = _myOrdersLD;
 
-    private val _allStatusLD = MutableLiveData<ReqResult<List<Status>>>();
-    val allStatusLD: LiveData<ReqResult<List<Status>>>
+    private val _allStatusLD = MutableLiveData<RequestResult<List<Status>>>();
+    val allStatusLD: LiveData<RequestResult<List<Status>>>
         get() = _allStatusLD;
 
     fun postNewOrder(

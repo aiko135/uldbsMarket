@@ -15,6 +15,8 @@ import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.GoodListAdapter
 import com.mysoft.uldbsmarket.databinding.ItemCatalogFragmentBinding
 import com.mysoft.uldbsmarket.model.Good
+import com.mysoft.uldbsmarket.model.dto.RequestError
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.vm.GoodViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
@@ -49,11 +51,9 @@ class   CatalogFragment : Fragment() {
 
         //Observer
         goodViewModel.goodsLD.observe(viewLifecycleOwner, Observer {
-            if(it.isSuccess){
-                goodListAdapter.setGoods(it.entity!!)
-            }
-            else{
-                Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+            when (it){
+                is RequestSuccess -> goodListAdapter.setGoods(it.entity)
+                is RequestError -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             }
         })
 

@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.adapter.OrderListAdapter
 import com.mysoft.uldbsmarket.databinding.MyordersFragmentBinding
+import com.mysoft.uldbsmarket.model.dto.RequestError
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.vm.*
 import java.util.*
 
@@ -32,7 +34,7 @@ class MyOrdersFragment : Fragment() {
         buttonPressed.isEnabled = false;
         chatViewModel.createChat(userViewModel.userLD.value!!.uuid, managerUuid)
         chatViewModel.isChatCreatedSLD.observe(viewLifecycleOwner, Observer{
-            if( !(it.isSuccess && it.entity != null))
+            if(it is RequestError)
                 Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
             buttonPressed.isEnabled = true;
             findNavController().navigate(R.id.nav_chats_fragment);
@@ -60,10 +62,10 @@ class MyOrdersFragment : Fragment() {
 
         //Data update observer
         requestViewModel.myOrdersLD.observe(viewLifecycleOwner, Observer {
-            if(it.isSuccess && it.entity != null)
-                orderListAdapter.setOrders(it.entity)
-            else
-                Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
+            when (it){
+                is RequestSuccess -> orderListAdapter.setOrders(it.entity)
+                is RequestError -> Toast.makeText(requireActivity().applicationContext, it.message, Toast.LENGTH_SHORT).show()
+            }
         })
 
         if(userViewModel.userLD.value == null) {

@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mysoft.uldbsmarket.model.Chat
 import com.mysoft.uldbsmarket.model.Message
-import com.mysoft.uldbsmarket.model.dto.ReqResult
+import com.mysoft.uldbsmarket.model.dto.RequestError
+import com.mysoft.uldbsmarket.model.dto.RequestResult
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.repositories.ChatRepository
 import com.mysoft.uldbsmarket.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -14,17 +16,17 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 class ChatViewModel(private val chatRepository: ChatRepository): ViewModel() {
-    private val _chatsLD = MutableLiveData< ReqResult<List<Chat>> >();
-    val chatsLD: LiveData<ReqResult< List<Chat>> >
+    private val _chatsLD = MutableLiveData< RequestResult<List<Chat>> >();
+    val chatsLD: LiveData<RequestResult< List<Chat>> >
         get() = _chatsLD;
 
-    private val _messagesLD = MutableLiveData< ReqResult<List<Message>> >();
-    val messagesLD : LiveData< ReqResult<List<Message>> >
+    private val _messagesLD = MutableLiveData< RequestResult<List<Message>> >();
+    val messagesLD : LiveData< RequestResult<List<Message>> >
         get() = _messagesLD;
 
     //Чат создан
-    private val _isChatCreatedSLD = SingleLiveEvent<ReqResult<Boolean>>();
-    val isChatCreatedSLD : LiveData<ReqResult<Boolean>>
+    private val _isChatCreatedSLD = SingleLiveEvent<RequestResult<Boolean>>();
+    val isChatCreatedSLD : LiveData<RequestResult<Boolean>>
         get() = _isChatCreatedSLD;
 
     fun loadChats(userUuid : UUID, asManager:Boolean = false){
@@ -35,20 +37,26 @@ class ChatViewModel(private val chatRepository: ChatRepository): ViewModel() {
     }
 
     fun loadMessages(chatId: UUID){
-        if(chatsLD.value == null || !(chatsLD.value!!.isSuccess) || chatsLD.value!!.entity == null )
+        if(chatsLD.value == null)
             return;
 
         viewModelScope.launch(Dispatchers.IO){
-            chatsLD.value!!.entity!!.find { it.uuid == chatId }.also {
-                if(it != null){
-                    val res = chatRepository.getMessagesByChat(it.uuid.toString())
-                    _messagesLD.postValue(res)
+            when (chatsLD.value) {
+                is RequestSuccess -> {
+                    (chatsLD.value as RequestSuccess<List<Chat>>).entity
+                        .find{ it.uuid == chatId}
+                        .also{
+                            if(it != null){
+                                val res = chatRepository.getMessagesByChat(it.uuid.toString())
+                                _messagesLD.postValue(res)
+                            }
+                        }
                 }
             }
         }
     }
     fun clearMessages(){
-        _messagesLD.value = ReqResult(false,"",null)
+        _messagesLD.value = RequestError("")
     }
 
 
