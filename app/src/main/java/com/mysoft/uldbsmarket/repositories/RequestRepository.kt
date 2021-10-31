@@ -10,78 +10,27 @@ import retrofit2.Call
 import retrofit2.Response
 import java.util.*
 
-class RequestRepository(private val requestAPI: RequestAPI, private val context : Context) {
-    private val tag: String = "RequestRepository-network";
+class RequestRepository(
+    private val requestAPI: RequestAPI,
+    context : Context
+) : AbstractRepository(context) {
+    override val tag: String = "RequestRepository-network";
 
     suspend fun postNewOrder(newOrder:UsersRequestDto) : RequestResult<Boolean> {
-        val call : Call<Boolean>
-        var res : Response<Boolean>? = null;
-        try {
-            call = requestAPI.postRequest(newOrder);
-            res = call.execute();
-        }catch (e:Exception){
-            Log.e(tag, "exception: " + e.message);
-            Log.e(tag, "exception: " + e.toString());
-            e.printStackTrace()
-        }
-        finally {
-            return if(res != null && res.isSuccessful) {
-                if(res.body() != null)
-                    RequestSuccess(res.body()!!)
-                else
-                    RequestError(context.getString(R.string.response_empty_error))
-            }else{
-                RequestError (context.getString(R.string.request_err))
-            }
-        }
+        val call : Call<Boolean> = requestAPI.postRequest(newOrder);
+        return super.executeRequest(call);
     }
 
     suspend fun getMyOrders(user_id: UUID, isManager:Boolean = false) : RequestResult< List<MyRequestDto> > {
-        val call : Call<List<MyRequestDto>>
-        var res : Response<List<MyRequestDto>>? = null;
-        try {
-            call = if(isManager)
-                requestAPI.getManagerRequests(user_id.toString())
-            else
-                requestAPI.getClientRequests(user_id.toString());
-            res = call.execute();
-        }catch (e:Exception){
-            Log.e(tag, "exception: " + e.message);
-            Log.e(tag, "exception: " + e.toString());
-            e.printStackTrace()
-        }
-        finally {
-            return if(res != null && res.isSuccessful) {
-                if(res.body() != null)
-                    RequestSuccess(res.body()!!)
-                else
-                    RequestError(context.getString(R.string.response_empty_error))
-            }else{
-                RequestError (context.getString(R.string.request_err))
-            }
-        }
+        val call : Call<List<MyRequestDto>> = if(isManager)
+            requestAPI.getManagerRequests(user_id.toString())
+        else
+            requestAPI.getClientRequests(user_id.toString());
+        return super.executeRequest(call);
     }
 
     suspend fun getAllStatusList() : RequestResult< List<Status> > {
-        val call : Call<List<Status>>
-        var res : Response<List<Status>>? = null;
-        try {
-            call = requestAPI.getAllStatus();
-            res = call.execute();
-        }catch (e:Exception){
-            Log.e(tag, "exception: " + e.message);
-            Log.e(tag, "exception: " + e.toString());
-            e.printStackTrace()
-        }
-        finally {
-            return if(res != null && res.isSuccessful) {
-                if(res.body() != null)
-                    RequestSuccess(res.body()!!)
-                else
-                    RequestError(context.getString(R.string.response_empty_error))
-            }else{
-                RequestError (context.getString(R.string.request_err))
-            }
-        }
+        val call : Call<List<Status>> = requestAPI.getAllStatus();
+        return super.executeRequest(call);
     }
 }

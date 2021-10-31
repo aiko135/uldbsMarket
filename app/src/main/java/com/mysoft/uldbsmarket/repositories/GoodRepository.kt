@@ -14,56 +14,25 @@ import com.mysoft.uldbsmarket.network.GoodAPI
 import retrofit2.Call
 import retrofit2.Response
 
-class GoodRepository(private val goodAPI: GoodAPI, private val context : Context) {
-    private val tag: String = "GoodRepository-network";
+// TODO --- SRP principle
+class GoodRepository(
+    private val goodAPI: GoodAPI,
+    context : Context
+): AbstractRepository(context) {
+
+    override val tag: String = "GoodRepository-network";
 
     private val CART_PREF_KEY : String = "goodscart";
     private val SHARED_PREFERENCES_CART_FILE = "cart"
 
     suspend fun getAllGoods(): RequestResult<List<Good>> {
-        val call : Call<List<Good>>
-        var res : Response<List<Good>>? = null;
-        try {
-            call = goodAPI.getAllGoods();
-            res = call.execute();
-        }catch (e:Exception){
-            Log.e(tag, "exception: " + e.message);
-            Log.e(tag, "exception: " + e.toString());
-            e.printStackTrace();
-        }
-        finally {
-            return if(res != null && res.isSuccessful) {
-                if(res.body() != null)
-                    RequestSuccess(res.body()!!)
-                else
-                    RequestError(context.getString(R.string.response_empty_error))
-            }else{
-                RequestError (context.getString(R.string.request_err))
-            }
-        }
+        val call : Call<List<Good>> = goodAPI.getAllGoods()
+        return super.executeRequest(call)
     }
 
     suspend fun getGoodInfo(goodId : String): RequestResult<FullGoodInfoDto> {
-        val call : Call<FullGoodInfoDto>
-        var res : Response<FullGoodInfoDto>? = null;
-        try {
-            call = goodAPI.getFullInfoForGood(goodId);
-            res = call.execute();
-        }catch (e:Exception){
-            Log.e(tag, "exception: " + e.message);
-            Log.e(tag, "exception: " + e.toString());
-            e.printStackTrace();
-        }
-        finally {
-            return if(res != null && res.isSuccessful) {
-                if(res.body() != null)
-                    RequestSuccess(res.body()!!)
-                else
-                    RequestError(context.getString(R.string.response_empty_error))
-            }else{
-                RequestError (context.getString(R.string.request_err))
-            }
-        }
+        val call : Call<FullGoodInfoDto> = goodAPI.getFullInfoForGood(goodId);
+        return super.executeRequest(call);
     }
 
     suspend fun addGoodToCart(good :Good){
@@ -111,25 +80,7 @@ class GoodRepository(private val goodAPI: GoodAPI, private val context : Context
     }
 
     suspend fun postFeedback(userId:String, goodId:String, feedback: Feedback):RequestResult< Boolean > {
-        val call : Call<Boolean>
-        var res : Response<Boolean>? = null;
-        try {
-            call = goodAPI.postFeedback(userId, goodId, feedback);
-            res = call.execute();
-        }catch (e:Exception){
-            Log.e(tag, "exception: " + e.message);
-            Log.e(tag, "exception: " + e.toString());
-            e.printStackTrace()
-        }
-        finally {
-            return if(res != null && res.isSuccessful) {
-                if(res.body() != null)
-                    RequestSuccess(res.body()!!)
-                else
-                    RequestError(context.getString(R.string.response_empty_error))
-            }else{
-                RequestError (context.getString(R.string.request_err))
-            }
-        }
+        val call : Call<Boolean> = goodAPI.postFeedback(userId, goodId, feedback);
+        return super.executeRequest(call)
     }
 }

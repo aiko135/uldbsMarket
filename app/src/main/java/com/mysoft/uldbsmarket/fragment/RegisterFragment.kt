@@ -18,6 +18,8 @@ import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.RegisterFragmentBinding
 import com.mysoft.uldbsmarket.fragment.dialog.DatePickerFragment
 import com.mysoft.uldbsmarket.model.User
+import com.mysoft.uldbsmarket.model.dto.RequestError
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.util.Util
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
@@ -80,12 +82,13 @@ class RegisterFragment : Fragment() {
         ).get(UserViewModel::class.java)
 
         userViewModel.registerResultLD.observe(viewLifecycleOwner, Observer{
-            if (!it.result || it.createdAccount == null) {
-                switchEnableButtons(true)
-                Toast.makeText(requireContext(),
-                    getString(R.string.error)+" "+it.message,
-                    Toast.LENGTH_SHORT
-                ).show()
+            switchEnableButtons(true)
+            when (it){
+                is RequestError -> Toast.makeText(requireContext(), getString(R.string.error)+" "+it.message, Toast.LENGTH_SHORT).show()
+                is RequestSuccess -> {
+                    if(!it.entity.result)
+                        Toast.makeText(requireContext(), getString(R.string.error)+" "+it.entity.message, Toast.LENGTH_SHORT).show()
+                }
             }
         })
         userViewModel.userLD.observe(viewLifecycleOwner, Observer{

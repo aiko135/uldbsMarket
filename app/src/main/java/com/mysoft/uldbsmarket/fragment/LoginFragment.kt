@@ -14,6 +14,7 @@ import com.google.android.material.navigation.NavigationView
 import com.mysoft.uldbsmarket.MainActivity
 import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.databinding.LoginFragmentBinding
+import com.mysoft.uldbsmarket.model.dto.RequestError
 import com.mysoft.uldbsmarket.vm.UserViewModel
 import com.mysoft.uldbsmarket.vm.ViewModelFactory
 
@@ -34,11 +35,11 @@ class LoginFragment : Fragment() {
 
         userViewModel.loginResultLD.observe(viewLifecycleOwner, Observer {
             switchEnableButtons(true);
-            if(!it.result){
+            if(it is RequestError){
                 //Пришел результат о неуспешной авторизации
                 Toast.makeText(
                     requireContext(),
-                    getString(R.string.error)+" " +it.error,
+                    getString(R.string.error)+" " +it.message,
                     Toast.LENGTH_SHORT
                 ).show()
                 binding.editTextTextPassword2.text.clear();

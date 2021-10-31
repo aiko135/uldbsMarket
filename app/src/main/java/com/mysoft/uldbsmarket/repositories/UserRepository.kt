@@ -7,60 +7,29 @@ import com.mysoft.uldbsmarket.R
 import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.model.dto.LoginResultDto
 import com.mysoft.uldbsmarket.model.dto.RegisterResultDto
+import com.mysoft.uldbsmarket.model.dto.RequestResult
 import com.mysoft.uldbsmarket.network.UserAPI
 import retrofit2.Call
 import retrofit2.Response
 
-class UserRepository(private val userAPI: UserAPI, private val context : Context) {
-    private val tag: String = "UserRepository-network";
+// TODO --- SRP principle
+class UserRepository(
+    private val userAPI: UserAPI,
+    context : Context
+) : AbstractRepository(context) {
+    override val tag: String = "UserRepository-network";
+
     private val USER_PREF_KEY : String = "userds";
     private val SHARED_PREFERENCES_USER_FILE = "userdata"
 
-   suspend fun doLogin(login:String, pass:String) : LoginResultDto{
-            val call : Call<LoginResultDto>;
-            var res : Response<LoginResultDto>? = null;
-            try {
-                call = userAPI.doLogin(login,pass);
-                res = call.execute();
-            }catch (e:Exception){
-                Log.e(tag, "exception: " + e.message);
-                Log.e(tag, "exception: " + e.toString());
-                e.printStackTrace();
-                //return LoginResult(false,"Network error","",null);
-            }
-            finally {
-                if(res != null && res.isSuccessful) {
-                    var result: LoginResultDto =
-                        res.body() ?:
-                        LoginResultDto(false, context.getString(R.string.response_empty_error),"",null)
-                    return result
-                }else{
-                    return LoginResultDto(false,context.getString(R.string.request_err),"",null)
-                }
-            }
-    }
+   suspend fun doLogin(login:String, pass:String) : RequestResult<LoginResultDto> {
+       val call : Call<LoginResultDto> = userAPI.doLogin(login,pass);
+       return super.executeRequest(call);
+   }
 
-    suspend fun register(u : User) : RegisterResultDto{
-        val call : Call<RegisterResultDto>
-        var res : Response<RegisterResultDto>? = null;
-        try {
-            call = userAPI.register(u);
-            res = call.execute();
-        }catch (e:Exception){
-            Log.e(tag, "exception: " + e.message);
-            Log.e(tag, "exception: " + e.toString());
-            e.printStackTrace()
-        }
-        finally {
-            if(res != null && res.isSuccessful){
-                var result : RegisterResultDto =
-                    res.body() ?:
-                    RegisterResultDto(false, context.getString(R.string.response_empty_error),null);
-                return result
-            }else{
-                return  RegisterResultDto(false, context.getString(R.string.request_err),null)
-            }
-        }
+    suspend fun register(u : User) : RequestResult<RegisterResultDto>{
+        val call : Call<RegisterResultDto> = userAPI.register(u);
+        return super.executeRequest(call);
     }
 
 

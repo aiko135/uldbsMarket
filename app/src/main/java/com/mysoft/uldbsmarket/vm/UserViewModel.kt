@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.mysoft.uldbsmarket.model.User
 import com.mysoft.uldbsmarket.model.dto.LoginResultDto
 import com.mysoft.uldbsmarket.model.dto.RegisterResultDto
+import com.mysoft.uldbsmarket.model.dto.RequestResult
+import com.mysoft.uldbsmarket.model.dto.RequestSuccess
 import com.mysoft.uldbsmarket.repositories.UserRepository
 import com.mysoft.uldbsmarket.util.SingleLiveEvent
 import com.mysoft.uldbsmarket.util.Util
@@ -14,12 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserViewModel(private val userRepository: UserRepository): ViewModel() {
-    private val _loginResultSLD = SingleLiveEvent<LoginResultDto>();
-    val loginResultLD: LiveData<LoginResultDto>
+    private val _loginResultSLD = SingleLiveEvent<RequestResult<LoginResultDto>>();
+    val loginResultLD: LiveData<RequestResult<LoginResultDto>>
         get() = _loginResultSLD; //Инкапсуляция возможности обновлять LD данные
 
-    private val _registerResultSLD = SingleLiveEvent<RegisterResultDto>();
-    val registerResultLD: LiveData<RegisterResultDto>
+    private val _registerResultSLD = SingleLiveEvent<RequestResult<RegisterResultDto>>();
+    val registerResultLD: LiveData<RequestResult<RegisterResultDto>>
         get() = _registerResultSLD;
 
     private val _userLD = MutableLiveData<User?>();
@@ -29,24 +31,24 @@ class UserViewModel(private val userRepository: UserRepository): ViewModel() {
     fun doLogin(login:String, pass:String){
         viewModelScope.launch(Dispatchers.IO) {
             val hash_pass : String = Util.md5(pass);
-            val data = userRepository.doLogin(login,hash_pass);
-            _loginResultSLD.postValue(data);
-            if(data.result && data.user != null){
+            val response = userRepository.doLogin(login,hash_pass);
+            _loginResultSLD.postValue(response);
+            if(response is RequestSuccess && response.entity.result && response.entity.user != null){
                 //Успешная авторизация
-                userRepository.writeUserPref(data.user)
-                _userLD.postValue(data.user);
+                userRepository.writeUserPref(response.entity.user)
+                _userLD.postValue(response.entity.user);
             }
         }
     }
 
     fun register(u: User){
         viewModelScope.launch(Dispatchers.IO) {
-            val result : RegisterResultDto = userRepository.register(u);
-            _registerResultSLD.postValue(result);
-            if(result.result && result.createdAccount != null){
+            val response  = userRepository.register(u);
+            _registerResultSLD.postValue(response);
+            if(response is RequestSuccess && response.entity.result && response.entity.createdAccount != null){
                 //Успешная регистрация
-                userRepository.writeUserPref(result.createdAccount)
-                _userLD.postValue(result.createdAccount);
+                userRepository.writeUserPref(response.entity.createdAccount)
+                _userLD.postValue(response.entity.createdAccount);
             }
         }
     }
